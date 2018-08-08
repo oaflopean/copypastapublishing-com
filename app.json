@@ -1,0 +1,8 @@
+{
+  "name": "Copypasta Publishing",
+  "description": "Science fiction novelettes",
+  "repository": "https://github.com/oaflopean/copypasta-publishing",
+  "logo": "images/lowerlogo.png",
+  "keywords": ["ebooks", "publisher", "horror", "copypasta",],
+  "image": "images/lowerlogo.png"
+}
