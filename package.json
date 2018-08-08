@@ -1,16 +1,23 @@
 {
   "name": "copypastapublishing-com",
-  "main":"app.js"
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app.js"
-  },
+  "version": "1.0.0",
+  "description": "Science Fiction Novelettes",
+  "main": "app.js",
   "dependencies": {
-    "express": "3.2.6",
-    "ejs": "*"
+    "ejs": "^2.6.1",
+    "express": "^3.2.6"
   },
-  "engines": {
-    "node": "8.11.3"
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://git.heroku.com/copypastapublishing-com.git"
+  },
+  "keywords": [
+    "ebooks"
+  ],
+  "author": "Jordan Jones",
+  "license": "ISC"
 }
