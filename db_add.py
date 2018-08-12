@@ -30,7 +30,7 @@ for id in book_id_keys:
     c=babelli[id]["author"]
     d=" ".join(babelli[id]["subjects"])
     #con.execute("INSERT INTO fiction ("+str(a)+", \""+b+"\", \""+c+"\", \""+d+"\") VALUES (book_id, title, author, subjects)")
-    con.execute("INSERT INTO fiction (%s, \"%s\", \"%s\", \"%s\") VALUES (book_id, title, author, subjects)",(a, b, c, d))
+    con.execute("INSERT INTO fiction (%s, \"%s\", \"%s\", \"%s\") VALUES (book_id, title, author, subjects)",(str(a), b, c, d))
 os.sleep(100)
 
 
