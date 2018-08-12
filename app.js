@@ -30,12 +30,15 @@ if ('development' == app.get('env')) {
 
 var blog = require('./routes/blog');
 var pitch = require('./routes/pitch');
+var library = require('./routes/library')
 
 
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/blog', blog.blog);
 app.get('/ten-minute-pitch', pitch.pitch);
+app.get('/library', library.library);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

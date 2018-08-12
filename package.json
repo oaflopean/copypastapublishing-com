@@ -5,7 +5,8 @@
   "main": "app.js",
   "dependencies": {
     "ejs": "^2.6.1",
-    "express": "^3.2.6"
+    "express": "^3.2.6",
+    "pg": "0.10.2"
   },
   "devDependencies": {},
   "scripts": {
