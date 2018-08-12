@@ -27,6 +27,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+var pg = require('pg');
 
 var blog = require('./routes/blog');
 var pitch = require('./routes/pitch');
