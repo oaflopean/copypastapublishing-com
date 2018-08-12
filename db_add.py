@@ -22,7 +22,7 @@ conn = psycopg2.connect(
 )
 con = conn.cursor()
 conn.autocommit=True
-con.execute("CREATE TABLE fiction (id SERIAL PRIMARY KEY, book_id INTEGER, title TEXT, author TEXT, subjects TEXT);")
+con.execute("CREATE TABLE fiction (id SERIAL PRIMARY KEY, book_id INTEGER UNIQUE, title TEXT, author TEXT, subjects TEXT);")
 
 book_id_keys = list(babelli.keys())
 for id in book_id_keys:
@@ -34,4 +34,3 @@ for id in book_id_keys:
                 (str(a), b, c, d))
     print(id + " added")
 print("query done")
-os.sleep(100000)
