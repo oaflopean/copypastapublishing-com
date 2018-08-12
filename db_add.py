@@ -21,8 +21,8 @@ conn = psycopg2.connect(
             port=port
             )
 con=conn.cursor()
-#con.execute("CREATE TABLE fiction (id serial PRIMARY KEY, book_id integer, title text, author text, subjects text);")
-#conn.commit()
+con.execute("CREATE TABLE fiction (id serial PRIMARY KEY, book_id integer, title varchar, author varchar, subjects varchar);")
+conn.commit()
 
 book_id_keys=list(babelli.keys())
 for id in book_id_keys:
@@ -32,7 +32,7 @@ for id in book_id_keys:
     d=" ".join(babelli[id]["subjects"])
     con.execute('INSERT INTO fiction (book_id, title, author, subjects) VALUES (%s, "%s", "%s", "%s")', (str(a), b, c, d))
     print(id+" added")
-#conn.commit()
+conn.commit()
 print("query done")
 os.sleep(100)
 
