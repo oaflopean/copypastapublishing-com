@@ -13,14 +13,14 @@ password = url.password
 host = url.hostname
 port = url.port
 
-con = psycopg2.connect(
+conn = psycopg2.connect(
             dbname=dbname,
             user=user,
             password=password,
             host=host,
             port=port
             )
-
+con=conn.cursor()
 con.execute("CREATE TABLE fiction (id serial PRIMARY KEY, book_id integer, title text, author text, subjects text);")
 
 book_id_keys=list(babelli.keys())
