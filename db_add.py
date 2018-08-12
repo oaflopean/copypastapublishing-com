@@ -29,8 +29,14 @@ for id in book_id_keys:
     b=babelli[id]["title"]
     c=babelli[id]["author"]
     d=" ".join(babelli[id]["subjects"])
+    table="fiction"
+    columns="book_id, title, author, subjects"
+    values=str(a)+", "+"\""+b+"\", \""+c+"\", \""+d+"\""
+    statement = 'INSERT INTO ' + table + ' (' + columns + ') VALUES (' + values + ')'
     #con.execute("INSERT INTO fiction ("+str(a)+", \""+b+"\", \""+c+"\", \""+d+"\") VALUES (book_id, title, author, subjects)")
-    con.execute("INSERT INTO fiction (%s, \"%s\", \"%s\", \"%s\") VALUES (book_id, title, author, subjects)",(str(a), b, c, d))
+    con.execute(statement)
+
+print("done")
 os.sleep(100)
 
 
