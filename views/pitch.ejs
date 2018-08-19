@@ -2,56 +2,7 @@
 <html lang="en">
 <% include header %>
 <body>
-<!-- <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                
-                        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">
-            <%= title %>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li id="home"><a href="/">Introduction</a></li>
-                <li id="about"><a href="/ten-minute-pitch">Ten Minute Pitch</a></li>
-
-                <li id="about"><a href="/blog">From The Editor</a></li>
-                       <img class="resize" src="images/lowerlogo.png"/>
-            
-            </ul>
-        </div>
-        /.navbar-collapse
-    </div>
-</div>
- -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-      </button>
-      <a class="navbar-brand" href="/">Copypasta Publishing</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li ><a href="/">Introduction </a></li>
-        <li class="active"><a href="/ten-minute-pitch">Ten Minute Pitch <span class="sr-only">(current)</span></a></li>
-                <li><a href="/blog">From The Editor</a></li>
-                <li><img class="resize" src="/images/lowerlogo.png"/></li>
-  
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-  
+<% include navbar %>
 
       <div class="jumbotron">
         <h1>Ten Minute Pitch</h1>
@@ -59,7 +10,7 @@
         <p><a class="btn btn-lg btn-success" href="http://queryshark.blogspot.com/" role="button">Learn more about query letters</a></p>
       </div>
       
-    <div class="col-lg-6" align="center"><p><h2>Send your query letter to:</h2><h3><a href="mailto:submissions@copypastapublishing.com">submissions@copypastapublishing.com</a></h3>
+    <div class="col-lg-6" align="center"><p><h2>Send your query letter to:</h2><h3><a href="mailto:submissions@copypastapublishing.com">submissions at copypastapublishing dot com</a></h3>
     <p><b>Include "Ten Minute Pitch" in the subject line.</p></b><img class="resize_books" src="images/lowerlogo.png"/></center>  
     </div>
                    <center><h1>Submission Guidelines</h1></center>
@@ -129,8 +80,14 @@
 
    <!-- /container -->
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  <script
+        src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
   </body>
 </html>
