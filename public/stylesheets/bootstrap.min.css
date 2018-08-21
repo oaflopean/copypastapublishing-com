@@ -4905,6 +4905,7 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 .navbar-inverse {
 	background-color: #222;
 	border-color: #4F474E;
+	
 
 }
 
@@ -5296,9 +5297,9 @@ a.badge:focus,a.badge:hover {
 }
 
 .jumbotron {
-	padding-top: 0px;
-	padding-bottom: 0px;
-	margin-bottom: 0px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	margin-bottom: 25px;
 	background-color: #6EB7D8;
 	color: #def
 	}
