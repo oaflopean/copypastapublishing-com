@@ -5295,11 +5295,11 @@ a.badge:focus,a.badge:hover {
 }
 
 .jumbotron {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	margin-bottom: 30px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
 	color: inherit;
-	background-color: #eee
+	background-color: #b0c0c4;
 }
 
 .jumbotron .h1,.jumbotron h1 {
@@ -5890,7 +5890,7 @@ a.list-group-item-danger.active,a.list-group-item-danger.active:focus,a.list-gro
 }
 
 .panel-footer {
-	padding: 10px 15px;
+	padding: 0px 0px;
 	background-color: #f5f5f5;
 	border-top: 1px solid #ddd;
 	border-bottom-right-radius: 3px;
@@ -6375,7 +6375,7 @@ button.close {
 }
 
 .modal-footer {
-	padding: 15px;
+	padding: 0px;
 	text-align: right;
 	border-top: 1px solid #e5e5e5
 }
@@ -7237,7 +7237,7 @@ button.close {
 	width:auto;
 }
 .resize_logo{
-	width:150px;
+	width:100px;
 		height:auto;
 		
 	
