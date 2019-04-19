@@ -1,4 +1,4 @@
-exports.library = function(req, res){
+ exports.library = function(req, res){
 	var pg = require('pg');
 	const conString = 'postgresql://dbuser:secretpassword@database.server.com:3211/mydb'
 
@@ -15,5 +15,5 @@ exports.library = function(req, res){
 	        return next(err)
 	      }
 
-	      res.render('pitch', { title: 'Copypasta Publishing' }, {results:result});
+	      res.render('library', { title: 'Copypasta Publishing' }, {results:result});
 	    })})};
