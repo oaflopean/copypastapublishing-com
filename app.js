@@ -7,10 +7,11 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
+   favicon = require('express-favicon')
   , path = require('path');
 
 var app = express();
-
+app.use(favicon(__dirname + '/public/favicon.ico'));
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -21,7 +22,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(favicon(__dirname + '/public/favicon.ico'));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());

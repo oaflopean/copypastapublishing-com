@@ -6,6 +6,7 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^3.2.6",
+    "express-favicon": "^2.0.1",
     "pg": "0.10.2"
   },
   "devDependencies": {},
