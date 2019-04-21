@@ -7227,7 +7227,7 @@ button.close {
 }
 
 .resize {
-    height: 50px;
+    height: 300px;
     width: auto;
 }
 .resize_books{
@@ -7239,7 +7239,7 @@ button.close {
 	width:auto;
 }
 .resize_logo{
-	width:100px;
+	width:300px;
 		height:auto;
 		
 	
