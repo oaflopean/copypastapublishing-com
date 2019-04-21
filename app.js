@@ -39,6 +39,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/blog', blog.blog);
 app.get('/ten-minute-pitch', pitch.pitch);
+app.get('/invitation', pitch.invitation);
 app.get('/library', library.library);
 
 
