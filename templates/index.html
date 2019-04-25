@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-{% include header.html %}
-<body class="">
-{% include navbar.html %}
+{% include 'header.html' %}
+<body class="grey lighten-4">
+{% include 'navbar.html' %}
     <!-- Main jumbron for a primary marketing message or call to action -->
     
-<div class="row valign-wrapper left" style="background-image: url('images/eye.jpg')">
+<div class="row valign-wrapper left" style="background-image: url('/static/images/eye.jpg')">
           <div class="card grey lighten-4  col-sm-12 col-lg-8 col-md-8 green-text text-lighten-3 flow-text" ><h1 class="blue-text">Welcome back.</h1> </center>
             <h4 class="scale-transition scale-in" align="justify">Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</h4>  <video class="responsive-video" controls>
-    <source src="images/ad.mp4" type="video/mp4">
+    <source src="/static/images/ad.mp4" type="video/mp4">
   </video>
 </div>
 <div class=" col-lg-4 col-md-4 col-sm-12"><div class="hoverable">
 
-<a  href="images/laservision.mp4"><img class="responsive-img z-depth-5 circle" src="images/lowerlogo.png" /></a></div></div></div>
-        </div></div>
-  <div  class="container-fluid brown-text" style="background-image: url('images/eye.jpg')> 
+<a  href="/static/images/laservision.mp4"><img class="responsive-img z-depth-5 circle" src="static/images/lowerlogo.png" /></a></div></div></div>
+</div></div>
+  <div  class="container brown-text text-center " >
 
-        <% include content %>
-</div><div class="container-fluid">
-{% include footer.html %}
+      {% include 'content.html' %}
+  </div></div>
+{% include 'footer.html' %}
     <!-- /container --></div>
     <script type="text/javascript">
         $(document).ready(function() {

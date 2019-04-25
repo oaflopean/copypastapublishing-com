@@ -35,11 +35,16 @@ def read_all():
 
 
 @app.route('/ten-minute-pitch')
-
 def pitch():
     title="Ten Minute Pitch: Write a Query Letter"
 
     return render_template('pitch.html', title=title)
+
+@app.route('/invitation')
+def invite():
+    title="Huge Impossible Word Search"
+
+    return render_template('invite.html', title=title)
 
 if __name__ == '__main__':
     app.run(debug=True)
