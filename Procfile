@@ -1,2 +1,1 @@
-web: node app.js
-worker: python db_add.py
+web: gunicorn -w 4 app:app
