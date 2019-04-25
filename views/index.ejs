@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include header %>
-<body style="background-color:orange" >
+<body class="">
       <% include navbar %>
     <!-- Main jumbron for a primary marketing message or call to action -->
-    <div class="jumbotron purple lighten-4">        <div class=" container-fluid ">
-<center><video class="responsive-video" controls>
-    <source src="images/laservision.mp4" type="video/mp4">
-  </video></center><div class="row">
-          <div class="flow-text col-lg-8 col-md-8 flow-text" ><h1 class="blue-text">Welcome back.</h1>  
-            <h4 align="justify">Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</h4></div><div class=" col-lg-4 col-md-4"><div  class="card hoverable transparent zdepth-1">
-<video class="responsive-video" controls>
+    
+<div class="row valign-wrapper left" style="background-image: url('images/eye.jpg')">
+          <div class="card grey lighten-4  col-sm-12 col-lg-8 col-md-8 green-text text-lighten-3 flow-text" ><h1 class="blue-text">Welcome back.</h1> </center>
+            <h4 class="scale-transition scale-in" align="justify">Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</h4>  <video class="responsive-video" controls>
     <source src="images/ad.mp4" type="video/mp4">
-  </video><a href="images/ad.mp4"><img class="responsive-img circle" src="images/lowerlogo.png" /></a></div></div></div>
-        </div></div></div><p><center>
-        <a href="ten-minute-pitch"><div class="card-content purple hoverable lighten-1 btn-large circle " >   Interested?</div></a>
-                 </a>
-     </div></center></p>
-   <div class="container brown-text">  
+  </video>
+</div>
+<div class=" col-lg-4 col-md-4 col-sm-12"><div class="hoverable">
+
+<a  href="images/laservision.mp4"><img class="responsive-img z-depth-5 circle" src="images/lowerlogo.png" /></a></div></div></div>
+        </div></div>
+  <div  class="container-fluid brown-text" style="background-image: url('images/eye.jpg')> 
 
         <% include content %>
-        <hr>
- </div></div>
- 
-        <% include footer %></div>
-    <!-- /container -->
+</div><div class="container-fluid">
+        <% include footer %>
+    <!-- /container --></div>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#home').addClass("active");
         });
     </script>
-    <!-- Bootstrap core JavaScript
+    <script type="text/javascript">  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.parallax');
+    var instances = M.Parallax.init(elems, options);
+  });</script>    <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
