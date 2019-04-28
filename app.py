@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
 @app.route('/', methods=["POST", "GET"])
 def home():
-    title="Copypasta Publishing: Bridges and Roads"
+    title="Copypasta Publishing: HTML and CSS Websites"
     # if request.method == 'POST':
     #     form = Entry(request.form)
     #
