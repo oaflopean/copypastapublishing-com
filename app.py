@@ -3,9 +3,11 @@ import ebooklib
 from pymongo import MongoClient
 from mongoengine import *
 import json
-
+import urllib.request
+import requests
 from flask_wtf import FlaskForm
 from wtforms import StringField
+from rake_nltk import Rake
 from wtforms.validators import DataRequired
 app = Flask(__name__)
 app.config["SECRET_KEY"]= 'my super secret key'.encode('utf8')
@@ -57,8 +59,49 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 @app.route('/', methods=["POST", "GET"])
+
 def home():
-    title="Copypasta Publishing: Social Media Publishing"
+    sub="writing"
+    title="Copypasta Publishing: Influencer Results: "+sub
+
+    phrasey={"body":[]}
+
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    for link in data['data']['children']:
+        phrasey["body"].append(link['data']['title'])
+
+    phrases_string=' '.join(phrasey["body"])
+    print(phrases_string)
+
+    r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+
+    r.extract_keywords_from_text(phrases_string)
+
+    phrases=r.get_ranked_phrases()
+    title="Copypasta Publishing: Social Media Publishing: Keywords from r/Writing"
+    return render_template('index.html', phrases=phrases, title=title)
+
+@app.route('/keywords/r/<sub>', methods=["GET"])
+def rake(sub):
+    title="Copypasta Publishing: Influencer Results: "+sub
+
+    phrasey={"body":[]}
+
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    for link in data['data']['children']:
+        phrasey["body"].append(link['data']['title'])
+
+    phrases_string=' '.join(phrasey["body"])
+    print(phrases_string)
+
+    r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+
+    r.extract_keywords_from_text(phrases_string)
+
+    phrases=r.get_ranked_phrases() # To get keyword phrases ranked highest to lowest
+    # # To get key
     # if request.method == 'POST':
     #     form = Entry(request.form)
     #
@@ -75,8 +118,7 @@ def home():
             # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
             # return render_template('entries.html', entries=json)
 
-    if request.method == "GET":
-        return render_template('index.html', title=title)
+    return render_template('keywords.html',phrases=phrases, title=title)
     
 
 @app.errorhandler(404)
