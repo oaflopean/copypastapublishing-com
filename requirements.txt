@@ -1,4 +1,4 @@
-praw==6.1.2
+praw==6.1.1
 awsebcli==3.14.13
 botocore==1.12.106
 cement==2.8.2
