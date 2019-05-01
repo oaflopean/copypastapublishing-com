@@ -34,6 +34,13 @@ def read_all():
 
 
 
+
+@app.route('/blog')
+def blog():
+    title="Editor Blog: Jordan Jones"
+
+    return render_template('blog-index.html', title=title)
+
 @app.route('/ten-minute-pitch')
 def pitch():
     title="Ten Minute Pitch: Write a Query Letter"
