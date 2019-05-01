@@ -5,7 +5,7 @@
 
     {% include 'navbar.html' %}<div class="jumbotron circle white-text purple lighten-2 white-text flow-text">
 <h1 class="white-text purple darken-3">{{title}}</h1></div><div class="blue container-fluid lighten-3"><a href='/keywords/r/{{sub}}/best'>best</a> <a href='/keywords/r/{{sub}}/new'>new</a> <a href='/keywords/r/{{sub}}/hot'>hot</a><a href="/keywords/r/{{sub}}/top"> top </a><a href="/keywords/r/{{sub}}/controversial"> controversial</a><a href="/keywords/r/{{sub}}/rising"> rising</a><h1 class="transparent">Keywords</div><div class='blue flow-text lighten-4'>{%for self in phrases:%}
-	<h3 class=" white-text purple darken-2 chip z-depth-4  yellow white-text darken-4 hoverable"><a class="white-text" href="https://www.reddit.com/r/{{sub}}/search?q={{self}}">{{self}}</a></h3>{%endfor%}</div></div>
+	<h3 class=" white-text purple darken-2 chip z-depth-4  yellow white-text darken-4 hoverable"><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></h3>{%endfor%}</div></div>
 </div><div class="container-fluid">  
  <ul class='collection with-header'>
 

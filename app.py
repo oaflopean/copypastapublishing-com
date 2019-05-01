@@ -3,6 +3,7 @@ import ebooklib
 from pymongo import MongoClient
 from mongoengine import *
 import json
+import praw
 import urllib.request
 import requests
 from flask_wtf import FlaskForm
@@ -12,6 +13,8 @@ from wtforms.validators import DataRequired
 app = Flask(__name__)
 app.config["SECRET_KEY"]= 'my super secret key'.encode('utf8')
 app.config['STATIC_FOLDER'] = 'static/'
+
+
 
 connect("partners", host='178.128.171.115', port=27017, username="oaflopean", password="99bananas", authentication_source="admin")
 conn = MongoClient(host='178.128.171.115',port=27017)
@@ -156,3 +159,12 @@ def kw():
 def page_not_found(error):
     return render_template("404.html")
 
+@app.route('/bot/r/<sub>/<kw>', methods=["GET"])
+def botpost(sub, kw):
+    reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
+                     client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
+                     user_agent='Ravenclaw', username='caesarnaples2')
+    title = 'SCP ERROR DOC'
+    url = 'https://www.copypastapublishing.com/'+kw
+    reddit.subreddit("astrapocalypse").submit(title, url=url)
+    return render_template("index.html", title="Welcome back.")
