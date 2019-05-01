@@ -6,10 +6,27 @@
     {% include 'navbar.html' %}<div class="jumbotron circle white-text purple lighten-2 white-text flow-text">
 <h1 class="white-text purple darken-3">{{title}}</h1></div><div class="blue container-fluid lighten-3"><a href='/keywords/r/{{sub}}/best'>best</a> <a href='/keywords/r/{{sub}}/new'>new</a> <a href='/keywords/r/{{sub}}/hot'>hot</a><a href="/keywords/r/{{sub}}/top"> top </a><a href="/keywords/r/{{sub}}/controversial"> controversial</a><a href="/keywords/r/{{sub}}/rising"> rising</a><h1 class="transparent">Keywords</div><div class='blue flow-text lighten-4'>{%for self in phrases:%}
 	<h3 class=" white-text purple darken-2 chip z-depth-4  yellow white-text darken-4 hoverable"><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></h3>{%endfor%}</div></div>
-</div><div class="container-fluid">  
- <ul class='collection with-header'>
 
-<li class="collection-header orange darken-2"><h1>Other Subreddits</h1><a href="https://www.reddit.com/" ></a><li class="collection-item white-text purple darken-2">funny<a href="/keywords/r/funny" ><div class="secondary-content white-text bold">View current trends</div></a>
+
+</div>
+
+ <!-- Dropdown Trigger -->
+  <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider" tabindex="-1"></li>
+    <li><a href="#!">three</a></li>
+    <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+  </ul>
+        
+<div class="container-fluid">  
+ 
+<div class="dropdown-trigger collection-header orange darken-2" href='#' data-target="dropdown1"><h1>Other Subreddits</h1><ul id="dropdown1" class='collection dropdown-content with-header'>
+<li class="collection-item white-text purple darken-2">funny<a href="/keywords/r/funny" ><div class="secondary-content white-text bold">View current trends</div></a>
 <li class="collection-item white-text purple darken-2">AskReddit<a href="/keywords/r/AskReddit" ><div class="secondary-content white-text bold">View current trends</div></a>
 
 <li class="collection-item white-text purple darken-2">todayilearned<a href="/keywords/r/todayilearned" ><div class="secondary-content white-text bold">View current trends</div></a>
