@@ -3,11 +3,11 @@
 {% include 'header.html' %}
 <body style="background-color:#e1e4e8">
 
-    {% include 'navbar.html' %}
-<h1>{{title}}</h1><div class="container-fluid purple lighten-4 white-text flow-text responsive-img"><ul class="collection">{%for self in phrases:%}
-	<li class="collection-item chip yellow white-text darken-4"><a href="https://www.reddit.com/search?q={{self}}">{{self}}</a></li>{%endfor%}</ul></div>
+    {% include 'navbar.html' %}<div class="card circle grey lighten-2">
+<h1 class="blue">{{title}}</h1></div><div class="container-fluid blue lighten-2 white-text flow-text "><div class="collection"><ul>{%for self in phrases:%}<big>
+	<li class="collection-item chip z-depth-4 hoverable yellow white-text darken-4"><a href="https://www.reddit.com/search?q={{self}}"><h2>{{self}}</a></li></big>{%endfor%}</ul></div>
 
-
+</div></div>
     		    	
 {% include 'footer.html' %}
     <script src="https://code.jquery.com/jquery.js"></script>

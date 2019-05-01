@@ -84,7 +84,7 @@ def home():
 
 @app.route('/keywords/r/<sub>', methods=["GET"])
 def rake(sub):
-    title="Copypasta Publishing: Influencer Results: "+sub
+    title="Copypasta Publishing: Influencer Results: r/"+sub
 
     phrasey={"body":[]}
 
