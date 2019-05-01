@@ -1,23 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-118743023-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+{% include 'header.html' %} {% include 'navbar.html' %}
 
-  gtag('config', 'UA-118743023-2');
-</script>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="{{url_for('static', filename='home.js')}}"></script>
-
-    <meta charset="UTF-8">
-  <title>Nobody has created this yet</title>
-</head>
 <body>
  <footer class='page-footer'>
       <div class='footer-copyright'>
