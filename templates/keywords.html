@@ -3,68 +3,69 @@
 {% include 'header.html' %}
 <body style="background-color:#e1e4e8">
 
-    {% include 'navbar.html' %}<div class="jumbotron circle blue lighten-3 white-text flow-text">
-<h1 class="blue darken-3">{{title}}</h1></div><div class="collection"><ul>{%for self in phrases:%}
-	<li class="collection-item blue lighten-3 chip z-depth-4  yellow white-text darken-4 hoverable"><a class="white-text" href="https://www.reddit.com/r/{{sub}}/search?q={{self}}">{{self}}</a></li>{%endfor%}</ul></div>
+    {% include 'navbar.html' %}<div class="jumbotron circle white-text purple lighten-2 white-text flow-text">
+<h1 class="white-text purple darken-3">{{title}}</h1></div><div class="blue container-fluid lighten-3"><a href='/keywords/r/{{sub}}/best'>best</a> <a href='/keywords/r/{{sub}}/new'>new</a> <a href='/keywords/r/{{sub}}/hot'>hot</a><a href="/keywords/r/{{sub}}/top"> top </a><a href="/keywords/r/{{sub}}/controversial"> controversial</a><a href="/keywords/r/{{sub}}/rising"> rising</a><h1 class="transparent">Keywords</div><div class='blue flow-text lighten-4'>{%for self in phrases:%}
+	<h3 class=" white-text purple darken-2 chip z-depth-4  yellow white-text darken-4 hoverable"><a class="white-text" href="https://www.reddit.com/r/{{sub}}/search?q={{self}}">{{self}}</a></h3>{%endfor%}</div></div>
+</div><div class="container-fluid">  
+ <ul class='collection with-header'>
 
-</div></div><div class="container hoverable"><ul class=" collection with-header"
-><li class="collection-header orange lighten-3">Subreddit Communities<a href="https://www.reddit.com/" ></a><li class="collection-item blue lighten-3">funny<a href="https://www.copypastapublishing.com/keywords/r/funny" ><div class="secondary-content brown-text bold">View current trends</div></a>
-<li class="collection-item blue lighten-3">AskReddit<a href="https://www.copypastapublishing.com/keywords/r/AskReddit" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-header orange darken-2"><h1>Other Subreddits</h1><a href="https://www.reddit.com/" ></a><li class="collection-item white-text purple darken-2">funny<a href="/keywords/r/funny" ><div class="secondary-content white-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">AskReddit<a href="/keywords/r/AskReddit" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">todayilearned<a href="https://www.copypastapublishing.com/keywords/r/todayilearned" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">todayilearned<a href="/keywords/r/todayilearned" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">worldnews<a href="https://www.copypastapublishing.com/keywords/r/worldnews" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">worldnews<a href="/keywords/r/worldnews" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">Science<a href="https://www.copypastapublishing.com/keywords/r/Science" ><div class="secondary-content brown-text bold">View current trends</div></a> 
+<li class="collection-item white-text purple darken-2">Science<a href="/keywords/r/Science" ><div class="secondary-content white-text bold">View current trends</div></a> 
 
-<li class="collection-item blue lighten-3">pics<a href="https://www.copypastapublishing.com/keywords/r/pics" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">pics<a href="/keywords/r/pics" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">gaming<a href="https://www.copypastapublishing.com/keywords/r/gaming" ><div class="secondary-content brown-text bold">View current trends</div></a>
-<li class="collection-item blue lighten-3">IamA<a href="https://www.copypastapublishing.com/keywords/r/IAmA" ><div class="secondary-content brown-text bold">View current trends</div></a>
-<li class="collection-item blue lighten-3">videos<a href="https://www.copypastapublishing.com/keywords/r/videos" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">gaming<a href="/keywords/r/gaming" ><div class="secondary-content white-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">IamA<a href="/keywords/r/IAmA" ><div class="secondary-content white-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">videos<a href="/keywords/r/videos" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">movies<a href="https://www.copypastapublishing.com/keywords/r/movies" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">movies<a href="/keywords/r/movies" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">aww<a href="https://www.copypastapublishing.com/keywords/r/aww" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">aww<a href="/keywords/r/aww" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">Music<a href="https://www.copypastapublishing.com/keywords/r/Music" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">Music<a href="/keywords/r/Music" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">blog<a href="https://www.copypastapublishing.com/keywords/r/blog" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">blog<a href="/keywords/r/blog" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">gifs<a href="https://www.copypastapublishing.com/keywords/r/gifs" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">gifs<a href="/keywords/r/gifs" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">news<a href="https://www.copypastapublishing.com/keywords/r/news" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">news<a href="/keywords/r/news" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">explainlikeimfive<a href="https://www.copypastapublishing.com/keywords/r/explainlikeimfive"><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">explainlikeimfive<a href="/keywords/r/explainlikeimfive"><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">askscience<a href="https://www.copypastapublishing.com/keywords/r/askscience" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">askscience<a href="/keywords/r/askscience" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">EarthPorn<a href="https://www.copypastapublishing.com/keywords/r/EarthPorn" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">EarthPorn<a href="/keywords/r/EarthPorn" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">books<a href="https://www.copypastapublishing.com/keywords/r/books" ><div class="secondary-content brown-text bold">View current trends</div></a>
-
-
-<li class="collection-item blue lighten-3">television<a href="https://www.copypastapublishing.com/keywords/r/television" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">books<a href="/keywords/r/books" ><div class="secondary-content white-text bold">View current trends</div></a>
 
 
-<li class="collection-item blue lighten-3">mildlyinteresting<a href="https://www.copypastapublishing.com/keywords/r/mildlyinteresting" ><div class="secondary-content brown-text bold">View current trends</div></a> 
+<li class="collection-item white-text purple darken-2">television<a href="/keywords/r/television" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">Showerthoughts<a href="https://www.copypastapublishing.com/keywords/r/Showerthoughts" ><div class="secondary-content brown-text bold">View current trends</div></a> 
-<li class="collection-item blue lighten-3">LifeProTips<a href="https://www.copypastapublishing.com/keywords/r/LifeProTips" ><div class="secondary-content brown-text bold">View current trends</div></a> 
 
-<li class="collection-item blue lighten-3">Space<a href="https://www.copypastapublishing.com/keywords/r/space" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">mildlyinteresting<a href="/keywords/r/mildlyinteresting" ><div class="secondary-content white-text bold">View current trends</div></a> 
 
-<li class="collection-item blue lighten-3">DIY<a href="https://www.copypastapublishing.com/keywords/r/DIY" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">Showerthoughts<a href="/keywords/r/Showerthoughts" ><div class="secondary-content white-text bold">View current trends</div></a> 
+<li class="collection-item white-text purple darken-2">LifeProTips<a href="/keywords/r/LifeProTips" ><div class="secondary-content white-text bold">View current trends</div></a> 
 
-<li class="collection-item blue lighten-3">Jokes<a href="https://www.copypastapublishing.com/keywords/r/Jokes" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">Space<a href="/keywords/r/space" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">gadgets<a href="https://www.copypastapublishing.com/keywords/r/gadgets" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">DIY<a href="/keywords/r/DIY" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">nottheonion<a href="https://www.copypastapublishing.com/keywords/r/nottheonion" ><div class="secondary-content brown-text bold">View current trends</div></a> 
-<li class="collection-item blue lighten-3">sports<a href="https://www.copypastapublishing.com/keywords/r/sports" ><div class="secondary-content brown-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">Jokes<a href="/keywords/r/Jokes" ><div class="secondary-content white-text bold">View current trends</div></a>
 
-<li class="collection-item blue lighten-3">food<a href="https://www.copypastapublishing.com/keywords/r/food" ><div class="secondary-content brown-text bold">View current trends</div></a>
-<li class="collection-item blue lighten-3">tifu<a href="https://www.copypastapublishing.com/keywords/r/tifu" ><div class="secondary-content brown-text bold">View current trends</div></a></li></ul>
+<li class="collection-item white-text purple darken-2">gadgets<a href="/keywords/r/gadgets" ><div class="secondary-content white-text bold">View current trends</div></a>
+
+<li class="collection-item white-text purple darken-2">nottheonion<a href="/keywords/r/nottheonion" ><div class="secondary-content white-text bold">View current trends</div></a> 
+<li class="collection-item white-text purple darken-2">sports<a href="/keywords/r/sports" ><div class="secondary-content white-text bold">View current trends</div></a>
+
+<li class="collection-item white-text purple darken-2">food<a href="/keywords/r/food" ><div class="secondary-content white-text bold">View current trends</div></a>
+<li class="collection-item white-text purple darken-2">tifu<a href="/keywords/r/tifu" ><div class="secondary-content white-text bold">View current trends</div></a></li></ul>
     		    	</div>
 {% include 'footer.html' %}
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -72,8 +73,7 @@
     <script
         src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
-
-   <!-- /collection-item blue lighten-3 -->
+   <!-- /collection-item white-text purple darken-2 -->
 
   </body>
 </html>

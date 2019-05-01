@@ -66,7 +66,7 @@ def home():
 
     phrasey={"body":[]}
 
-    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=509'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
         phrasey["body"].append(link['data']['title'])
@@ -83,26 +83,23 @@ def home():
     return render_template('index.html', phrases=phrases, title=title)
 
 @app.route('/keywords/r/<sub>', methods=["GET"])
-def rake(sub):
+def rake1(sub):
 
     title="Copypasta Publishing: Influencer Results: r/"+sub
 
-    phrasey={"body":[]}
+    phrasey={"titles":[],"text":[]}
 
-    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=500'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    print(data)
     for link in data['data']['children']:
-        phrasey["body"].append(link['data']['title'])
+        phrasey["text"].append(link['data']['title'])
+        phrasey["text"].append(link['data']['selftext'])
+    p=Rake()
+    p.extract_keywords_from_text(' '.join(phrasey['text']))
 
-    phrases_string=' '.join(phrasey["body"])
-    print(phrases_string)
-
-    r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
-
-    r.extract_keywords_from_text(phrases_string)
-
-    phrases=r.get_ranked_phrases() # To get keyword phrases ranked highest to lowest
-    # # To get key
+    texts=p.get_ranked_phrases() # To get keyword phrases ranked highest to lowest
     # if request.method == 'POST':
     #     form = Entry(request.form)
     #
@@ -119,13 +116,41 @@ def rake(sub):
             # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
             # return render_template('entries.html', entries=json)
 
-    return render_template('keywords.html',sub=sub, phrases=phrases, title=title)
+    return render_template('keywords.html',sub=sub, phrases=texts, title=title)
     
+@app.route('/keywords/r/<sub>/<sort>', methods=["GET"])
+def rake2(sub, sort):
+
+    title="Copypasta Publishing: Influencer Results: r/"+sub
+
+    phrasey={"titles":[],"text":[]}
+
+
+    url = 'https://www.reddit.com/r/'+sub+'/'+sort+'/.json?limit=300'
+    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    print(data)
+    for link in data['data']['children']:
+        phrasey["text"].append(link['data']['title'])
+        phrasey["text"].append(link['data']['selftext'])
+
+
+
+    p = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+
+    p.extract_keywords_from_text(' '.join(phrasey['text']))
+
+    texts=p.get_ranked_phrases() # To get keyword phrases ranked highest to lowest
+    
+
+            # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
+            # return render_template('entries.html', entries=json)
+
+    return render_template('keywords.html',sub=sub,  phrases=texts, sort=sort, title=title)
 @app.route('/keywords', methods=["GET"])
 def kw():
     title="Influencer Marketing"
     phrases={}
-    return render_template('keywords.html', sub='astrapacalypse', title=title, phrases=phrases)
+    return render_template('keywords.html', sub='copypastapublishin', title=title, phrases=phrases)
 
 @app.errorhandler(404)
 def page_not_found(error):
