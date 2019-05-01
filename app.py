@@ -84,6 +84,7 @@ def home():
 
 @app.route('/keywords/r/<sub>', methods=["GET"])
 def rake(sub):
+
     title="Copypasta Publishing: Influencer Results: r/"+sub
 
     phrasey={"body":[]}
@@ -118,8 +119,13 @@ def rake(sub):
             # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
             # return render_template('entries.html', entries=json)
 
-    return render_template('keywords.html',phrases=phrases, title=title)
+    return render_template('keywords.html',sub=sub, phrases=phrases, title=title)
     
+@app.route('/keywords', methods=["GET"])
+def kw():
+    title="Influencer Marketing"
+    phrases={}
+    return render_template('keywords.html', sub='astrapacalypse', title=title, phrases=phrases)
 
 @app.errorhandler(404)
 def page_not_found(error):
