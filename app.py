@@ -164,7 +164,6 @@ def botpost(sub, kw):
     reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
-    title = kw
-    url = 'https://www.reddit.com/r/'+sub
-    reddit.subreddit(sub).submit(title, url=url)
+
+    reddit.subreddit("copypastapublishin").submit("Launch this subreddit", url="https://www.reddit.com/r/"+kw)
     return render_template("index.html", title="Welcome back.")
