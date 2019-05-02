@@ -164,7 +164,7 @@ def botpost(sub, kw):
     reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
-    title = 'SCP ERROR DOC'
-    url = 'https://www.copypastapublishing.com/'+kw
-    reddit.subreddit("astrapocalypse").submit(title, url=url)
+    title = kw
+    url = 'https://www.reddit.com/r/'+sub
+    reddit.subreddit(sub).submit(title, url=url)
     return render_template("index.html", title="Welcome back.")
