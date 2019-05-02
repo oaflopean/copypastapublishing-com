@@ -165,5 +165,5 @@ def botpost(sub, kw):
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
 
-    reddit.subreddit("copypastapublishin").submit("Launch this subreddit: "+kw.strip(' ',""), url="https://www.reddit.com/r/"+kw.strip(' ',""))
+    reddit.subreddit("copypastapublishin").submit("Launch this subreddit: "+kw.replace(' ',""), url="https://www.reddit.com/r/"+kw.replace(' ',""))
     return render_template("index.html", title="Welcome back.")
