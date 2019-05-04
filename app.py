@@ -201,5 +201,5 @@ def botpost(sub, kw):
     if form.validate():
         # Save the comment here.
         flash('Keywords from r/' + name)
-    reddit.subreddit("copypastapublishin").submit("We found \'" +kw+"\'' on "+sub, url="https://www.copypastapublishing.com/keywords/r/"+sub)
+    #reddit.subreddit("copypastapublishin").submit("We found \'" +kw+"\'' on "+sub, url="https://www.copypastapublishing.com/keywords/r/"+sub)
     return redirect('https://www.reddit.com/r/copypastapublishin')
