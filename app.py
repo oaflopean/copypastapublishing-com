@@ -202,4 +202,4 @@ def botpost(sub, kw):
         # Save the comment here.
         flash('Keywords from r/' + name)
     reddit.subreddit(sub).submit("Somebody noticed \'" +kw+"\'' on r/"+sub, url="https://www.copypastapublishing.com/keywords/r/"+sub)
-    return redirect('https://www.reddit.com/r/'+sub+"/new"
+    return redirect('https://www.reddit.com/r/'+sub+"/new")
