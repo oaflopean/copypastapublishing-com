@@ -192,14 +192,8 @@ def botpost(sub, kw):
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
     
-    form = ReusableForm(request.form)
 
-    if request.method == 'POST':
-        name=request.form['name']
-        return redirect('/keywords/r/'+name)
 
-    if form.validate():
-        # Save the comment here.
-        flash('Keywords from r/' + name)
     reddit.subreddit(sub).submit("Somebody noticed \'" +kw+"\'' on r/"+sub, url="https://www.copypastapublishing.com/keywords/r/"+sub)
+    
     return redirect('https://www.reddit.com/r/'+sub+"/new")
