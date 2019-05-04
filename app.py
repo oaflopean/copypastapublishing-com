@@ -6,6 +6,12 @@ import json
 import praw
 import urllib.request
 import requests
+
+from forms import SearchSub
+from flask_wtf import Form
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired, Email
+
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from rake_nltk import Rake
@@ -35,10 +41,6 @@ collection = db['Entries']
 
 def read_all():
     return json.dumps(db.Entries.find())
-    # Create the list of people from our data
-
-
-
 
 @app.route('/blog')
 def blog():
@@ -85,51 +87,39 @@ def home():
     title="Copypasta Publishing: Social Media Publishing: Keywords from r/Writing"
     return render_template('index.html', phrases=phrases, title=title)
 
-@app.route('/keywords/r/<sub>', methods=["GET"])
-def rake1(sub):
-
+@app.route('/keywords/r/<sub>/<sort>', methods=["GET"])
+def rake1(sub, sort):
     title="Copypasta Publishing: Influencer Results: r/"+sub
-
     phrasey={"titles":[],"text":[]}
+    url = 'https://www.reddit.com/r/'+sub+'/'+sort+"/.json?limit=300"
 
-
-    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=500'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     print(data)
     for link in data['data']['children']:
         phrasey["text"].append(link['data']['title'])
         phrasey["text"].append(link['data']['selftext'])
-    p=Rake()
+
+
+
+    p = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+
     p.extract_keywords_from_text(' '.join(phrasey['text']))
 
     texts=p.get_ranked_phrases() # To get keyword phrases ranked highest to lowest
-    # if request.method == 'POST':
-    #     form = Entry(request.form)
-    #
-    #     first=request.form['first']
-    #     last=request.form['last']
-    #     title=request.form['title']
-    #     desc=request.form['desc']
-    #     pseudonym=request.form['pseudonym']
-    #
-    #
-    # # Save the comment here.
-    # #    if form.validate():
+    
 
             # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
             # return render_template('entries.html', entries=json)
 
-    return render_template('keywords.html',sub=sub, phrases=texts, title=title)
-    
-@app.route('/keywords/r/<sub>/<sort>', methods=["GET"])
-def rake2(sub, sort):
+    return render_template('keywords.html',sub=sub,  phrases=texts, sort=sort, title=title)
 
+@app.route('/keywords/r/<sub>', methods=["GET"])
+def rake2(sub):
     title="Copypasta Publishing: Influencer Results: r/"+sub
-
     phrasey={"titles":[],"text":[]}
+    sort="new"
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
 
-
-    url = 'https://www.reddit.com/r/'+sub+'/'+sort+'/.json?limit=300'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     print(data)
     for link in data['data']['children']:
@@ -150,10 +140,13 @@ def rake2(sub, sort):
 
     return render_template('keywords.html',sub=sub,  phrases=texts, sort=sort, title=title)
 @app.route('/keywords', methods=["GET"])
-def kw():
-    title="Influencer Marketing"
-    phrases={}
-    return render_template('keywords.html', sub='copypastapublishin', title=title, phrases=phrases)
+def kw():    
+    sub=None
+    texts={}
+    sort="new"
+    title="Keywords on reddit.com Communities"
+    return render_template('keywords.html',sub=sub,  phrases=texts, sort=sort, title=title)
+
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -165,5 +158,5 @@ def botpost(sub, kw):
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
 
-    reddit.subreddit("copypastapublishin").submit("Write about this from "+sub+": "+kw.replace(' ',""), url="https://www.reddit.com/r/"+sub)
+    reddit.subreddit("copypastapublishin").submit("We found something interesting on "+sub+": "+kw.replace(' ',""), url="https://www.reddit.com/r/"+sub)
     return render_template('index.html', title="Welcome Back")
