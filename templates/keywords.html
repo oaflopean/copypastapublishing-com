@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include 'header.html' %}
-<body style="background-color:#e1e4e8">
+<body class="blue lighten-2">
 
-    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><h1 > {{title}} </h1><div class="blue container-fluid lighten-3"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a>
+    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><div class="container blue lighten-2"> <h1>{{title}} </h1></div><div class="blue container-fluid darken-4"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a>
 <form action="" method="post">
 		            {{form.csrf}}
 <div class="input text">
@@ -12,74 +12,74 @@
                 <input class="btn purple" type="submit" value="Submit"></div>
 </form>
 <div class="container responsive-txt circle purple lighten-4 " style="background-position:center;background-image: url('/static/images/lowerlogo.png');"><div class="container-fluid flow-text responsive-img">{%for self in phrases:%}
-	<li class="c0 chip white-text blue darken-2" ><a class="white-text" href="https://www.reddit.com/r/writing/search?q={{self}}">{{self}}</a></li>{%endfor%}</ul>
+	<li class="c0 chip white-text blue darken-2" ><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></li>{%endfor%}</ul>
 
 
 </div>
 
  <!-- Dropdown Trigger -->
         
-<div class="container-fluid">  
+<div class="container-fluid">
  
-<div class="  blue-text "><h1>Other Subreddits</h1></div><ul class='collection amber'><a class="white-text" href="/keywords/r/funny" >
-<li class="btn white-text purple darken-2">funny<div class="secondary-content white-text bold">View current trends</div></a><a class="white-text" href="/keywords/r/AskReddit" >
-<li class="btn white-text purple darken-2">AskReddit<div class="secondary-content white-text bold">View current trends</div></a>
+<div class=" blue lighten-2 purple-text "><h1>Other Subreddits</h1></div><ul class='collection  circleamber'><a class="white-text" href="/keywords/r/funny" >
+<li class="btn white-text purple darken-2">funny<div class="secondary-content white-text bold"></div></a><a class="white-text" href="/keywords/r/AskReddit" >
+<li class="btn white-text purple darken-2">AskReddit<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/todayilearned" >
-<li class="btn white-text purple darken-2"><a class="white-text" href="/keywords/r/todayilearned" >todayilearned<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2"><a class="white-text" href="/keywords/r/todayilearned" >todayilearned<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/worldnews" >
-<li class="btn white-text purple darken-2">worldnews<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">worldnews<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/Science" >
-<li class="btn white-text purple darken-2">Science<div class="secondary-content white-text bold">View current trends</div></a> 
+<li class="btn white-text purple darken-2">Science<div class="secondary-content white-text bold"></div></a> 
 <a class="white-text" href="/keywords/r/pics" >
-<li class="btn white-text purple darken-2">pics<div class="secondary-content white-text bold">View current trends</div></a>
-<a class="white-text" href="/keywords/r/gaming" >gaming
-<li class="btn white-text purple darken-2"><<div class="secondary-content white-text bold">View current trends</div></a><a class="white-text" href="/keywords/r/IAmA" >
-<li class="btn white-text purple darken-2">IamA<div class="secondary-content white-text bold">View current trends</div></a><a class="white-text" href="/keywords/r/videos" >
-<li class="btn white-text purple darken-2">videos<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">pics<div class="secondary-content white-text bold"></div></a>
+<a class="white-text" href="/keywords/r/gaming">
+<li class="btn white-text purple darken-2">gaming<div class="secondary-content white-text bold"></div></a><a class="white-text" href="/keywords/r/IAmA" >
+<li class="btn white-text purple darken-2">IamA<div class="secondary-content white-text bold"></div></a><a class="white-text" href="/keywords/r/videos" >
+<li class="btn white-text purple darken-2">videos<div class="secondary-content white-text bold"></div></a>
 
-<a class="white-text" href="/keywords/r/movies" ><li class="btn white-text purple darken-2">movies<div class="secondary-content white-text bold">View current trends</div></a>
+<a class="white-text" href="/keywords/r/movies" ><li class="btn white-text purple darken-2">movies<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/aww" >
-<li class="btn white-text purple darken-2">aww<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">aww<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/Music" >
-<li class="btn white-text purple darken-2">Music<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">Music<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/blog" >
-<li class="btn white-text purple darken-2">blog<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">blog<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/gifs" >
-<li class="btn white-text purple darken-2">gifs<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">gifs<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/news" >
-<li class="btn white-text purple darken-2">news<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">news<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/explainlikeimfive">
-<li class="btn white-text purple darken-2">explainlikeimfive<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">explainlikeimfive<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/askscience" >
-<li class="btn white-text purple darken-2">askscience<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">askscience<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/EarthPorn" >
-<li class="btn white-text purple darken-2">EarthPorn<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">EarthPorn<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/books" >
-<li class="btn white-text purple darken-2">books<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">books<div class="secondary-content white-text bold"></div></a>
 
 <a class="white-text" href="/keywords/r/television" >
-<li class="btn white-text purple darken-2">television<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">television<div class="secondary-content white-text bold"></div></a>
 
 <a class="white-text" href="/keywords/r/mildlyinteresting" >
-<li class="btn white-text purple darken-2">mildlyinteresting<div class="secondary-content white-text bold">View current trends</div></a> 
+<li class="btn white-text purple darken-2">mildlyinteresting<div class="secondary-content white-text bold"></div></a> 
 <a class="white-text" href="/keywords/r/Showerthoughts" >
-<li class="btn white-text purple darken-2">Showerthoughts<div class="secondary-content white-text bold">View current trends</div></a><a class="white-text" href="/keywords/r/LifeProTips" > 
-<li class="btn white-text purple darken-2">LifeProTips<div class="secondary-content white-text bold">View current trends</div></a> 
+<li class="btn white-text purple darken-2">Showerthoughts<div class="secondary-content white-text bold"></div></a><a class="white-text" href="/keywords/r/LifeProTips" > 
+<li class="btn white-text purple darken-2">LifeProTips<div class="secondary-content white-text bold"></div></a> 
 <a class="white-text" href="/keywords/r/space" >
-<li class="btn white-text purple darken-2">Space<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">Space<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/DIY" >
-<li class="btn white-text purple darken-2">DIY<div class="secondary-content white-text bold">View current trends</div></a>
+<li class="btn white-text purple darken-2">DIY<div class="secondary-content white-text bold"></div></a>
 
-<a class="white-text" href="/keywords/r/Jokes" ><li class="btn white-text purple darken-2">Jokes<div class="secondary-content white-text bold">View current trends</div></a>
+<a class="white-text" href="/keywords/r/Jokes" ><li class="btn white-text purple darken-2">Jokes<div class="secondary-content white-text bold"></div></a>
 
-<a class="white-text" href="/keywords/r/gadgets" ><li class="btn white-text purple darken-2">gadgets<div class="secondary-content white-text bold">View current trends</div></a>
+<a class="white-text" href="/keywords/r/gadgets" ><li class="btn white-text purple darken-2">gadgets<div class="secondary-content white-text bold"></div></a>
 
-<a class="white-text" href="/keywords/r/nottheonion" ><li class="btn white-text purple darken-2">nottheonion<div class="secondary-content white-text bold">View current trends</div></a> 
-<a class="white-text" href="/keywords/r/sports" ><li class="btn white-text purple darken-2">sports<div class="secondary-content white-text bold">View current trends</div></a>
+<a class="white-text" href="/keywords/r/nottheonion" ><li class="btn white-text purple darken-2">nottheonion<div class="secondary-content white-text bold"></div></a> 
+<a class="white-text" href="/keywords/r/sports" ><li class="btn white-text purple darken-2">sports<div class="secondary-content white-text bold"></div></a>
 
-<a class="white-text" href="/keywords/r/food" ><li class="btn white-text purple darken-2">food<div class="secondary-content white-text bold">View current trends</div></a>
-<a class="white-text" href="/keywords/r/tifu" ><li class="btn white-text purple darken-2">tifu<div class="secondary-content white-text bold">View current trends</div></a></li></ul>
-    		    	</div>
+<a class="white-text" href="/keywords/r/food" ><li class="btn white-text purple darken-2">food<div class="secondary-content white-text bold"></div></a>
+<a class="white-text" href="/keywords/r/tifu" ><li class="btn white-text purple darken-2">tifu<div class="secondary-content white-text bold"></div></a></li></ul>
+    		    	</div></div>
 {% include 'footer.html' %}
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Latest compiled and minified JavaScript -->
