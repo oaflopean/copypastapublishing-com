@@ -178,7 +178,7 @@ def kw():
         # Save the comment here.
         flash('Keywords from r/' + name)
     
-    title="Keywords on reddit.com Communities"
+    title="Influencer Keywords Results"
     return render_template('keywords.html',sub=sub, form=form, phrases=texts, sort=sort, title=title)
 
 
