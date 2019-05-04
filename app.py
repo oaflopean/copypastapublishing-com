@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 import ebooklib
 from pymongo import MongoClient
 from mongoengine import *
@@ -165,5 +165,5 @@ def botpost(sub, kw):
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
 
-    reddit.subreddit("copypastapublishin").submit("Launch this subreddit: "+kw.replace(' ',""), url="https://www.reddit.com/r/"+kw.replace(' ',""))
-    return render_template("index.html", title="Welcome back.")
+    reddit.subreddit("copypastapublishin").submit("Write about this from "+sub+": "+kw.replace(' ',""), url="https://www.reddit.com/r/"+sub)
+    return render_template('index.html', title="Welcome Back")
