@@ -9,7 +9,7 @@ import requests
 
 from forms import SearchSub
 from flask_wtf import Form
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, TextField, validators
 from wtforms.validators import DataRequired, Email
 
 from flask_wtf import FlaskForm
@@ -22,21 +22,17 @@ app.config['STATIC_FOLDER'] = 'static/'
 
 
 
-connect("partners", host='178.128.171.115', port=27017, username="oaflopean", password="99bananas", authentication_source="admin")
-conn = MongoClient(host='178.128.171.115',port=27017)
-db = conn['partners']
-collection = db['Entries']
+class ReusableForm(Form):
+    name = TextField('subreddit:', validators=[validators.required()])
 #
-# class ReusableForm(Form):
-#     name = TextField('Name:', validators=[validators.required()])
-#
-# # Data to serve with our API
-# class Entry(Form):
-#     first=TextField('first:', validators=[validators.required()])
-#     last=TextField('last:', validators=[validators.required()])
-#     title=TextField('title:', validators=[validators.required()])
-#     desc=TextField('desc:', validators=[validators.required()])
-#     pseudonym=TextField('pseudonym:', validators=[validators.required()])
+# # Data to serve with our AP
+class Entry(Form):
+    first=TextField('first:', validators=[validators.required()])
+    last=TextField('last:', validators=[validators.required()])
+    title=TextField('title:', validators=[validators.required()])
+    desc=TextField('desc:', validators=[validators.required()])
+    pseudonym=TextField('pseudonym:', validators=[validators.required()])
+
 
 
 def read_all():
@@ -64,10 +60,19 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 @app.route('/', methods=["POST", "GET"])
-
 def home():
     sub="writing"
     title="Copypasta Publishing: Influencer Results: "+sub
+    form = ReusableForm(request.form)
+
+    if request.method == 'POST':
+        name=request.form['name']
+        return redirect('/keywords/r/'+name)
+
+    if form.validate():
+        # Save the comment here.
+        flash('Keywords from r/' + name)
+    
 
     phrasey={"body":[]}
 
@@ -85,10 +90,20 @@ def home():
 
     phrases=r.get_ranked_phrases()
     title="Copypasta Publishing: Social Media Publishing: Keywords from r/Writing"
-    return render_template('index.html', phrases=phrases, title=title)
+    return render_template('index.html', phrases=phrases, form=form, title=title)
 
-@app.route('/keywords/r/<sub>/<sort>', methods=["GET"])
+@app.route('/keywords/r/<sub>/<sort>', methods=["POST", "GET"])
 def rake1(sub, sort):
+    form = ReusableForm(request.form)
+
+    if request.method == 'POST':
+        name=request.form['name']
+        return redirect('/keywords/r/'+name)
+
+    if form.validate():
+        # Save the comment here.
+        flash('Keywords from r/' + name)
+    
     title="Copypasta Publishing: Influencer Results: r/"+sub
     phrasey={"titles":[],"text":[]}
     url = 'https://www.reddit.com/r/'+sub+'/'+sort+"/.json?limit=300"
@@ -111,15 +126,24 @@ def rake1(sub, sort):
             # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
             # return render_template('entries.html', entries=json)
 
-    return render_template('keywords.html',sub=sub,  phrases=texts, sort=sort, title=title)
+    return render_template('keywords.html',sub=sub, form=form, phrases=texts, sort=sort, title=title)
 
-@app.route('/keywords/r/<sub>', methods=["GET"])
+@app.route('/keywords/r/<sub>', methods=["POST", "GET"])
 def rake2(sub):
     title="Copypasta Publishing: Influencer Results: r/"+sub
     phrasey={"titles":[],"text":[]}
     sort="new"
     url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+    form = ReusableForm(request.form)
 
+    if request.method == 'POST':
+        name=request.form['name']
+        return redirect('/keywords/r/'+name)
+
+    if form.validate():
+        # Save the comment here.
+        flash('Keywords from r/' + name)
+    
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     print(data)
     for link in data['data']['children']:
@@ -138,14 +162,24 @@ def rake2(sub):
             # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
             # return render_template('entries.html', entries=json)
 
-    return render_template('keywords.html',sub=sub,  phrases=texts, sort=sort, title=title)
-@app.route('/keywords', methods=["GET"])
+    return render_template('keywords.html',sub=sub,form=form,  phrases=texts, sort=sort, title=title)
+@app.route('/keywords', methods=["POST", "GET"])
 def kw():    
     sub=None
     texts={}
     sort="new"
+    form = ReusableForm(request.form)
+
+    if request.method == 'POST':
+        name=request.form['name']
+        return redirect('/keywords/r/'+name)
+
+    if form.validate():
+        # Save the comment here.
+        flash('Keywords from r/' + name)
+    
     title="Keywords on reddit.com Communities"
-    return render_template('keywords.html',sub=sub,  phrases=texts, sort=sort, title=title)
+    return render_template('keywords.html',sub=sub, form=form, phrases=texts, sort=sort, title=title)
 
 
 @app.errorhandler(404)
@@ -157,6 +191,15 @@ def botpost(sub, kw):
     reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
+    
+    form = ReusableForm(request.form)
 
-    reddit.subreddit("copypastapublishin").submit("We found something interesting on "+sub+": "+kw.replace(' ',""), url="https://www.reddit.com/r/"+sub)
-    return render_template('index.html', title="Welcome Back")
+    if request.method == 'POST':
+        name=request.form['name']
+        return redirect('/keywords/r/'+name)
+
+    if form.validate():
+        # Save the comment here.
+        flash('Keywords from r/' + name)
+    reddit.subreddit("copypastapublishin").submit("We found \'" +kw+"\'' on "+sub, url="https://www.reddit.com/r/"+sub)
+    return redirect('/keywords/r/'+sub)

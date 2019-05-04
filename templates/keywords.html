@@ -4,7 +4,12 @@
 <body style="background-color:#e1e4e8">
 
     {% include 'navbar.html' %}<div class="jumbotron circle white-text purple lighten-2 white-text flow-text">
-<h1 class="white-text purple darken-3"> {{title}} </h1></div><div class="blue container-fluid lighten-3"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a><h1 class="transparent">  
+<h1 class="white-text purple darken-3"> {{title}} </h1></div><div class="blue container-fluid lighten-3"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a> <form action="" method="post">
+		            {{form.csrf}}
+<div class="input text">
+                {{ form.name.label }} {{form.name}}</div>
+<div class="input submit">
+                <input class="btn purple" type="submit" value="Submit"></div>
 </div><div class='blue flow-text lighten-4'>{%for self in phrases:%}
 	<h3 class=" white-text purple darken-2 chip z-depth-4  yellow white-text darken-4 hoverable"><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></h3>{%endfor%}</div></div>
 
