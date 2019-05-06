@@ -194,6 +194,6 @@ def botpost(sub, kw):
     
 
 
-    reddit.subreddit('copypastapublishin').submit("Somebody noticed \'" +kw+"\'' on r/"+sub, url="https://www.copypastapublishing.com/keywords/r/"+sub)
+    #reddit.subreddit('copypastapublishin').submit("Somebody  r/"+sub, url="https://www.copypastapublishing.com/keywords/r/"+sub)
     
     return redirect('https://www.reddit.com/r/copypastapublishin/new')
