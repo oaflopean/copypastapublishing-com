@@ -63,7 +63,7 @@ if __name__ == '__main__':
 @app.route('/', methods=["POST", "GET"])
 def home():
     sub="writing"
-    title="Copypasta Publishing: Influencer Results: "+sub
+    title="Copypasta Publishing: Social Media Marketing"
     form = ReusableForm(request.form)
 
     if request.method == 'POST':
@@ -90,7 +90,7 @@ def home():
     r.extract_keywords_from_text(phrases_string)
 
     phrases=r.get_ranked_phrases()
-    title="Copypasta Publishing: Social Media Publishing: Keywords from r/Writing"
+    title=title
     return render_template('index.html', phrases=phrases, form=form, title=title)
 
 @app.route('/keywords/r/<sub>/<sort>', methods=["POST", "GET"])
@@ -105,7 +105,7 @@ def rake1(sub, sort):
         # Save the comment here.
         flash('Keywords from r/' + name)
     
-    title="Copypasta Publishing: Influencer Results: r/"+sub
+    title="Reddit Influencers or r/"+sub
     phrasey={"titles":[],"text":[]}
     url = 'https://www.reddit.com/r/'+sub+'/'+sort+"/.json?limit=300"
 
@@ -131,7 +131,7 @@ def rake1(sub, sort):
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
 def rake2(sub):
-    title="Copypasta Publishing: Influencer Results: r/"+sub
+    title="Reddit Influencers on r/"+sub
     phrasey={"titles":[],"text":[]}
     sort="new"
     url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
@@ -179,7 +179,7 @@ def kw():
         # Save the comment here.
         flash('Keywords from r/' + name)
     
-    title="Influencer Keywords Results"
+    title="Reddit Influencers on Multiple Subreddits"
     return render_template('keywords.html',sub=sub, form=form, phrases=texts, sort=sort, title=title)
 
 
@@ -197,8 +197,9 @@ def library():
         c=b.read()
         f=c.split('\n\n')
         for g in f:
-            g='</div></a><a href="/bot/search/Copypasta Publishing/'+g.replace('\n', ' ') +'"><div class="blue-text z-depth-4 card blue lighten-4">'+g
-            d["text"].append(g.replace("\n", " "))
+            g=g.replace('\n',' ')
+            if g!=' ':
+                d["text"].append(g)
 
     e= d
     reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',

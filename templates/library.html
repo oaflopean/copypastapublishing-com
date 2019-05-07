@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include 'header.html'%}
-<body class="grey lighten-2"> 
+<body class="purple darken-3"> 
   
-    {% include 'navbar.html' %}
- 
-      <div class="container-fluid"><div class="card">{% for a in text:%}
-        {{a|safe}}
-{% endfor%}     </div><div>
+    {% include 'navbar.html' %}<div class="jumbotron green lighten-1"><h1> Links to our Websites on Google Search</h1></div>
+{% for a in text%} {% if loop.index % 2 ==0:%}
+</div><div class="row">{%endif%}
+
+<div class="card blue lighten-3 z-depth-4  hoverable col-lg-6">
+<a class="flow-text " href="https://www.google.com/search?&q=Copypasta Publishing {{a}}" > {{a|safe}}</a>
+</div>
+{%endfor%}
+</div>
+
+
+
+
+
+
 {% include 'footer.html' %}
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Latest compiled and minified JavaScript -->
