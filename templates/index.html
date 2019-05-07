@@ -3,14 +3,14 @@
 {% include 'header.html' %}
 <body class="purple lighten-4 ">
 {% include 'navbar.html' %}
-<div class="blue darken-2">    <!-- Main jumbron for a primary marketing message or call to action -->
-<div class="card purple lighten-4 valign-wrapper " ><h1><a href="/invitation"><center>Welcome back.</a></h1></center></div><h3>Be an influencer on reddit</h3><div class="container"><form action="" method="post">
+<div class="jumbotron green lighten-2 z-depth-4">    <!-- Main jumbron for a primary marketing message or call to action -->
+<h1><a href="/invitation"><center>Welcome back.</a></h1></center></div><div class="container-fluid blue lighten-4"><h3>Be an influencer on reddit</h3><div class="container"><form action="" method="post">
 		            {{form.csrf}}
 <div class="input text">
                 {{ form.name.label }} {{form.name}}</div>
 <div class="input submit">
                 <input class="btn purple" type="submit" value="Submit"></div>
-</form></a></h1></div></div>
+</form></a></h1></div></div></div>
 {%include 'content.html'%}
 </div><div class="blue darken-4">
 
