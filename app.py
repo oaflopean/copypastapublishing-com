@@ -217,8 +217,8 @@ def botpost(sub, kw):
                      user_agent='Ravenclaw', username='caesarnaples2')
     
 
-    f="Somebody noticed this keyword in "+sub+": "+kw
+    f="Somebody noticed this keyword on "+sub+": "+kw
 
-    reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.google.com/search?&q=Copypasta Publishing "+kw)
+    reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.google.com/search?&q="+sub+" "+kw)
     
     return redirect('https://www.reddit.com/r/copypastapublishin/new')
