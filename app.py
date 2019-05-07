@@ -7,7 +7,7 @@ import praw
 import urllib.request
 import requests
 import glob
-
+import random
 from forms import SearchSub
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, TextField, validators
@@ -191,6 +191,7 @@ def library():
 
     r=glob.glob("texts/*")
     print(r)
+    r=random.sample(r, len(r))
     d={"text":[]}
     for a in r:
         b=open(a)
@@ -201,13 +202,13 @@ def library():
             if g!=' ':
                 d["text"].append(g)
 
-    e= d
+    e= d['text']
     reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
     
 
-    return render_template("library.html", text=e['text'],title="Library")
+    return render_template("library.html", text=e,title="Library")
 
 @app.route('/bot/r/<sub>/<kw>', methods=["GET"])
 @app.route('/bot/search/<sub>/<kw>', methods=["GET"])
@@ -220,6 +221,6 @@ def botpost(sub, kw):
 
     f="Somebody noticed this keyword on r/"+sub+": "+kw
 
-    reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.google.com/search?&q="+sub+" "+kw)
+    reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
     
     return redirect('https://www.reddit.com/r/copypastapublishin/new')
