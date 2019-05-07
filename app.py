@@ -195,8 +195,10 @@ def library():
     for a in r:
         b=open(a)
         c=b.read()
-        
-        d["text"].append(c)
+        f=c.split('\n\n')
+        for g in f:
+            g='</div></a><a href="https://www.google.com/search?&q='+g+'"><div class="blue-text z-depth-4 card blue lighten-4">'+g
+            d["text"].append(g)
 
     e= d
 
