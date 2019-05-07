@@ -3,15 +3,15 @@
 {% include 'header.html'%}
 <body class="purple lighten-4"> 
   
-    {% include 'navbar.html' %}<div class="jumbotron green lighten-1"><h1> Links to our Websites on Google Search</h1></div>
-{% for a in text%} {% if loop.index % 2 ==0:%}
+    {% include 'navbar.html' %}<div class="z-depth-3 jumbotron green lighten-2"><h1> Texts From Our Websites</h1></div><div class="container"><div class="container-fluid">
+{% for a in text%} {% if (loop.index-1) % 2 ==0:%}
 </div><div class="row">{%endif%}
 
 <div class="card blue lighten-3 z-depth-4  hoverable col-lg-6">
 <a class="flow-text " href="https://www.google.com/search?&q={{a}}" > {{a|safe}}</a>
 </div>
 {%endfor%}
-</div>
+</div></div>
 
 
 
