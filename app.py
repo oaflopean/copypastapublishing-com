@@ -197,7 +197,7 @@ def library():
         c=b.read()
         f=c.split('\n\n')
         for g in f:
-            g='</div></a><a href="/bot/search/Copypasta Website/'+g.replace('\n', ' ') +'"><div class="blue-text z-depth-4 card blue lighten-4">'+g
+            g='</div></a><a href="/bot/search/Copypasta Publishing/'+g.replace('\n', ' ') +'"><div class="blue-text z-depth-4 card blue lighten-4">'+g
             d["text"].append(g.replace("\n", " "))
 
     e= d
