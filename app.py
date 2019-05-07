@@ -195,12 +195,12 @@ def library():
     for a in r:
         b=open(a)
         c=b.read()
-        c="\n".split(c)
+        
         d["text"].append(c)
 
     e= d
 
-    return render_template("library.html", text=e,title="Library")
+    return render_template("library.html", text=e['text'],title="Library")
 
 @app.route('/bot/r/<sub>/<kw>', methods=["GET"])
 def botpost(sub, kw):
