@@ -6,6 +6,7 @@ import json
 import praw
 import urllib.request
 import requests
+import glob
 
 from forms import SearchSub
 from flask_wtf import Form
@@ -185,6 +186,18 @@ def kw():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html")
+@app.route('/websites')
+def library():
+
+    r=glob.glob("texts/*")
+    print(r)
+    d={"text":[]}
+    for a in r:
+        b=open(a)
+        c=b.read()
+        d["text"].append(c.replace("\n","            "))
+
+    return render_template("library.html", text=d["text"] ,title="Library")
 
 @app.route('/bot/r/<sub>/<kw>', methods=["GET"])
 def botpost(sub, kw):

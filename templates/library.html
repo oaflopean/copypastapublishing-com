@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'header.html'%}
+<body class="blue lighten-3"> 
+  
+    {% include 'navbar.html' %}
+ 
+      <div class="container  "><div class="card transparent">{% for b in text:%}
+        <div class="card  grey lighten-2 z-depth- responsive-text orange lighten-2 blue-text">{{b}}</div><div>
+{% endfor%}      </div>
+
+{% include 'footer.html' %}
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+        src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+
+   <!-- /collection-item -->
+
+  </body>
+</html>
