@@ -197,21 +197,28 @@ def library():
         c=b.read()
         f=c.split('\n\n')
         for g in f:
-            g='</div></a><a href="https://www.google.com/search?&q='+g+'"><div class="blue-text z-depth-4 card blue lighten-4">'+g
-            d["text"].append(g)
+            g='</div></a><a href="/bot/search/Copypasta Website/'+g.replace('\n', ' ') +'"><div class="blue-text z-depth-4 card blue lighten-4">'+g
+            d["text"].append(g.replace("\n", " "))
 
     e= d
+    reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
+                     client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
+                     user_agent='Ravenclaw', username='caesarnaples2')
+    
 
     return render_template("library.html", text=e['text'],title="Library")
 
 @app.route('/bot/r/<sub>/<kw>', methods=["GET"])
+@app.route('/bot/search/<sub>/<kw>', methods=["GET"])
+
 def botpost(sub, kw):
     reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                      client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
                      user_agent='Ravenclaw', username='caesarnaples2')
     
 
+    f="Somebody noticed this keyword in "+sub+": "+kw
 
-    reddit.subreddit('copypastapublishin').submit("Somebody noticed this keyword in r/"+sub+": "+kw, url="https://www.reddit.com/r/"+sub+"/search?q="+kw+"&restrict_sr=1")
+    reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.google.com/search?&q=Copypasta Publishing "+kw)
     
     return redirect('https://www.reddit.com/r/copypastapublishin/new')
