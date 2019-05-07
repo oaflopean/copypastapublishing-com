@@ -195,9 +195,12 @@ def library():
     for a in r:
         b=open(a)
         c=b.read()
-        d["text"].append(c.replace("\n","            "))
+        c="\n".split(c)
+        d["text"].append(c)
 
-    return render_template("library.html", text=d["text"] ,title="Library")
+    e= d
+
+    return render_template("library.html", text=e,title="Library")
 
 @app.route('/bot/r/<sub>/<kw>', methods=["GET"])
 def botpost(sub, kw):
@@ -207,6 +210,6 @@ def botpost(sub, kw):
     
 
 
-    #reddit.subreddit('copypastapublishin').submit("Somebody  r/"+sub, url="https://www.copypastapublishing.com/keywords/r/"+sub)
+    reddit.subreddit('copypastapublishin').submit("Somebody noticed this keyword in r/"+sub+": "+kw, url="https://www.reddit.com/r/"+sub+"/search?q="+kw+"&restrict_sr=1")
     
     return redirect('https://www.reddit.com/r/copypastapublishin/new')
