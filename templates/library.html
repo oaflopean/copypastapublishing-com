@@ -2,7 +2,7 @@
 <html lang="en">
 {% include 'header.html'%}
 <body class="purple lighten-4"> 
-  
+  {% include 'google.html' %}
     {% include 'navbar.html' %}<div class="z-depth-3 jumbotron green lighten-2"><h1> Texts From Our Websites</h1></div><div class="container"><div class="container-fluid">
 {% for a in text%} {% if (loop.index-1) % 2 ==0:%}
 </div><div class="row">{%endif%}
