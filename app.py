@@ -208,7 +208,7 @@ def library():
                      user_agent='Ravenclaw', username='caesarnaples2')
     
 
-    return render_template("library.html", text=e,title="Library")
+    return render_template("library.html", text=e,title="Copypasta Publishing: Blurbs from Websites")
 
 @app.route('/bot/r/<sub>/<kw>', methods=["GET"])
 @app.route('/bot/search/<sub>/<kw>', methods=["GET"])
