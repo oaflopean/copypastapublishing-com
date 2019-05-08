@@ -221,6 +221,6 @@ def botpost(sub, kw):
 
     f="Somebody noticed this keyword on r/"+sub+": "+kw
 
-    reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
     
     return redirect('https://www.reddit.com/r/copypastapublishin/new')
