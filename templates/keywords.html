@@ -12,7 +12,7 @@
                 <input class="btn purple" type="submit" value="Submit"></div><br><br>
 </form></div></div><div class="blue container-fluid darken-4"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a>
 <div class="container responsive-txt circle purple lighten-4 " style="background-position:center;background-image: url('/static/images/lowerlogo.png');"><div class="container-fluid flow-text responsive-img">{%for self in phrases:%}
-	<li class="c0 chip white-text blue darken-2" ><a class="white-text" href="https://www.reddit.com/search?&q=subreddit:{{sub}} {{self}}">{{self}}</a></li>{%endfor%}</ul>
+	<li class="c0 chip white-text blue darken-2" ><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></li>{%endfor%}</ul>
 
 
 </div>
