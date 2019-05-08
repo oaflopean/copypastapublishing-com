@@ -144,25 +144,26 @@ def rake2(sub):
     if form.validate():
         # Save the comment here.
         flash('Keywords from r/' + name)
-    
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     print(data)
-    for link in data['data']['children']:
-        phrasey["text"].append(link['data']['title'])
-        phrasey["text"].append(link['data']['selftext'])
+    if data['data']["children"]:
+
+        for link in data['data']['children']:
+            phrasey["text"].append(link['data']['title'])
+            phrasey["text"].append(link['data']['selftext'])
 
 
-
+    else:
+        phrasey["text"]="There is no subreddit named "+sub
+   
     p = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
 
     p.extract_keywords_from_text(' '.join(phrasey['text']))
 
     texts=p.get_ranked_phrases() # To get keyword phrases ranked highest to lowest
     
-
             # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
             # return render_template('entries.html', entries=json)
-
     return render_template('keywords.html',sub=sub,form=form,  phrases=texts, sort=sort, title=title)
 @app.route('/keywords', methods=["POST", "GET"])
 def kw():    
