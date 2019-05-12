@@ -3,16 +3,16 @@
 {% include 'header.html' %}
 <body class="purple lighten-4">
 {% include 'google.html' %}
-    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><div class="jumbotron green lighten-2 z-depth-4"> <h1>{{title}} </h1></div><div class="container-fluid blue lighten-4">
+    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><div class="jumbotron brown lighten-2 z-depth-4"> <h1>{{title}} </h1></div><div class="container-fluid blue lighten-4">
 <form action="" method="post">
 		            {{form.csrf}}
 <div class="input white-text text">
                 {{ form.name.label }} {{form.name}}</div>
 <div class="input submit">
                 <input class="btn purple" type="submit" value="Submit"></div><br><br>
-</form></div></div><div class="blue container-fluid darken-4"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a>
+</form></div></div><div class="purple container-fluid darken-4"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a>
 <div class="container responsive-txt circle purple lighten-4 " style="background-position:center;background-image: url('/static/images/lowerlogo.png');"><div class="container-fluid flow-text responsive-img">{%for self in phrases:%}
-	<li class="c0 chip white-text blue darken-2" ><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></li>{%endfor%}</ul>
+	<li class="c0 chip white-text purple darken-2" ><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></li>{%endfor%}</ul>
 
 
 </div>
@@ -21,7 +21,7 @@
         
 <div class="container-fluid">
  
-<div class=" blue lighten-2 purple-text "><h1>Default Subreddits</h1></div><ul class='collection  circleamber'><a class="white-text" href="/keywords/r/funny" >
+<div class=" purple lighten-2 purple-text "><h1>Default Subreddits</h1></div><ul class='collection  circleamber'><a class="white-text" href="/keywords/r/funny" >
 <li class="btn white-text purple darken-2">funny<div class="secondary-content white-text bold"></div></a><a class="white-text" href="/keywords/r/AskReddit" >
 <li class="btn white-text purple darken-2">AskReddit<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/todayilearned" >
