@@ -1,14 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-{% include 'header.html' %}
-<body class="blue lighten-4">{% include 'google.html' %}
+{% include 'header.html' %}<style>
+.parallax {
+  /* The image used */
+  background-image: url("static/images/head.jpg");
+
+  /* Set a specific height */
+  height: 400px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
+
+<body class="purple lighten-4">{% include 'google.html' %}
 {% include 'navbar.html' %}
    <a href="https://sites.google.com/view/eyestars/home">
-
-<div style="margin-bottom:0px"id="jumbo" class="jumbotron purple lighten-4" ><img class="responsive-img " src="/static/images/bauhau13.png"></img></a>  <h2 class="white-text">Welcome Back.</h2>
-        <p  class="white-text">Our website contains magenta.</p>
-</div>
-<div style="margin-top:0px" class="container-fluid  blue lighten-4"><h3>Be an influencer on reddit</h3><div  class="container "><form action="" method="post">
+<div style="margin-bottom:0px" class="jumbotron valign-wrapper parallax purple lighten-4"><div class="container-fluid"><div class="well-sm">
+<h1 class="orange-text ">Welcome Back.</h1></a>
+        <b><h3 class="white-text">Copypasta makes its way around the internet as users copy and paste text blurbs that appear to be spam but are posted by human users.</h3> </b></div>
+</div></div>
+<div style="margin-top:0px" class="container-fluid  purple lighten-4"><h3>Be an influencer on reddit</h3><div  class="container "><form action="" method="post">
 		            {{form.csrf}}
 <div class="input text white-text">
                 {{ form.name.label }} {{form.name}}</div>

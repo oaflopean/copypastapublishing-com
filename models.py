@@ -12,7 +12,6 @@ def load_user(id):
 
 class Result(db.Model):
     __tablename__ = 'results'
-
     id = db.Column(db.Integer, primary_key=True)
     kw = db.Column(db.String())
     sub = db.Column(db.String())

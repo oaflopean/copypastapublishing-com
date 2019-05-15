@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, url_for, redirect, flash
+
 import ebooklib
 from pymongo import MongoClient
 from mongoengine import *
 import json
 import praw
-import urllib.request
 import requests
 import os
 import glob
@@ -40,8 +40,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-from models import User, Post, Bots, Result
 from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm
+from models import User, Post, Bots, Result
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
@@ -262,7 +262,7 @@ def botpost():
    kw=req.get('kw')
    sub=req.get('sub')
    username=current_user.username
-   this_bot = Bots.query.distinct(Bots.username).first()
+   this_bot = Bots.query.filter_by(username=username).first()
    client_id=this_bot.client_id
    secret=this_bot.secret
    password=this_bot.password
@@ -272,6 +272,7 @@ def botpost():
                             user_agent='Copypasta', username=username)
      
      
-   reddit.subreddit('copypastapublishin').submit(sub, selftext=kw)    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+   reddit.subreddit('copypastapublishin').submit(sub, selftext=kw)   
+   #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
      
    return redirect('https://www.reddit.com/r/copypastapublishin/new')
