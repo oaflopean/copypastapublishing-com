@@ -10,12 +10,12 @@
                 {{ form.name.label }} {{form.name}}</div>
 <div class="input submit">
                 <input class="btn purple" type="submit" value="Submit"></div><br><br>
-</form></div></div><div class="purple container-fluid darken-4"><a class="white-text" href='/keywords/r/{{sub}}/best'>best</a> <a class="white-text" href='/keywords/r/{{sub}}/new'>new</a> <a class="white-text" href='/keywords/r/{{sub}}/hot'>hot</a><a class="white-text" href="/keywords/r/{{sub}}/top"> top </a><a class="white-text" href="/keywords/r/{{sub}}/controversial"> controversial</a><a class="white-text" href="/keywords/r/{{sub}}/rising"> rising</a>
-<div class="container responsive-txt circle purple lighten-4 " style="background-position:center;background-image: url('/static/images/lowerlogo.png');"><div class="container-fluid flow-text responsive-img">{%for self in phrases:%}
-	<li class="c0 chip white-text purple darken-2" ><a class="white-text" href="/bot/r/{{sub}}/{{self}}">{{self}}</a></li>{%endfor%}</ul>
+</form></div></div><div class="purple container-fluid darken-4">
+<div class="container responsive-txt circle purple lighten-4 " style="background-position:center;background-image: url('/static/images/lowerlogo.png');"><div class="container-fluid flow-text responsive-img"><div class="row"> {%for self in phrases:%}<form action="/bot" method="post"><div class="col-lg-6 col-sm-12 chip white-text purple darken-2" >
+	 <div class="hide">{{form2.kw(value=self)}}</div><button type="submit" class="btn hoverable btn-success">{{self}}</button><div class="hide">{{form2.sub(value=sub)}}</div></div></form>{%endfor%}
 
 
-</div>
+</div></div>
 
  <!-- Dropdown Trigger -->
         

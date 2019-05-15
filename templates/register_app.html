@@ -1,0 +1,45 @@
+    <!DOCTYPE html>
+<html lang="en">
+{% include 'header.html' %} {% include 'navbar.html' %}<div class="container">
+<h1>Register</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.app_name.label }}<br>
+            {{ form.app_name(size=64) }}<br>
+            {% for error in form.app_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+            <p>
+            {{ form.client_id.label }}<br>
+            {{ form.client_id(size=128) }}<br>
+            {% for error in form.client_id.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+                    <p>
+            {{ form.secret.label }}<br>
+            {{ form.secret(size=128) }}<br>
+            {% for error in form.secret.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password2.label }}<br>
+            {{ form.password2(size=32) }}<br>
+            {% for error in form.password2.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form></div>

@@ -47,3 +47,6 @@ relativetimebuilder==0.2.0
 WTForms==2.2.1
 flask-wtf==0.14.2
 flask-mongoengine==0.7.1
+psycopg2==2.8.2
+Flask-SQLAlchemy===2.1
+Flask-Migrate==1.8.0
