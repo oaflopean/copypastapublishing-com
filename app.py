@@ -108,11 +108,11 @@ def login():
          flash('Invalid username or password')
          return redirect(url_for('login'))
       else:
-         login_user(user, remember=form.remember_me.data)
-         next_page = request.args.get('next')
-         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('home')
-            return redirect(next_page)
+          login_user(user, remember=form.remember_me.data)
+          next_page = request.args.get('next')
+          if not next_page or url_parse(next_page).netloc != '':
+              next_page = url_for('home')
+          return redirect(next_page)
    return render_template('login.html', title='If you\'re already registered, then login now', form=form)
 
 @app.route('/logout')
@@ -197,14 +197,24 @@ def rake2(sub):
    phrasey={"titles":[],"text":[]}
    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
    form = ReusableForm(request.form)
+   if request.method == 'POST':
+       name=request.form['name']
+       return redirect('/keywords/r/'+name)
+
+   if form.validate():
+        # Save the comment here.
+       flash('Keywords from r/' + name)   
    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-   if data['data']["children"]:
-      for link in data['data']['children']:
-         phrasey["text"].append(link['data']['title'])
-         phrasey["text"].append(link['data']['selftext'])
+   if data:
+       for link in data['data']['children']:
+           phrasey["text"].append(link['data']['title'])
+      
+           phrasey["text"].append(link['data']['selftext'])
+
+
    else:
-      phrasey["text"]="There is no subreddit named "+sub
-    
+       return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=phrasey, title="Subreddit not found.")
+
    p = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
 
    p.extract_keywords_from_text(' '.join(phrasey['text']))
@@ -261,11 +271,11 @@ def botpost():
    print(req)
    kw=req.get('kw')
    sub=req.get('sub')
-   username=current_user.username
-   this_bot = Bots.query.filter_by(username=username).first()
+   this_bot = Bots.query.filter_by(username="caesarnaples2").first()
    client_id=this_bot.client_id
    secret=this_bot.secret
    password=this_bot.password
+   username=this_bot.username
    print(this_bot.client_id+this_bot.secret+this_bot.password)
    reddit = praw.Reddit(client_id=client_id,
                             client_secret=secret, password=password,
