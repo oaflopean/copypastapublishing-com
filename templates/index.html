@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-{% include 'header.html' %}<style>
-.parallax {
-  /* The image used */
-  background-image: url("static/images/7.svg");
-
-  /* Set a specific height */
-  height: 400px;
-
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-</style>
-
+{% include 'header.html' %}
 <body class="purple lighten-4">{% include 'google.html' %}
+
+
 {% include 'navbar.html' %}
-<div style="margin-bottom:0px" class="jumbotron valign-wrapper parallax purple lighten-4">
+
+      <!-- START WRAPPER -->
+<div style="background-image:url('static/images/bauhau13.png' margin-top:0px" class="jumbotron valign-wrapper parallax purple lighten-4">
 </div></div>
-<div style="margin-top:0px, margin-bottom=0px" class="container-fluid  blue lighten-4"><h3>Be an influencer on reddit</h3><div  class="container "><form action="" method="post">
+<div style="background-image:url('static/images/7.svg') margin-top:0px"class="container-fluid  blue lighten-4"><h3>Be an influencer on reddit</h3><div  class="container "><form action="" method="post">
 		            {{form.csrf}}
 <div class="input text white-text">
                 {{ form.name.label }} {{form.name}}</div>

@@ -232,9 +232,17 @@ def rake2(sub):
 def kw():     
    sub=None
    texts={}
+   title="Reddit Influencers on Multiple Subreddits"
+
    sort="new"
    form = ReusableForm(request.form)
-   title="Reddit Influencers on Multiple Subreddits"
+   if request.method == 'POST':
+       name=request.form['name']
+       return redirect('/keywords/r/'+name)
+
+   if form.validate():
+        # Save the comment here.
+       flash('Keywords from r/' + name)      
    return render_template('keywords.html',sub=sub, form=form, phrases=texts, sort=sort, title=title)
 
 

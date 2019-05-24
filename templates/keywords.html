@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include 'header.html' %}
+
 <body class="purple lighten-4">
 {% include 'google.html' %}
     {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><div class="jumbotron blue lighten-2 z-depth-4"style="margin-bottom: 0px"> <h1>{{title}} </h1></div><div style="margin-top:0px" class="container-fluid blue lighten-4 z-depth-2">
@@ -12,7 +13,7 @@
                 <input class="btn purple" type="submit" value="Submit"></div><br><br>
 </form></div></div><div class="purple container-fluid darken-4">
 <div class="nav nav-pills">{%for self in phrases:%}<form class="chip" action="/bot" method="post">
-	 <div class="hide">{{form2.kw(value=self)}}</div><button type="submit" class="btn hoverable btn-success">{{self}}</button><div class="hide">{{form2.sub(value=sub)}}</div></form>{%endfor%}
+	 <div class="hide scale-transition scale-out ">{{form2.kw(value=self)}}</div><button type="submit" class="btn scale-in hoverable btn-success ">{{self}}</button><div class="hide scale-transition scale-out ">{{form2.sub(value=sub)}}</div></form>{%endfor%}
 
 
 </div>
@@ -21,7 +22,7 @@
         
 <div class="container-fluid">
  
-<div class=" transparent purple-text "><h1>Default Subreddits</h1></div><ul class='collection  circleamber'><a class="white-text" href="/keywords/r/funny" >
+<div class=" transparent responsive-text purple-text "><h1>Default Subreddits</h1></div><ul class='collection  circleamber'><a class="white-text" href="/keywords/r/funny" >
 <li class="btn white-text purple darken-2">funny<div class="secondary-content white-text bold"></div></a><a class="white-text" href="/keywords/r/AskReddit" >
 <li class="btn white-text purple darken-2">AskReddit<div class="secondary-content white-text bold"></div></a>
 <a class="white-text" href="/keywords/r/todayilearned" >
