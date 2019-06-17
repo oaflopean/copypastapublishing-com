@@ -16,8 +16,13 @@
 <div class="input submit"><center>
                 <input class="btn   circle purple" type="submit" value="Submit"><br><br></div></center>
 </form></h1></div></div>
-<div style="margin-bottom:0px" class="jumbotron valign-wrapper parallax purple lighten-4">
+</form></div></div><div class="purple container-fluid lighten-4"><center><h3>Words and Phrases from r/writing subreddit</h3></center>
+<div class="nav nav-pills">{%for self in phrases:%}<div class="chip orange" >
+	{{self}}</div>{%endfor%}
+
+
 </div>
+
 {% include 'blog.html' %}
 </div></div>
 <div class="purple darken-4">
