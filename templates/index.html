@@ -17,8 +17,8 @@
                 <input class="btn   circle purple" type="submit" value="Submit"><br><br></div></center>
 </form></h1></div></div>
 </form></div></div><div class="purple container-fluid lighten-4"><center><h3>Words and Phrases from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
-<div class="nav nav-pills">{%for self in phrases:%}<div class="chip orange" >
-	{{self}}</div>{%endfor%}
+<div class="nav nav-pills">{%for self in phrases:%}<a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class="btn hoverable chip orange" >
+	{{self}}</div></a>{%endfor%}
 
 
 </div>
