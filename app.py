@@ -133,6 +133,13 @@ def blog():
 
     return render_template('blog-index.html', title=title)
 
+@app.route('/books')
+@login_required
+def books():
+    title="Create an Ebook"
+
+    return render_template('books.html', title=title)
+
 @app.route('/ten-minute-pitch')
 def pitch():
     title="Ten Minute Pitch: Write a Query Letter"
