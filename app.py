@@ -138,7 +138,7 @@ def blog():
 def books():
     title="Create an Ebook"
 
-    return render_template('books.html', title=title)
+    return render_template('booksO.html', title=title)
 
 @app.route('/ten-minute-pitch')
 def pitch():
@@ -176,6 +176,8 @@ def home():
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
         phrasey["body"].append(link['data']['title'])
+
+        phrasey["body"].append(link['data']['selftext'])
 
     phrases_string=' '.join(phrasey["body"])
     print(phrases_string)
