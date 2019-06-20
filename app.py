@@ -172,14 +172,12 @@ def home():
 
     phrasey={"body":[]}
 
-    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+    url = 'https://www.reddit.com/r/'+sub+'/best/.json?limit=500'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
         phrasey["body"].append(link['data']['title'])
 
-        phrasey["body"].append(link['data']['selftext'])
-
-    phrases_string=' '.join(phrasey["body"])
+    phrases_string="\n".join(phrasey["body"])
     print(phrases_string)
 
     r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
