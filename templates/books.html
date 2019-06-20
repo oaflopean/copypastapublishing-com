@@ -6,30 +6,26 @@
 {% include 'google.html' %}
    {%if current_user.username:%}<h4>Hi, {{ current_user.username }}! Begin here by adding the details of your book, and adding it to your book list.</h4>{%endif%}
     <div class="amber lighten-2 container" >
-<form>
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="title" type="text" class="validate">
-          <label for="title">Title</label>
-        </div>
-              <div class="input-field col s6">
-          <input id="author" type="text" class="validate">
-          <label for="author">Author</label>
-        </div>
-      </div>
-     
-            <div class="row">
-        <div class="input-field col s6">
-          <textarea id="dedication" class="materialize-textarea"></textarea>
-          <label for="dedication">Dedication and/or other front matter</label>
-        </div>
-                <div class="input-field col s6">
-          <textarea id="introduction" class="materialize-textarea"></textarea>
-          <label for="introduction">Introduction and/or prologue</label>
-        </div>      </div>
-    </form>
-  </div>
+
+    <form action="" method="post">
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(size=300) }}<br>
+            </p>
+        <p>
+            {{ form.author.label }}<br>
+            {{ form.author(size=300) }}<br>
+           </p>
+                <p>{{ form.submit() }}</p>
+    </form></div>
+                
         
+          
+        <ul>
+{%for titles in all_books: %}
+          <li>{{titles.books_title}} by {{titles.books_author}}</li>
+          {%endfor%}
+        </ul>
 
 
 

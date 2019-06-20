@@ -1,4 +1,3 @@
-
 import forms
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
@@ -60,3 +59,11 @@ class RegistrationAppForm(FlaskForm):
 	    user = User.query.filter_by(email=email.data).first()
 	    if user is not None:
 	        raise ValidationError('Please use a different email address.')
+
+class Title(FlaskForm):
+    title=StringField('title:', validators=[DataRequired()])
+    author=StringField('author:', validators=[DataRequired()])
+    submit=SubmitField('Submit')
+class Chapter(Form):
+    title=StringField('title:', validators=[DataRequired()])
+    text=StringField('text', validators=[DataRequired()])

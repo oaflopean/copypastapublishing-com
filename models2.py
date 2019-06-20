@@ -72,5 +72,5 @@ class Book(db.Model):
     chapters=db.Column(db.String())
 
 class Chapter(db.Model):
-    id=db.Column.Integer, primary_key=True)
+    id=db.Column(db.Integer, primary_key=True)
     book= db.Column(db.Integer)

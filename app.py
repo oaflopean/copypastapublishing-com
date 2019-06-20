@@ -40,8 +40,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm
-from models import User, Post, Bots, Result
+from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Title, Chapter
+from models import User, Post, Bots, Result, Books, Chapter
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
@@ -53,6 +53,7 @@ class Entry(Form):
     title=TextField('title:', validators=[validators.required()])
     desc=TextField('desc:', validators=[validators.required()])
     pseudonym=TextField('pseudonym:', validators=[validators.required()])
+#move to forms.py
 
 
 @app.before_request
@@ -133,12 +134,23 @@ def blog():
 
     return render_template('blog-index.html', title=title)
 
-@app.route('/books')
+@app.route('/books', methods=['GET', 'POST'])
 @login_required
-def books():
+def books2():
     title="Create an Ebook"
-
-    return render_template('booksO.html', title=title)
+    
+    form=Title()
+  
+    all_books = Books.query.filter_by(username=current_user.username).all()
+    print(all_books)
+    if form.validate_on_submit():
+        book=Books(username=current_user.username, title=form.title.data, author=form.author.data)
+        print(book.title)
+        print(book.author)
+        db.session.add(book)
+        db.session.commit()
+        return redirect(url_for('books2'))
+    return render_template('books.html', form=form, title=title, all_books=all_books)
 
 @app.route('/ten-minute-pitch')
 def pitch():
@@ -172,10 +184,11 @@ def home():
 
     phrasey={"body":[]}
 
-    url = 'https://www.reddit.com/r/'+sub+'/best/.json?limit=500'
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=1500'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
         phrasey["body"].append(link['data']['title'])
+        phrasey["body"].append(link['data']['selftext'])
 
     phrases_string="\n".join(phrasey["body"])
     print(phrases_string)
