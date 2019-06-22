@@ -1,0 +1,4 @@
+    <!DOCTYPE html>
+<html lang="en">
+{% include 'header.html' %} {% include 'navbar.html' %}<div class="container">
+<h1>Register Reddit Handle Here</h1>
