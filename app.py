@@ -298,7 +298,7 @@ def botpost():
    print(req)
    kw=req.get('kw')
    sub=req.get('sub')
-   this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+   this_bot = Bots.query.filter_by(username=current_user.username).first()
    client_id=this_bot.client_id
    secret=this_bot.secret
    password=this_bot.password
