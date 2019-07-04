@@ -63,6 +63,7 @@ class RegistrationAppForm(FlaskForm):
 class Title(FlaskForm):
     title=StringField('title:', validators=[DataRequired()])
     author=StringField('author:', validators=[DataRequired()])
+    
     submit=SubmitField('Submit')
 class Chapter(Form):
     title=StringField('title:', validators=[DataRequired()])

@@ -7,35 +7,27 @@
 {% include 'navbar.html' %}
 
       <!-- START WRAPPER -->
-<div style="background-image:url('static/images/bauhau13.png' margin-top:0px" class="jumbotron valign-wrapper parallax purple lighten-4">
-</div></div>
-<div style="background-image:url('static/images/7.svg') margin-top:0px"class="container-fluid  blue lighten-4"><h3>Be an influencer on reddit</h3><div  class="container "><form action="" method="post">
+<div style="margin-top:100px" class="container-fluid blue lighten-4"><h3>Be an influencer on reddit</h3><div  class="container "><form action="" method="post">
 		            {{form.csrf}}
 <div class="input text white-text">
                 {{ form.name.label }} {{form.name}}</div>
 <div class="input submit"><center>
                 <input class="btn   circle purple" type="submit" value="Submit"><br><br></div></center>
-</form></h1></div></div>
-</form></div></div><div class="purple container-fluid lighten-4"><center><h3>Words and Phrases from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
-<div class="nav nav-pills">{%for self in phrases:%}<a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class="btn hoverable chip orange" >
+</h1></div></form></div></div>
+<div class="purple container-fluid lighten-4"><center><h3>Words and Phrases from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
+<div class="nav nav-pills">{%for self in phrases:%}<a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class="btn hoverable chip orange flow-text" >
 	{{self}}</div></a>{%endfor%}
-
-
-</div>
-
-{% include 'blog.html' %}
 </div></div>
+<div class="container-fluid "><div class="container">
+{% include 'blog.html' %}          </div>{% include 'content.html' %}</div>
 <div class="purple darken-4">
 
 <h3><p><marquee scrollamount="30" style="margin-top:0px, margin-bottom=0px" class=" valign-wrapper white-text flow-text purple darken-2 lighten-4">
-Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</marquee></h3></p>
-</div>
+Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</marquee></p>
+</h3></div>
 
-</h2>
 
-{% include 'footer-old.html' %}</div>
-    <!-- /container --></div>
-<!-- Bootstrap core JavaScript
+{% include 'footer-old.html' %}<!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
