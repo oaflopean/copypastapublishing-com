@@ -14,18 +14,17 @@
 <div class="input submit"><center>
                 <input class="btn   circle purple" type="submit" value="Submit"><br><br></div></center>
 </h1></div></form></div></div>
-<div class="purple container-fluid lighten-4"><center><h3>Words and Phrases from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
-<div class="nav nav-pills">{%for self in phrases:%}<a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class="btn hoverable chip orange flow-text" >
-	{{self}}</div></a>{%endfor%}
+<div class="purple container-fluid lighten-4"><center><h3>Words and Phrases from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center><div class="container-fluid">
+<div class="nav nav-pills">{%for self in phrases:%}<a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class=" btn-sm hoverable chip orange flow-text" >
+	<span class="truncate">{{self}}</span></div></div></a>{%endfor%}
 </div></div>
 <div class="container-fluid "><div class="container">
-{% include 'blog.html' %}          </div>{% include 'content.html' %}</div>
-<div class="purple darken-4">
+{% include 'blog.html' %}          </div>{% include 'content.html' %}
 
-<h3><p><marquee scrollamount="30" style="margin-top:0px, margin-bottom=0px" class=" valign-wrapper white-text flow-text purple darken-2 lighten-4">
+<h3 style="background-color: purple"><p><marquee scrollamount="30" style="margin-top:0px, margin-bottom=0px" class=" valign-wrapper white-text flow-text transparent">
 Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</marquee></p>
-</h3></div>
-
+</h3>
+</div>
 
 {% include 'footer-old.html' %}<!-- Bootstrap core JavaScript
     ================================================== -->
