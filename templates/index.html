@@ -2,29 +2,45 @@
 <html lang="en">
 {% include 'header.html' %}
 <body class="purple lighten-4">{% include 'google.html' %}
+<div>
 
-
-{% include 'navbar.html' %}
-
-      <!-- START WRAPPER -->
-<div style="margin-top:100px" class="container-fluid blue lighten-4"><h3>Be an influencer on reddit</h3><div  class="container "><form action="" method="post">
+{% include 'navbar.html' %}</div><div><h1 style="margin-top:50px" class="white-text pull-left">Be an influencer on Reddit</h1>
+</div><form class="purple darken-2 jumbotron" action="" method="post">
 		            {{form.csrf}}
 <div class="input text white-text">
                 {{ form.name.label }} {{form.name}}</div>
 <div class="input submit"><center>
-                <input class="btn   circle purple" type="submit" value="Submit"><br><br></div></center>
-</h1></div></form></div></div>
-<div class="purple container-fluid lighten-4"><center><h3>Words and Phrases from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center><div class="container-fluid">
-<div class="nav nav-pills">{%for self in phrases:%}<a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class=" btn-sm hoverable chip orange flow-text" >
-	<span class="truncate">{{self}}</span></div></div></a>{%endfor%}
-</div></div>
-<div class="container-fluid "><div class="container">
-{% include 'blog.html' %}          </div>{% include 'content.html' %}
+                <input class="btn-sm   circle purple" type="submit" value="Submit"><br><br></div></center>
+</h1></div></form><div></div>
 
-<h3 style="background-color: purple"><p><marquee scrollamount="30" style="margin-top:0px, margin-bottom=0px" class=" valign-wrapper white-text flow-text transparent">
-Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</marquee></p>
+<div class="container">
+
+<div class="purple container-fluid lighten-4"><center><h3>Post titles from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
+<div class="nav nav-pills">{%for self in phrases:%}  <a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class=" btn-sm hoverable truncate chip orange" >
+	<div class="truncate"> {{self}}</div></div></div></a>{%endfor%}
+</div></div></div>
+
+
+
+<div class="container">
+{% include 'blog.html' %}    </div>
+
+<!-- Place <div> tag where you want the feed to appear -->
+<!-- Place <div> tag where you want the feed to appear -->
+<div id="curator-feed"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a></div>
+<!-- The Javascript can be moved to the end of the html page before the </body> tag -->
+<script type="text/javascript">
+/* curator-feed */
+(function(){
+var i, e, d = document, s = "script";i = d.createElement("script");i.async = 1;
+i.src = "https://cdn.curator.io/published/4e3554d8-4ba1-4ea8-8f73-6b865d6ffe88.js";
+e = d.getElementsByTagName(s)[0];e.parentNode.insertBefore(i, e);
+})();
+</script>
+<h3 style="background-color: purple"><marquee scrollamount="30" style="margin-top:0px, margin-bottom=0px" class=" valign-wrapper white-text flow-text transparent">
+Copypasta makes its way around the Internet as users copy and paste text blurbs in social media that appear as complete websites. Our authors are found blogging with concern only for the human appeal of their written works. When we finish creating a book, we use the same tools as a traditional publisher. Amazon and other premium subscription websites don't tell us what to do. We make publishing a blog captivating to audiences. We have an unlimited supply of posts from social media authors, while we build a great library for Copypasta Publishing.</marquee>
 </h3>
-</div>
+</div></div>
 
 {% include 'footer-old.html' %}<!-- Bootstrap core JavaScript
     ================================================== -->

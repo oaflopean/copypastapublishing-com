@@ -81,21 +81,41 @@ def register():
 def register_app():
    if current_user.is_authenticated:
       form = RegistrationAppForm()
-      bot_add=Bots()
-      bot_add.username=current_user.username
       if form.validate_on_submit():
 
-         bot_add.app_name=form.app_name.data
-         bot_add.client_id=form.client_id.data
-         bot_add.secret=form.secret.data
-         bot_add.password=form.password.data
-         db.session.add(bot_add)
-         db.session.commit()
-         flash("Congratulations! Your app is registered.")
-         return redirect(url_for('kw'))
-      return render_template('register_app.html', title='Register your app now', form=form)
+        olduser= User.query.filter_by(username=current_user.username)
+           
+        if olduser:
+            bot_add=Bots.query.filter_by(username=current_user.username).first()
+            bot_add.app_name=form.app_name.data
+            bot_add.client_id=form.client_id.data
+            bot_add.secret=form.secret.data
+            bot_add.password=form.password.data
+            db.session.add(bot_add)
+            db.session.update(bot_add)
+            reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
+                              client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
+
+            reddit(subreddit("copypastapublishin").add_moderator("copypastapublishin", current_user.username))
+            return redirect(url_for('keywords'))
+
+        else:
+            bot_add=Bots()
+            bot_add.username=current_user.username
+            bot_add.app_name=form.app_name.data
+            bot_add.client_id=form.client_id.data
+            bot_add.secret=form.secret.data
+            db.session.add(bot_add)
+            db.session.commit()
+            reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
+                              client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
+
+            reddit(subreddit("copypastapublishin").add_moderator("copypastapublishin", current_user.username))
+            flash("Congratulations! Your app is registered.")
+            return redirect(url_for('kw'))
+        return render_template('register_app.html', title='Register your app now', form=form)
    else:
-      return redirect(url_for('login'))
+       return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -189,16 +209,16 @@ def home():
     for link in data['data']['children']:
         phrasey["body"].append(link['data']['title'])
 
-    phrases_string="\n".join(phrasey["body"])
-    print(phrases_string)
+  #  phrases_string="\n".join(phrasey["body"])
+   #print(phrases_string)
 
-    r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+    #r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
 
-    r.extract_keywords_from_text(phrases_string)
+    #r.extract_keywords_from_text(phrases_string)
 
-    phrases=r.get_ranked_phrases()
+    #phrases=r.get_ranked_phrases()
     title=title
-    return render_template('index.html', phrases=phrases, form=form, title=title)
+    return render_template('index.html', phrases=phrasey["body"], form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
@@ -299,7 +319,10 @@ def botpost():
    kw=req.get('kw')
    sub=req.get('sub')
    this_bot = Bots.query.filter_by(username=current_user.username).first()
-   client_id=this_bot.client_id
+   try:
+       client_id=this_bot.client_id
+   except AttributeError:
+       return redirect("register/app")
    secret=this_bot.secret
    password=this_bot.password
    username=this_bot.username
@@ -309,7 +332,11 @@ def botpost():
                             user_agent='Copypasta', username=username)
      
      
-   reddit.subreddit('copypastapublishin').submit(sub, selftext=kw)   
+   try:
+       reddit.subreddit('copypastapublishin').submit(sub, selftext=kw)   
+
+   except praw.exceptions.APIException:
+       return redirect("keywords/r/sub") 
    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
      
    return redirect('https://www.reddit.com/r/copypastapublishin/new')
