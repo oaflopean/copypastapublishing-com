@@ -31,16 +31,15 @@ app = Flask(__name__)
 
 
 
-app = Flask(__name__)
 login = LoginManager(app)
 login.login_view = 'login'
 app.config['SQLALCHEMY_DATABASE_URI']="postgresql://doadmin:t264wg0yfx9d6sf7@copy-com1234-do-user-4689509-0.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
 app.config['STATIC_FOLDER']='static/'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Title, Chapter
+from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
 from models import User, Post, Bots, Result, Books, Chapter
 
 class ReusableForm(Form):
@@ -91,13 +90,15 @@ def register_app():
             bot_add.client_id=form.client_id.data
             bot_add.secret=form.secret.data
             bot_add.password=form.password.data
-            db.session.add(bot_add)
-            db.session.update(bot_add)
+            #db.session.add(bot_add)
+            db.session.commit()
             reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                               client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
-
-            reddit(subreddit("copypastapublishin").add_moderator("copypastapublishin", current_user.username))
-            return redirect(url_for('keywords'))
+            try:
+                reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
+            except praw.exceptions.APIException:
+                flash("Congratulations! Your app is registered.")
+            return redirect(url_for('kw'))
 
         else:
             bot_add=Bots()
@@ -109,11 +110,12 @@ def register_app():
             db.session.commit()
             reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                               client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
-
-            reddit(subreddit("copypastapublishin").add_moderator("copypastapublishin", current_user.username))
-            flash("Congratulations! Your app is registered.")
+            try:
+                reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
+            except praw.exceptions.APIException:
+                flash("Congratulations! Your app is registered.")
             return redirect(url_for('kw'))
-        return render_template('register_app.html', title='Register your app now', form=form)
+      return render_template('register_app.html', title='Register your app now', form=form)
    else:
        return redirect(url_for('login'))
 
@@ -154,23 +156,38 @@ def blog():
 
     return render_template('blog-index.html', title=title)
 
+@app.route('/books/novel?=<uri>', methods=['GET', 'POST'])
+@login_required
+def books1():
+    all_books = Books.query.filter_by(uri=req.uri.data).all()
+
+    return redirect(books2(title="Single Book", all_books=all_books))
+
+
 @app.route('/books', methods=['GET', 'POST'])
 @login_required
 def books2():
     title="Create an Ebook"
+
     
-    form=Title()
-  
+    form=Titles()
     all_books = Books.query.filter_by(username=current_user.username).all()
+
     print(all_books)
     if form.validate_on_submit():
-        book=Books(username=current_user.username, title=form.title.data, author=form.author.data)
-        print(book.title)
-        print(book.author)
+        print("validated")
+        book=Books()
+        book.title=form.title.data
+        book.author=form.author.data
+        book.description=form.description.data
+        book.username=current_user.username
+        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+        passlen = 13
+        book.uri =  "".join(random.sample(s,passlen ))
         db.session.add(book)
         db.session.commit()
         return redirect(url_for('books2'))
-    return render_template('books.html', form=form, title=title, all_books=all_books)
+    return render_template('books.html', form=form, title=title, chapters=all_books)
 
 @app.route('/ten-minute-pitch')
 def pitch():
@@ -204,7 +221,7 @@ def home():
 
     phrasey={"body":[]}
 
-    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=1500'
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=10'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
         phrasey["body"].append(link['data']['title'])
@@ -336,7 +353,7 @@ def botpost():
        reddit.subreddit('copypastapublishin').submit(sub, selftext=kw)   
 
    except praw.exceptions.APIException:
-       return redirect("keywords/r/sub") 
+       return redirect("keywords/r/"+sub) 
    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
      
    return redirect('https://www.reddit.com/r/copypastapublishin/new')

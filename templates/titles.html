@@ -1,0 +1,28 @@
+
+      <div class="container">
+ 
+<ul class="collapsible">
+
+{%for titles in chapters: %}         
+          
+  <li>
+    <div class="collapsible-header">
+      <i class="material-icons">book</i>
+ <ul><li><h5>{{titles.title}}</h5></li><li>   by <span style="font-style: italic">{{titles.author}}</span></li></ul> <div class="container grey   flow-text lighten-3"><p>{{titles.description}}</p></div></div>
+
+   <div class="collapsible-body amber darken-2">
+     
+ <ul class="collection with-header">
+        <li class="collection-header"><h4>Chapters</h4></li>
+        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+      </ul>
+            
+
+   </div>
+  </li>
+  {%endfor%}
+  <ul>
+</div>

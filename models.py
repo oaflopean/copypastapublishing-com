@@ -42,8 +42,8 @@ class Bots(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64),  db.ForeignKey('user.username'))
     app_name= db.Column(db.String(128))
-    client_id= db.Column(db.String(128),unique=True)
-    secret= db.Column(db.String(128),unique=True)
+    client_id= db.Column(db.String(128))
+    secret= db.Column(db.String(128))
     password= db.Column(db.String(128))
 
     def __repr__(self):
@@ -63,16 +63,23 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
 class Books(db.Model):
-    __tablename__='books'
-    id  = db.Column(db.Integer, primary_key=True)
+    __tablename__='books' 
+    id  = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(300))
     author=db.Column(db.String(300))
-    username = db.Column(db.String(64))
-    chapters=db.relationship('Chapter',backref='book_id	', lazy='dynamic')
-
+    username = db.Column(db.String(64), db.ForeignKey('user.username'))
+    description = db.Column(db.String())
+    uri=db.Column(db.String())
+            
+    def __repr__(self):
+        return '<Books {}>'.format(self.title)
+        
 class Chapter(db.Model):
-    __tablename__='chapter'
-    id=db.Column(db.Integer, primary_key=True)
-    book= db.Column(db.Integer, db.ForeignKey('books.id'))
-    text=db.Column(db.String())
+    __tablename__= 'chapter'
+    id = db.Column(db.Integer(), primary_key=True)
+    parent_id = db.Column(db.Integer(), db.ForeignKey('books.id'))
+    text = db.Column(db.String())
+    uri=db.Column(db.String(), unique=True)
+
