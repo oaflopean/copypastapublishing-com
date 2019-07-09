@@ -173,9 +173,9 @@ def books2():
         book.author=form.author.data
         book.description=form.description.data
         book.username=current_user.username
-        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
-        passlen = 13
-        book.uri =  "".join(random.sample(s,passlen ))
+        #s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+        #passlen = 13
+        #book.uri =  "".join(random.sample(s,passlen ))
 
         kw=book.description
         title=book.title
@@ -284,12 +284,13 @@ def rake2(sub):
    if data:
        for link in data['data']['children']:
            uri=link['data']['permalink']
-           p = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+           title2=link['data']['title']
+           p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
            p.extract_keywords_from_text(link['data']['title'])
            p.extract_keywords_from_text(link['data']['selftext'])
             # To get keyword phrases ranked highest to lowest
            for post in p.get_ranked_phrases():
-               texts.append(RedditPost(uri=uri, body=post))
+               texts.append(RedditPost(uri=uri, body=post, title=title2))
 
    else:
        return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=phrasey, title="Subreddit not found.")

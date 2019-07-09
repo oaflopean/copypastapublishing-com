@@ -14,7 +14,7 @@
 </form></div></div><div class="purple container-fluid darken-4">
 {%for self in phrases:%}<form class="chip" action="/bot" method="post">
 	 <div class="hide  ">{{form2.kw(value="["+self.body+"](https://www.reddit.com/"+self.uri+")")}}</div><button type="submit" class="btn  scale-in hoverable btn-success "><div class="truncate">
-     {{self.body}}</div></button><div class="hide ">{{form2.sub(value=sub)}}</div></form>{%endfor%}
+     {{self.body}}</div></button><div class="hide ">{{form2.sub(value=self.title)}}</div></form>{%endfor%}
 
 
 </div>
