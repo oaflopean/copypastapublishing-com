@@ -315,6 +315,11 @@ def rake2(sub):
 @app.route('/keywords', methods=["POST", "GET"])
 def kw():     
    sub=None
+   url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
+
+   data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+   subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+
    texts={}
    title="Reddit Influencers on Multiple Subreddits"
 
@@ -327,7 +332,7 @@ def kw():
    if form.validate():
         # Save the comment here.
        flash('Keywords from r/' + name)      
-   return render_template('keywords.html',sub=sub, form=form, phrases=texts, sort=sort, title=title)
+   return render_template('keywords.html',sub=sub,subs=subs, form=form, phrases=texts, sort=sort, title=title)
 
 
 @app.errorhandler(404)
