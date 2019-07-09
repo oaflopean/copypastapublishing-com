@@ -167,7 +167,6 @@ def books2():
 
     print(all_books)
     if form.validate_on_submit():
-        print("validated")
         book=Books()
         book.title=form.title.data
         book.author=form.author.data
@@ -188,7 +187,6 @@ def books2():
         secret=this_bot.secret
         password=this_bot.password
         username=this_bot.username
-        print(this_bot.client_id+this_bot.secret+this_bot.password)
         reddit = praw.Reddit(client_id=client_id,
                                 client_secret=secret, password=password,
                                 user_agent='Copypasta', username=username)
@@ -228,7 +226,10 @@ def home():
     sub="writing"
     title="Copypasta Publishing: Social Media Marketing"
     form = ReusableForm(request.form)
-
+    url2 = 'https://www.reddit.com/api/trending_subreddits/.json?limit=100'
+    
+    data2= requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    print(data2)
     if request.method == 'POST':
         name=request.form['name']
         return redirect('/keywords/r/'+name)
@@ -237,7 +238,7 @@ def home():
         # Save the comment here.
         flash('Keywords from r/' + name)
     posts=[] 
-
+    subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
     url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=10'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
@@ -257,7 +258,7 @@ def home():
     #phrases=r.get_ranked_phrases()
     title=title
     print(posts)
-    return render_template('index.html', phrases=posts, form=form, title=title)
+    return render_template('index.html', subs=subs, phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
@@ -272,6 +273,7 @@ def rake2(sub):
       return redirect(url_for('rake2', sub=sub))
    title="Reddit Influencers on r/"+sub
    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+   url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
    form = ReusableForm(request.form)
    if request.method == 'POST':
        name=request.form['name']
@@ -281,6 +283,9 @@ def rake2(sub):
         # Save the comment here.
        flash('Keywords from r/' + name)   
    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+   data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+   print(data2.keys())
+   print(data2["subreddit_names"])
    if data:
        for link in data['data']['children']:
            uri=link['data']['permalink']
@@ -294,12 +299,16 @@ def rake2(sub):
                texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
    
    else:
-       return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=phrasey, title="Subreddit not found.")
+       subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+
+       return render_template('keywords.html',sub=sub,form=form,  form2=form2, subs=subs, phrases=phrasey, title="Subreddit not found.")
    texts=sorted(texts, key=attrgetter('integer'), reverse=True)
    print(texts)
+   subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+
                 # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
                 # return render_template('entries.html', entries=json
-   return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=texts, title=title)
+   return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=texts, subs=subs, title=title)
 
     
     
@@ -328,7 +337,6 @@ def page_not_found(error):
 def library():
 
     r=glob.glob("texts/*")
-    print(r)
     r=random.sample(r, len(r))
     d={"text":[]}
     for a in r:
@@ -351,7 +359,6 @@ def library():
 @app.route('/bot', methods=["POST"])
 def botpost():
    req=request.values
-   print(req)
    kw=req.get('kw')
    sub=req.get('sub')
    this_bot = Bots.query.filter_by(username="caesarnaples2").first()
@@ -362,7 +369,6 @@ def botpost():
    secret=this_bot.secret
    password=this_bot.password
    username=this_bot.username
-   print(this_bot.client_id+this_bot.secret+this_bot.password)
    reddit = praw.Reddit(client_id=client_id,
                             client_secret=secret, password=password,
                             user_agent='Copypasta', username=username)

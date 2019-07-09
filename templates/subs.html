@@ -1,25 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-{% include 'header.html' %}
-
-<body class="purple lighten-4">
-{% include 'google.html' %}
-    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action 
-
- <!-- Dropdown Trigger -->
         
 <div class="container-fluid">
-<div class=" transparent responsive-text purple-text "><h1>Default Subreddits</h1></div>
-{%for sub in names:%}<ul class='collection  circleamber'><a class="white-text" href="/keywords/r/"+{{sub}}>
-<li class="btn white-text purple darken-2">{{sub}}<div class="secondary-content white-text bold"></div></a>
-    		    	</div></div>
-{% include 'footer-old.html' %}
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script
-        src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
-   <!-- /btn white-text purple darken-2 -->
-
-  </body>
-</html>
+<div class=" transparent responsive-text purple-text "><h1>Trending Subreddits</h1></div><ul class='collection  circleamber'>
+{%for sub in subs:%}<a class="white-text" href="/keywords/r/{{sub}}">
+<li class="btn white-text purple darken-2">{{sub}}<div class="secondary-content white-text bold"></div></a></li>{%endfor%}}</a></ul></div>
