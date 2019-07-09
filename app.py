@@ -19,7 +19,7 @@ from wtforms import StringField
 from rake_nltk import Rake
 from wtforms.validators import DataRequired
 from datetime import datetime
-
+from operator import itemgetter, attrgetter, methodcaller
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_login import current_user, login_user
@@ -289,20 +289,21 @@ def rake2(sub):
            p.extract_keywords_from_text(link['data']['title'])
            p.extract_keywords_from_text(link['data']['selftext'])
             # To get keyword phrases ranked highest to lowest
-           for post in p.get_ranked_phrases():
-               texts.append(RedditPost(uri=uri, body=post, title=title2))
-
+           for post in p.get_ranked_phrases_with_scores():
+               print(post)
+               texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
+   
    else:
        return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=phrasey, title="Subreddit not found.")
-
+   texts=sorted(texts, key=attrgetter('integer'), reverse=True)
+   print(texts)
                 # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
-                # return render_template('entries.html', entries=json)
+                # return render_template('entries.html', entries=json
    return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=texts, title=title)
 
     
     
 @app.route('/keywords', methods=["POST", "GET"])
-@login_required
 def kw():     
    sub=None
    texts={}

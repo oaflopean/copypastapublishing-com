@@ -89,6 +89,7 @@ class RedditPost(db.Model):
     uri = db.Column(db.String(), unique=True)
     title=db.Column(db.String())
     body = db.Column(db.String())
+    integer=db.Column(db.Integer())
             
     def __repr__(self):
         return '<RedditPost {}>'.format(self.uri)
