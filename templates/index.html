@@ -16,8 +16,8 @@
 <div class="container">
 
 <div class="purple container-fluid lighten-4"><center><h3>Post titles from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
-<div class="nav nav-pills">{%for self in phrases:%}  <a href="https://www.reddit.com/r/writing/search/?q={{self}}&restrict_sr=1"><div class=" zdepth-4 hoverable card-sm orange"><h4 class="truncate  " >
-	 {{self}}</h4></div></a>{%endfor%}
+<div class="nav nav-pills">{%for self in phrases:%}  <a href="{{self.uri}}"><div class=" zdepth-4 hoverable card-sm orange"><h4 class="truncate  " >
+	 {{self.body}}</h4></div></a>{%endfor%}
 </div></div></div>
 
 

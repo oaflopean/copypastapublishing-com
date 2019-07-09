@@ -40,7 +40,7 @@ app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
-from models import User, Post, Bots, Result, Books, Chapter
+from models import User, Post, Bots, Result, Books, Chapter, RedditPost
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
@@ -176,8 +176,7 @@ def books2():
         s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
         passlen = 13
         book.uri =  "".join(random.sample(s,passlen ))
-        db.session.add(book)
-        db.session.commit()
+
         kw=book.description
         title=book.title
         author=book.author
@@ -196,12 +195,14 @@ def books2():
          
          
         try:
-           reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw)   
-
+           uri=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).url   
+           book.uri=uri
+           db.session.add(book)
+           db.session.commit()
         except praw.exceptions.APIException:
            return redirect("keywords/r/"+sub) 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-         
+        
         return redirect('https://www.reddit.com/r/publishcopypasta/new')
 
         return redirect(url_for('books2'))
@@ -235,16 +236,18 @@ def home():
     if form.validate():
         # Save the comment here.
         flash('Keywords from r/' + name)
-     
-
-    phrasey={"body":[]}
+    posts=[] 
 
     url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=10'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
-        phrasey["body"].append(link['data']['title'])
+            
+        phrasey=RedditPost()
 
-  #  phrases_string="\n".join(phrasey["body"])
+        phrasey.uri="https://www.reddit.com/"+link['data']['permalink']
+        phrasey.body=link['data']['title']
+        posts.append(phrasey)
+        #  phrases_string="\n".join(phrasey["body"])
    #print(phrases_string)
 
     #r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
@@ -253,7 +256,8 @@ def home():
 
     #phrases=r.get_ranked_phrases()
     title=title
-    return render_template('index.html', phrases=phrasey["body"], form=form, title=title)
+    print(posts)
+    return render_template('index.html', phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
@@ -267,33 +271,29 @@ def rake2(sub):
 
       return redirect(url_for('rake2', sub=sub))
    title="Reddit Influencers on r/"+sub
-   phrasey={"titles":[],"text":[]}
    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
    form = ReusableForm(request.form)
    if request.method == 'POST':
        name=request.form['name']
        return redirect('/keywords/r/'+name)
-
+   texts=[]
    if form.validate():
         # Save the comment here.
        flash('Keywords from r/' + name)   
    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
    if data:
        for link in data['data']['children']:
-           phrasey["text"].append(link['data']['title'])
-      
-           phrasey["text"].append(link['data']['selftext'])
-
+           uri=link['data']['permalink']
+           p = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+           p.extract_keywords_from_text(link['data']['title'])
+           p.extract_keywords_from_text(link['data']['selftext'])
+            # To get keyword phrases ranked highest to lowest
+           for post in p.get_ranked_phrases():
+               texts.append(RedditPost(uri=uri, body=post))
 
    else:
        return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=phrasey, title="Subreddit not found.")
 
-   p = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
-
-   p.extract_keywords_from_text(' '.join(phrasey['text']))
-
-   texts=p.get_ranked_phrases() # To get keyword phrases ranked highest to lowest
-     
                 # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
                 # return render_template('entries.html', entries=json)
    return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=texts, title=title)

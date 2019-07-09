@@ -81,5 +81,15 @@ class Chapter(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     parent_id = db.Column(db.Integer(), db.ForeignKey('books.id'))
     text = db.Column(db.String())
-    uri=db.Column(db.String(), unique=True)
+    uri=db.Column(db.String(), db.ForeignKey('redditpost.uri'))
 
+class RedditPost(db.Model):
+    __tablename__='redditpost' 
+    id  = db.Column(db.Integer(), primary_key=True)
+    uri = db.Column(db.String(), unique=True)
+    title=db.Column(db.String())
+    body = db.Column(db.String())
+            
+    def __repr__(self):
+        return '<RedditPost {}>'.format(self.uri)
+       
