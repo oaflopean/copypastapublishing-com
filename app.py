@@ -156,14 +156,6 @@ def blog():
 
     return render_template('blog-index.html', title=title)
 
-@app.route('/books/novel?=<uri>', methods=['GET', 'POST'])
-@login_required
-def books1():
-    all_books = Books.query.filter_by(uri=req.uri.data).all()
-
-    return redirect(books2(title="Single Book", all_books=all_books))
-
-
 @app.route('/books', methods=['GET', 'POST'])
 @login_required
 def books2():
@@ -171,7 +163,7 @@ def books2():
 
     
     form=Titles()
-    all_books = Books.query.filter_by(username=current_user.username).all()
+    all_books = Books.query.filter_by().order_by(Books.id.desc()).all()
 
     print(all_books)
     if form.validate_on_submit():
@@ -186,6 +178,32 @@ def books2():
         book.uri =  "".join(random.sample(s,passlen ))
         db.session.add(book)
         db.session.commit()
+        kw=book.description
+        title=book.title
+        author=book.author
+        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        try:
+           client_id=this_bot.client_id
+        except AttributeError:
+           return redirect("register/app")
+        secret=this_bot.secret
+        password=this_bot.password
+        username=this_bot.username
+        print(this_bot.client_id+this_bot.secret+this_bot.password)
+        reddit = praw.Reddit(client_id=client_id,
+                                client_secret=secret, password=password,
+                                user_agent='Copypasta', username=username)
+         
+         
+        try:
+           reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw)   
+
+        except praw.exceptions.APIException:
+           return redirect("keywords/r/"+sub) 
+        #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+         
+        return redirect('https://www.reddit.com/r/publishcopypasta/new')
+
         return redirect(url_for('books2'))
     return render_template('books.html', form=form, title=title, chapters=all_books)
 
@@ -239,7 +257,6 @@ def home():
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
-@login_required
 def rake2(sub):
    post={}
    form2=PostForm()
@@ -335,7 +352,7 @@ def botpost():
    print(req)
    kw=req.get('kw')
    sub=req.get('sub')
-   this_bot = Bots.query.filter_by(username=current_user.username).first()
+   this_bot = Bots.query.filter_by(username="caesarnaples2").first()
    try:
        client_id=this_bot.client_id
    except AttributeError:
