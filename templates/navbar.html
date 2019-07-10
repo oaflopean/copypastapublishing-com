@@ -10,8 +10,8 @@
               </button>
               <a  href="/"><img class="resize_logo" src="/static/images/lowerlogo.png" class="card z-depth-4"/></a>
             </div>
-            <div id="navbar" class=" pull-right navbar-collapse collapse"><div class="transparent darken-2 purple-text text-darken-3 card">
-              <ul class="nav navbar-nav center">    {%if current_user.username:%}<li><h4>Hi, {{ current_user.username }}!</h4></li>{%endif%}
+            <div id="navbar" class=" pull-right navbar-collapse collapse"><div class="purple darken-4 lighten-2 purple-text text-darken-3 card">
+              <ul class=" navbar-nav ">    {%if current_user.username:%}<li><h4>Hi, {{ current_user.username }}!</h4></li>{%endif%}
 
                     <li ><a  class="white-text text-darken-3" href="/"><big>Introduction</big></a>
 </li>
@@ -24,5 +24,4 @@
        <li><a  class="white-text text-darken-3" href="{{ url_for('logout') }}"><big>Logout</big></a></li>
         {% endif %}
 
-              </ul></div></div></div></nav>
-</div>
+              </ul></div></div></nav>
