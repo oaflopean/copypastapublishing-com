@@ -45,7 +45,6 @@ from models import User, Post, Bots, Result, Books, Chapter, RedditPost
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
 
-  Data to serve with our AP
 class Entry(Form):
     first=TextField('first:', validators=[validators.required()])
     last=TextField('last:', validators=[validators.required()])
