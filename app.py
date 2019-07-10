@@ -44,14 +44,15 @@ from models import User, Post, Bots, Result, Books, Chapter, RedditPost
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
-
+#
+# # Data to serve with our AP
 class Entry(Form):
     first=TextField('first:', validators=[validators.required()])
     last=TextField('last:', validators=[validators.required()])
     title=TextField('title:', validators=[validators.required()])
     desc=TextField('desc:', validators=[validators.required()])
     pseudonym=TextField('pseudonym:', validators=[validators.required()])
-move to forms.py
+#move to forms.py
 
 
 @app.before_request
@@ -89,7 +90,7 @@ def register_app():
             bot_add.client_id=form.client_id.data
             bot_add.secret=form.secret.data
             bot_add.password=form.password.data
-            db.session.add(bot_add)
+            #db.session.add(bot_add)
             db.session.commit()
             reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
                               client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
@@ -225,7 +226,7 @@ def books2():
           book.username=current_user.username
         except AttributeError:
           book.username="caesarnaples2"
-        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@$^&*()"
+        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()"
         passlen = 12
         book.uri =  "".join(random.sample(s,passlen ))
 
@@ -258,7 +259,7 @@ def books2():
           
         except praw.exceptions.APIException:
            return redirect("admin?="+book.uri) 
-        reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+        #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
         return render_template('admin.html',username=username, content=Books.query.filter_by(uri=book.uri).all()
 )
@@ -294,7 +295,7 @@ def home():
         return redirect('/keywords/r/'+name)
 
     if form.validate():
-         Save the comment here.
+        # Save the comment here.
         flash('Keywords from r/' + name)
     posts=[] 
     subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
@@ -307,14 +308,14 @@ def home():
         phrasey.uri="https://www.reddit.com/"+link['data']['permalink']
         phrasey.body=link['data']['title']
         posts.append(phrasey)
-          phrases_string="\n".join(phrasey["body"])
-   print(phrases_string)
+        #  phrases_string="\n".join(phrasey["body"])
+   #print(phrases_string)
 
-    r = Rake()  Uses stopwords for english from NLTK, and all puntuation characters.
+    #r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
 
-    r.extract_keywords_from_text(phrases_string)
+    #r.extract_keywords_from_text(phrases_string)
 
-    phrases=r.get_ranked_phrases()
+    #phrases=r.get_ranked_phrases()
     title=title
     print(posts)
     return render_template('index.html', subs=subs, phrases=posts, form=form, title=title)
@@ -339,7 +340,7 @@ def rake2(sub):
        return redirect('/keywords/r/'+name)
    texts=[]
    if form.validate():
-         Save the comment here.
+        # Save the comment here.
        flash('Keywords from r/' + name)   
    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
    data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
@@ -349,10 +350,10 @@ def rake2(sub):
        for link in data['data']['children']:
            uri=link['data']['permalink']
            title2=link['data']['title']
-           p = Rake(min_length=2)  Uses stopwords for english from NLTK, and all puntuation characters.
+           p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
            p.extract_keywords_from_text(link['data']['title'])
            p.extract_keywords_from_text(link['data']['selftext'])
-             To get keyword phrases ranked highest to lowest
+            # To get keyword phrases ranked highest to lowest
            for post in p.get_ranked_phrases_with_scores():
                print(post)
                texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
@@ -365,8 +366,8 @@ def rake2(sub):
    print(texts)
    subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
 
-                 json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
-                 return render_template('entries.html', entries=json
+                # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
+                # return render_template('entries.html', entries=json
    return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=texts, subs=subs, title=title)
 
     
@@ -389,7 +390,7 @@ def kw():
        return redirect('/keywords/r/'+name)
 
    if form.validate():
-         Save the comment here.
+        # Save the comment here.
        flash('Keywords from r/' + name)      
    return render_template('keywords.html',sub=sub,subs=subs, form=form, phrases=texts, sort=sort, title=title)
 
@@ -443,8 +444,8 @@ def botpost():
 
    except praw.exceptions.APIException:
        return redirect("keywords/r/"+sub) 
-   reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@$^&*()?"
+   #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()?"
    passlen = 12
    p =  "".join(random.sample(s,passlen ))
 
