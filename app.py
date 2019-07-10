@@ -33,7 +33,7 @@ app = Flask(__name__)
 
 login = LoginManager(app)
 login.login_view = 'login'
-app.config['SQLALCHEMY_DATABASE_URI']="postgresql://doadmin:t264wg0yfx9d6sf7@copy-com1234-do-user-4689509-0.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql://doadmin:t264wg0yfx9d6sf7@copy-com1234-do-user-4689509-0.db.ondigitalocean.com:25060/cp-admin?sslmode=require"
 app.config['STATIC_FOLDER']='static/'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
@@ -82,7 +82,7 @@ def register_app():
       form = RegistrationAppForm()
       if form.validate_on_submit():
 
-        olduser= User.query.filter_by(username=current_user.username)
+        olduser= Bots.query.filter_by(username=current_user.username).first()
            
         if olduser:
             bot_add=Bots.query.filter_by(username=current_user.username).first()
@@ -152,9 +152,56 @@ def make_shell_context():
 
 @app.route('/blog')
 def blog():
+    
     title="Editor Blog: Jordan Jones"
-
     return render_template('blog-index.html', title=title)
+
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin1():
+    username=current_user.username
+    if request.args.get("uri", default=None, type=str)!=None:
+        uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).all()
+        return render_template('admin.html', username=username, content=uri_type)
+    else:
+        uri_type=RedditPost.query.all()
+        return render_template('admin.html', username=username, content=uri_type)
+      
+@app.route('/admin2', methods=['GET', 'POST'])
+@login_required    
+def admin2(type_of):   
+    username=current_user.username
+    req.args.get(uri)
+    uri_type=RedditPost.query.filter_by(uri=type_of).first()
+    return render_template('admin.html', username=username, content=uri_type)
+   
+@app.route('/admin/<kind>', methods=['GET', 'POST'])
+@login_required
+def admin3(kind):
+  username=current_user.username
+
+  if kind=="books":
+      
+      book = Books.query.filter().all()
+      print(book)
+      return render_template('admin.html',username=username, content=book)
+  if kind=="chapters":
+      uris=[]
+
+      chapters = RedditPost.query.join(Chapter).filter(Chapter.uri == RedditPost.uri).all()
+      
+      print(chapters)
+
+      return render_template('admin.html', username=username, content=chapter)
+  if kind=="user":
+      content={"content":User.query.join(RedditPost).all()}
+      
+      for post in content["content"]:
+          content["posts"]= RedditPost.query.join(User).all()
+      return render_template('admin.html', username=username,content=content["content"], posts=content["posts"])
+    
+
+
 
 @app.route('/books', methods=['GET', 'POST'])
 @login_required
@@ -163,18 +210,16 @@ def books2():
 
     
     form=Titles()
-    all_books = Books.query.filter_by().order_by(Books.id.desc()).all()
 
-    print(all_books)
     if form.validate_on_submit():
         book=Books()
         book.title=form.title.data
         book.author=form.author.data
         book.description=form.description.data
         book.username=current_user.username
-        #s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
-        #passlen = 13
-        #book.uri =  "".join(random.sample(s,passlen ))
+        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+        passlen = 13
+        book.uri =  "".join(random.sample(s,passlen ))
 
         kw=book.description
         title=book.title
@@ -189,22 +234,26 @@ def books2():
         username=this_bot.username
         reddit = praw.Reddit(client_id=client_id,
                                 client_secret=secret, password=password,
-                                user_agent='Copypasta', username=username)
+                                user_agent='Copypasta', username="caesarnaples2")
          
          
         try:
-           uri=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).url   
-           book.uri=uri
+           reddit_url=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).url   
+           
+
+           post=RedditPost(uri=book.uri,reddit_url=reddit_url,  title=book.title, body=book.description, username=book.username)
+           book.reddit_url=reddit_url
            db.session.add(book)
            db.session.commit()
+           db.session.add(post)
+           db.session.commit()
         except praw.exceptions.APIException:
-           return redirect("keywords/r/"+sub) 
+           return redirect("admin/books") 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
-        return redirect('https://www.reddit.com/r/publishcopypasta/new')
+        return render_template('admin.html',username=username, content=post)
 
-        return redirect(url_for('books2'))
-    return render_template('books.html', form=form, title=title, chapters=all_books)
+    return render_template('books.html', form=form, title=title)
 
 @app.route('/ten-minute-pitch')
 def pitch():
@@ -380,10 +429,16 @@ def botpost():
      
      
    try:
-       reddit.subreddit('copypastapublishin').submit(sub, selftext=kw)   
+       url=reddit.subreddit('copypastapublishin').submit(sub, selftext=kw).permalink 
 
    except praw.exceptions.APIException:
        return redirect("keywords/r/"+sub) 
    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-     
-   return redirect('https://www.reddit.com/r/copypastapublishin/new')
+   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+   passlen = 12
+   p =  "".join(random.sample(s,passlen ))
+
+   post=RedditPost(reddit_url=url,uri=p, body=kw, title=sub, username=current_user.username)
+   db.session.add(post)
+   db.session.commit()
+   return redirect('/admin?uri='+p)

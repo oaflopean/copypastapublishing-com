@@ -71,10 +71,14 @@ class Books(db.Model):
     author=db.Column(db.String(300))
     username = db.Column(db.String(64), db.ForeignKey('user.username'))
     description = db.Column(db.String())
-    uri=db.Column(db.String())
-            
+    uri=db.Column(db.String(), db.ForeignKey('redditpost.uri'))
+
     def __repr__(self):
-        return '<Books {}>'.format(self.title)
+        try:
+            string='Book: {}>'.format(self.title+" by "+self.author+"\n"+self.description)
+        except TypeError:
+            string='Book: {}>'.format(self.title)
+        return string
         
 class Chapter(db.Model):
     __tablename__= 'chapter'
@@ -82,15 +86,22 @@ class Chapter(db.Model):
     parent_id = db.Column(db.Integer(), db.ForeignKey('books.id'))
     text = db.Column(db.String())
     uri=db.Column(db.String(), db.ForeignKey('redditpost.uri'))
+    username=db.Column(db.String(64), db.ForeignKey("user.username"))
 
 class RedditPost(db.Model):
     __tablename__='redditpost' 
     id  = db.Column(db.Integer(), primary_key=True)
     uri = db.Column(db.String(), unique=True)
+    reddit_url=db.Column(db.String())
     title=db.Column(db.String())
     body = db.Column(db.String())
     integer=db.Column(db.Integer())
+    username=db.Column(db.String(64), db.ForeignKey("user.username"))
             
     def __repr__(self):
-        return '<RedditPost {}>'.format(self.uri)
-       
+        try:
+            string='POST: {}'.format(self.title + " <a href=\"admin?uri="+self.uri+"\">"+self.body+"</a>")
+            return string
+        except TypeError:
+            string='POST: {}'.format(self.id)
+            return string
