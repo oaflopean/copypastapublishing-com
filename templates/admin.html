@@ -313,11 +313,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="container">
               <div class="row">
                 <div class="col s10 m6 l6">
-                  <h5 class="breadcrumbs-title">  {%if uri:%}URI Post{%endif%}{%if kind:%}{{kind}} </h5>{%endif%}
+                  <h5 class="breadcrumbs-title">  {%if uri:%}URI Post - {%endif%}{%if kind:%}{{kind}} </h5>{%endif%}
                   <ol class="breadcrumbs">
-                    <li><a href="/admin">All</a></li>
-                    <li><a href="/admin/{%if kind:%}{{kind}}" class="active">{{kind}}</a>{%else:%}users">Users</a>{%endif%}</li>
-                    {%if uri:%}<li class="active">Post<li>{%endif%}
+                    <li {%if kind=="all":%} class="active breadcrumbs"{%endif%}><a  href="/admin">All</a></li>
+                    <li {%if kind=="users":%} class="active breadcrumbs"{%endif%}> <a href="/admin/users">Users</a></li>
+                    <li {%if kind=="books":%} class="active breadcrumbs"{%endif%}><a href="/admin/books">Books</a></li>
+                    <li  {%if kind=="subs":%} class="active breadcrumbs"{%endif%}><a href="/admin/subs">Subs</a></li>
                   </ol>
                 </div>
                 <div class="col s2 m6 l6">

@@ -182,16 +182,17 @@ def blog():
 @app.route('/admin/', methods=['GET', 'POST'])
 @app.route('/admin', methods=['GET', 'POST'])
 def admin1():
+    kind="all"
     try:
         username=current_user.username
     except AttributeError:
         username="caesarnaples2"
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).all()
-        return render_template('admin.html',uri=request.args.get("uri"), username=username, content=uri_type)
+        return render_template('admin.html',uri=request.args.get("uri"),kind=kind, username=username, content=uri_type)
     else:
         uri_type=RedditPost.query.all()
-        return render_template('admin.html', username=username, content=uri_type)
+        return render_template('admin.html', username=username, kind=kind,content=uri_type)
 
 
 
@@ -246,7 +247,7 @@ def admin3(kind):
       
         book = Books.query.filter().all()
         print(book)
-        return render_template('admin.html',username=username, content=book)
+        return render_template('admin.html',username=username, kind=kind, content=book)
     if kind=="chapters":
       uris=[]
 
@@ -254,12 +255,14 @@ def admin3(kind):
       
       print(chapters)
 
-      return render_template('admin.html', username=username, content=chapter)
+      return render_template('admin.html',kind=kind, username=username, content=chapter)
     if kind=="users":
         content={"content":User.query.join(RedditPost).all()}
        
         for post in content["content"]:
             content["posts"]= RedditPost.query.join(User).all()
+        return render_template('admin.html',kind=kind, username=username,content=content["content"], posts=content["posts"])
+
     if kind=="subs":
         url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
         data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
@@ -270,8 +273,6 @@ def admin3(kind):
         subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
     
         return render_template('admin.html', kind=kind, subs=subs, username=username,content={}, posts={})
-    return render_template('admin.html',kind=kind, username=username,content=content["content"], posts=content["posts"])
-    
 
 
 
