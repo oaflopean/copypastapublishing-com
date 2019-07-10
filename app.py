@@ -188,7 +188,7 @@ def admin1():
         username="caesarnaples2"
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).all()
-        return render_template('admin.html', username=username, content=uri_type)
+        return render_template('admin.html',uri=request.args.get("uri"), username=username, content=uri_type)
     else:
         uri_type=RedditPost.query.all()
         return render_template('admin.html', username=username, content=uri_type)
@@ -228,7 +228,7 @@ def admin3(kind):
        
         for post in content["content"]:
             content["posts"]= RedditPost.query.join(User).all()
-    return render_template('admin.html', username=username,content=content["content"], posts=content["posts"])
+    return render_template('admin.html',kind=kind, username=username,content=content["content"], posts=content["posts"])
     
 
 

@@ -272,22 +272,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <ul>
                 <li>
                   <a href="css-helpers.html" class="btn-floating blue">
-                    <i class="material-icons">help_outline</i>
+                    <i class="material-icons">comment</i>
                   </a>
                 </li>
                 <li>
                   <a href="cards-extended.html" class="btn-floating green">
-                    <i class="material-icons">widgets</i>
+                    <i class="material-icons">add_box</i>
                   </a>
                 </li>
                 <li>
                   <a href="app-calendar.html" class="btn-floating amber">
-                    <i class="material-icons">today</i>
+                    <i class="material-icons">book</i>
                   </a>
                 </li>
                 <li>
                   <a href="app-email.html" class="btn-floating red">
-                    <i class="material-icons">mail_outline</i>
+                    <i class="material-icons">send</i>
                   </a>
                 </li>
               </ul>
@@ -303,100 +303,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <!-- START WRAPPER -->
       <div class="wrapper">
         <!-- START LEFT SIDEBAR NAV-->
-        <aside id="left-sidebar-nav hide-on-large-only">
-          <ul id="slide-out" class="side-nav leftside-navigation">
-            <li class="no-padding">
-              <ul class="collapsible" data-collapsible="accordion">                
-                <li class="bold">
-                  <a class="collapsible-header  waves-effect waves-cyan active">
-                    <i class="material-icons">pages</i>
-                    <span>Pages</span>
-                  </a>
-                  <div class="collapsible-body">
-                    <ul>                      
-                      <li class="active">
-                        <a href="page-blank.html">
-                          <i class="material-icons">keyboard_arrow_right</i>
-                          <span>Blank</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li class="li-hover">
-              <p class="ultra-small margin more-text">MORE</p>
-            </li>
-            <li class="no-padding">
-              <ul class="collapsible" data-collapsible="accordion">
-                <li class="bold">
-                  <a class="collapsible-header  waves-effect waves-cyan">
-                    <i class="material-icons">photo_filter</i>
-                    <span>Menu Levels</span>
-                  </a>
-                  <div class="collapsible-body">
-                    <ul class="collapsible" data-collapsible="accordion">
-                      <li>
-                        <a href="ui-basic-buttons.html">
-                          <i class="material-icons">keyboard_arrow_right</i>
-                          <span>Second level</span>
-                        </a>
-                      </li>
-                      <li class="bold">
-                        <a class="collapsible-header  waves-effect waves-cyan">
-                          <i class="material-icons">keyboard_arrow_right</i>
-                          <span>Second level child</span>
-                        </a>
-                        <div class="collapsible-body">
-                          <ul class="collapsible" data-collapsible="accordion">
-                            <li>
-                              <a href="ui-basic-buttons.html">
-                                <i class="material-icons">keyboard_arrow_right</i>
-                                <span>Third level</span>
-                              </a>
-                            </li>
-                            <li class="bold">
-                              <a class="collapsible-header  waves-effect waves-cyan">
-                                <i class="material-icons">keyboard_arrow_right</i>
-                                <span>Third level child</span>
-                              </a>
-                              <div class="collapsible-body">
-                                <ul class="collapsible" data-collapsible="accordion">
-                                  <li>
-                                    <a href="ui-basic-buttons.html">
-                                      <i class="material-icons">keyboard_arrow_right</i>
-                                      <span>Forth level</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="ui-extended-buttons.html">
-                                      <i class="material-icons">keyboard_arrow_right</i>
-                                      <span>Forth level</span>
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </li>           
-            <li>
-              <a href="changelogs.html">
-                <i class="material-icons">help_outline</i>
-                <span>Support</span>
-              </a>
-            </li>
-          </ul>
-          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
-            <i class="material-icons">menu</i>
-          </a>
-        </aside>
+    
         <!-- END LEFT SIDEBAR NAV-->
         <!-- //////////////////////////////////////////////////////////////////////////// -->
         <!-- START CONTENT -->
@@ -408,11 +315,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="container">
               <div class="row">
                 <div class="col s10 m6 l6">
-                  <h5 class="breadcrumbs-title">Blank Page</h5>
+                  <h5 class="breadcrumbs-title">  {%if uri:%}URI Post{%endif%}{%if kind:%}{{kind}} </h5>{%endif%}
                   <ol class="breadcrumbs">
-                    <li><a href="index.html">Dashboard</a></li>
-                    <li><a href="#">Pages</a></li>
-                    <li class="active">Blank Page</li>
+                    <li><a href="/admin">All</a></li>
+                    <li><a href="/admin/{%if kind:%}{{kind}}" class="active">{{kind}}</a>{%else:%}users">Users</a>{%endif%}</li>
+                    {%if uri:%}<li class="active">Post<li>{%endif%}
                   </ol>
                 </div>
                 <div class="col s2 m6 l6">

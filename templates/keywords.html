@@ -13,8 +13,8 @@
                 <input class="btn purple" type="submit" value="Submit"></div><br><br>
 </form></div></div><div class=" container-fluid">
 {%for self in phrases:%}<form  action="/bot" class="chip" method="post">
-     <button class="well-sm gradient-45deg-purple-deep-orange hoverable yellow-text truncate" type="submit"><big>{{self.body}}</big></button><span class="hide">{{form2.sub(value=self.body)}}
-{{form2.kw(value="["+self.title+"](https://www.reddit.com/"+self.uri+")")}}</span></form>{%endfor%}
+     <button class="card valign-wrapper center-align my-wrapper gradient-45deg-purple-deep-orange hoverable yellow-text truncate" type="submit"><big>{{self.body}}</big><span class="hide">{{form2.sub(class="hide", value=self.body)}}
+{{form2.kw(class="hide", value="["+self.title+"](https://www.reddit.com/"+self.uri+")")}}</span></button></form>{%endfor%}
 
 
 </div>
