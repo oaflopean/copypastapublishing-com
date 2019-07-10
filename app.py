@@ -551,7 +551,7 @@ def library():
 @app.route('/bot', methods=["POST"])
 def botpost():
    req=request.values
-   kw=req.get('kw')
+   kw=req.get('kw').split('-')
    this_bot = Bots.query.filter_by(username="caesarnaples2").first()
    try:
        client_id=this_bot.client_id
@@ -566,17 +566,17 @@ def botpost():
      
      
    try:
-       url=reddit.subreddit('copypastapublishin').submit(datetime.now(), selftext=kw).permalink 
+       url=reddit.subreddit('copypastapublishin').submit(kw[0], selftext="["+kw[1]+"]("+kw[2]+")").permalink 
 
    except praw.exceptions.APIException:
-       return redirect("keywords/r/"+sub) 
+       return redirect("admin/r/"+sub) 
    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
    s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
    passlen = 12
    p =  "".join(random.sample(s,passlen ))
    if current_user.is_authenticated:
        username=current_user.username
-   post=RedditPost(reddit_url=url,uri=p, title=kw,username=username)
+   post=RedditPost(reddit_url=url, uri=p, title=kw[0],username=username)
    db.session.add(post)
    db.session.commit()
    

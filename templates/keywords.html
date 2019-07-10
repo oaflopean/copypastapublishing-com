@@ -2,7 +2,7 @@
       <div class="container">
  <div class=" container-fluid">
 {%for self in phrases:%}<form  action="/bot" class="chip" method="post">
-     <button class="card valign-wrapper center-align my-wrapper gradient-45deg-purple-deep-orange hoverable yellow-text flow-text truncate" type="submit"><big>{{form2.kw(value=self.body)}}</big></button></form>{%endfor%}
+     <button class="card valign-wrapper center-align my-wrapper gradient-45deg-purple-deep-orange hoverable yellow-text flow-text truncate" type="submit"><big>{{form2.kw(value=self.body+"-"+self.title+"-"+self.uri)}}</big></button></form>{%endfor%}
 
 
 </div></div>
