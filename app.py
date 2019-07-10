@@ -530,8 +530,10 @@ def botpost():
    s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
    passlen = 12
    p =  "".join(random.sample(s,passlen ))
-
+   if current_user.is_authenticated:
+       username=current_user.username
    post=RedditPost(reddit_url=url,uri=p, body=kw, title=sub, username=username)
    db.session.add(post)
    db.session.commit()
+   
    return redirect('/admin?uri='+p)

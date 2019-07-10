@@ -6,22 +6,12 @@
 {%for titles in content: %}         
           
   <li>
-    <div class="collapsible-header"><div class="container">
+    <div class="collapsible-header"><a href="/admin?uri={{titles.uri}}"><div class="container">
       <i class="material-icons">book</i>
  <ul><li><h5>{{titles.title}}</h5></li><li>   
-<span style="font-style: italic">{%if titles.author:%}{{titles.author}}{%else:%}{{titles.username}}{%endif%}</span></li><li style="overflow:hidden;text-overflow:ellipsis;" class="container">{%if titles.description:%}{{titles.description}}{%elif titles.reddit_url:%}<a href="https://www.reddit.com/{{titles.reddit_url}}">{{titles.reddit_url}}</a>{%endif%}</li><li><a href="/admin?uri={{titles.uri}}">{{titles.uri}}</a></li></ul> </div>
+<span style="font-style: italic">{%if titles.author:%}{{titles.author}}{%else:%}{{titles.username}}{%endif%}</span></li><li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{%if titles.description:%}{{titles.description}}{%endif%}{%if titles.reddit_url:%}<a href="https://www.reddit.com/{{titles.reddit_url}}">{{titles.reddit_url}}{%endif%}</p></ul> </div></a></div>
 
-   <div class="collapsible-body amber darken-2">
-     
- <ul class="collection with-header">
-        <li class="collection-header"><h4>Posts</h4></li>
-{%for post in posts :%}    {%if post.username==titles.username%}
-    <li class="collection-item"><div>{{post.title}}<a href="/admin?uri={{post.uri}}" class="secondary-content"><i class="material-icons">send</i></a></div></li>        {%endif%}{%endfor%}
-      </ul>
-    
+   {%endfor%}
 
-   </div>
-  </li>
-  {%endfor%}
   <ul>
 </div>
