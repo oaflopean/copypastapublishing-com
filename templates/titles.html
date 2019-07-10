@@ -9,7 +9,7 @@
     <div class="collapsible-header"><div class="container">
       <i class="material-icons">book</i>
  <ul><li><h5>{{titles.title}}</h5></li><li>   
-<span style="font-style: italic">{%if titles.author:%}{{titles.author}}{%else:%}{{titles.username}}{%endif%}</span></li><li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{%if titles.description:%}{{titles.description}}{%elif titles.reddit_url:%}<a href="https://www.reddit.com/{{titles.reddit_url}}">{{titles.reddit_url}}</a>{%endif%}</li><li><a href="/admin?uri={{titles.uri}}">{{titles.uri}}</a></li></ul> </div></div>
+<span style="font-style: italic">{%if titles.author:%}{{titles.author}}{%else:%}{{titles.username}}{%endif%}</span></li><li style="overflow:hidden;text-overflow:ellipsis;" class="container">{%if titles.description:%}{{titles.description}}{%elif titles.reddit_url:%}<a href="https://www.reddit.com/{{titles.reddit_url}}">{{titles.reddit_url}}</a>{%endif%}</li><li><a href="/admin?uri={{titles.uri}}">{{titles.uri}}</a></li></ul> </div>
 
    <div class="collapsible-body amber darken-2">
      

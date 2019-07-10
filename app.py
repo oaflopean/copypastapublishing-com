@@ -156,10 +156,13 @@ def blog():
     title="Editor Blog: Jordan Jones"
     return render_template('blog-index.html', title=title)
 
+@app.route('/admin/', methods=['GET', 'POST'])
 @app.route('/admin', methods=['GET', 'POST'])
-@login_required
 def admin1():
-    username=current_user.username
+    try:
+        username=current_user.username
+    except AttributeError:
+        username="caesarnaples2"
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).all()
         return render_template('admin.html', username=username, content=uri_type)
@@ -170,22 +173,26 @@ def admin1():
 @app.route('/admin2', methods=['GET', 'POST'])
 @login_required    
 def admin2(type_of):   
-    username=current_user.username
+    try:
+        username=current_user.username
+    except AttributeError:
+        username="caesarnaples2"
     req.args.get(uri)
     uri_type=RedditPost.query.filter_by(uri=type_of).first()
     return render_template('admin.html', username=username, content=uri_type)
    
 @app.route('/admin/<kind>', methods=['GET', 'POST'])
-@login_required
 def admin3(kind):
-  username=current_user.username
-
-  if kind=="books":
+    try:
+        username=current_user.username
+    except AttributeError:
+        username="caesarnaples2"
+    if kind=="books":
       
-      book = Books.query.filter().all()
-      print(book)
-      return render_template('admin.html',username=username, content=book)
-  if kind=="chapters":
+        book = Books.query.filter().all()
+        print(book)
+        return render_template('admin.html',username=username, content=book)
+    if kind=="chapters":
       uris=[]
 
       chapters = RedditPost.query.join(Chapter).filter(Chapter.uri == RedditPost.uri).all()
@@ -193,18 +200,17 @@ def admin3(kind):
       print(chapters)
 
       return render_template('admin.html', username=username, content=chapter)
-  if kind=="user":
-      content={"content":User.query.join(RedditPost).all()}
-      
-      for post in content["content"]:
-          content["posts"]= RedditPost.query.join(User).all()
-      return render_template('admin.html', username=username,content=content["content"], posts=content["posts"])
+    if kind=="users":
+        content={"content":User.query.join(RedditPost).all()}
+       
+        for post in content["content"]:
+            content["posts"]= RedditPost.query.join(User).all()
+    return render_template('admin.html', username=username,content=content["content"], posts=content["posts"])
     
 
 
 
 @app.route('/books', methods=['GET', 'POST'])
-@login_required
 def books2():
     title="Create an Ebook"
 
@@ -216,8 +222,11 @@ def books2():
         book.title=form.title.data
         book.author=form.author.data
         book.description=form.description.data
-        book.username=current_user.username
-        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()?"
+        try:
+          book.username=current_user.username
+        except AttributeError:
+          book.username="caesarnaples2"
+        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()"
         passlen = 12
         book.uri =  "".join(random.sample(s,passlen ))
 
@@ -249,7 +258,7 @@ def books2():
            db.session.commit()
           
         except praw.exceptions.APIException:
-           return redirect("admin/books") 
+           return redirect("admin?="+book.uri) 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
         return render_template('admin.html',username=username, content=Books.query.filter_by(uri=book.uri).all()
@@ -440,7 +449,7 @@ def botpost():
    passlen = 12
    p =  "".join(random.sample(s,passlen ))
 
-   post=RedditPost(reddit_url=url,uri=p, body=kw, title=sub, username=current_user.username)
+   post=RedditPost(reddit_url=url,uri=p, body=kw, title=sub, username=username)
    db.session.add(post)
    db.session.commit()
    return redirect('/admin?uri='+p)
