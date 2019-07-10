@@ -222,15 +222,15 @@ def admin2(sub):
           uri=link['data']['permalink']
           title2=link['data']['title']
           p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
-          p.extract_keywords_from_text(link['data']['title'])
-          p.extract_keywords_from_text(link['data']['selftext'])
+          p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
           # To get keyword phrases ranked highest to lowest
           for post in p.get_ranked_phrases_with_scores():
               print(post)
+
               texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
 
     texts=sorted(texts, key=attrgetter('integer'), reverse=True)
-                # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
+         # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
                 # return render_template('entries.html', entries=json
     return render_template('admin.html',sub=sub,form=form, kind=sub, form2=form2, phrases=texts, title=title)
 
