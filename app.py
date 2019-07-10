@@ -192,17 +192,49 @@ def admin1():
     else:
         uri_type=RedditPost.query.all()
         return render_template('admin.html', username=username, content=uri_type)
-      
-@app.route('/admin2', methods=['GET', 'POST'])
-@login_required    
-def admin2(type_of):   
-    try:
-        username=current_user.username
-    except AttributeError:
-        username="caesarnaples2"
-    req.args.get(uri)
-    uri_type=RedditPost.query.filter_by(uri=type_of).first()
-    return render_template('admin.html', username=username, content=uri_type)
+
+
+
+
+@app.route('/admin/r/<sub>', methods=['GET', 'POST'])
+def admin2(sub):   
+    post=RedditPost()
+    form2=PostForm()
+    if form2.validate_on_submit():
+        post["title"]=form2.kw
+        res = requests.post(url_for('botpost'),headers='Content-Type: application/json',data=json.dumps(post))
+
+        return redirect(url_for('rake2', sub=sub))
+    title="Reddit Influencers on r/"+sub
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
+    form = ReusableForm(request.form)
+    if request.method == 'POST':
+        name=request.form['name']
+        return redirect('/admin/r/'+name)
+    texts=[]
+    if form.validate():
+       # Save the comment here.
+       flash('Keywords from r/' + name)   
+    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+
+    if data:
+      for link in data['data']['children']:
+          uri=link['data']['permalink']
+          title2=link['data']['title']
+          p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
+          p.extract_keywords_from_text(link['data']['title'])
+          p.extract_keywords_from_text(link['data']['selftext'])
+          # To get keyword phrases ranked highest to lowest
+          for post in p.get_ranked_phrases_with_scores():
+              print(post)
+              texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
+
+    texts=sorted(texts, key=attrgetter('integer'), reverse=True)
+                # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
+                # return render_template('entries.html', entries=json
+    return render_template('admin.html',sub=sub,form=form, kind=sub, form2=form2, phrases=texts, title=title)
+
+    
    
 @app.route('/admin/<kind>', methods=['GET', 'POST'])
 def admin3(kind):
@@ -228,8 +260,21 @@ def admin3(kind):
        
         for post in content["content"]:
             content["posts"]= RedditPost.query.join(User).all()
+    if kind=="subs":
+        url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
+        data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+        subs1=Subreddits.query.all()
+        data3=[]
+        for sub2 in subs1:
+            data3.append(sub2.sub) 
+        subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+    
+        return render_template('admin.html', kind=kind, subs=subs, username=username,content={}, posts={})
     return render_template('admin.html',kind=kind, username=username,content=content["content"], posts=content["posts"])
     
+
+
+
 
 
 
@@ -507,7 +552,6 @@ def library():
 def botpost():
    req=request.values
    kw=req.get('kw')
-   sub=req.get('sub')
    this_bot = Bots.query.filter_by(username="caesarnaples2").first()
    try:
        client_id=this_bot.client_id
@@ -522,7 +566,7 @@ def botpost():
      
      
    try:
-       url=reddit.subreddit('copypastapublishin').submit(sub, selftext=kw).permalink 
+       url=reddit.subreddit('copypastapublishin').submit(datetime.now(), selftext=kw).permalink 
 
    except praw.exceptions.APIException:
        return redirect("keywords/r/"+sub) 
@@ -532,7 +576,7 @@ def botpost():
    p =  "".join(random.sample(s,passlen ))
    if current_user.is_authenticated:
        username=current_user.username
-   post=RedditPost(reddit_url=url,uri=p, body=kw, title=sub, username=username)
+   post=RedditPost(reddit_url=url,uri=p, title=kw,username=username)
    db.session.add(post)
    db.session.commit()
    

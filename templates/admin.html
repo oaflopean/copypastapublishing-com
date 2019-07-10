@@ -262,7 +262,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
 
-<header>
+<header >
 
 {%include 'navbar.html'%}
             <div class="fixed-action-btn " style="bottom: 50px; right: 19px;">
@@ -301,7 +301,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- START MAIN -->
     <div id="main">
       <!-- START WRAPPER -->
-      <div class="wrapper">
+      <div style="margin-top:50px;" class="wrapper">
         <!-- START LEFT SIDEBAR NAV-->
     
         <!-- END LEFT SIDEBAR NAV-->
@@ -339,7 +339,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
               </div>
             </div>
-          </div>
+          </div>          </li></li></ol></div></div></div></div>{%if sub:%}
+            {%include "keywords.html"%}
+            {%elif kind=="subs":%}
+            {%include "subs.html"%}
+            {%else:%}
+            {%include "titles.html"%}
+            {%endif%}
           <!--breadcrumbs end-->
           <!--start container-->
               <!--
@@ -348,7 +354,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <div class="divider"></div>
             </div>
             Floating Action Button -->
-            {%include "titles.html"%}
 
           <!--end container-->
         </section>

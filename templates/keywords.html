@@ -1,33 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-{% include 'header.html' %}
 
-<body class=" gradient-45deg-purple-deep-orange">{% include 'google.html' %}
-
-    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><div class="jumbotron blue darken-2 z-depth-4 "style="margin-bottom: 0px"> <h1>{{title}} </h1></div><div style="margin-top:0px" class="container-fluid z-depth-2 blue lighten-4 ">
-<form action="" method="post">
-		            {{form.csrf}}
-<div class="input white-text text">
-                {{ form.name.label }} {{form.name}}</div>
-<div class="input submit">
-                <input class="btn purple" type="submit" value="Submit"></div><br><br>
-</form></div></div><div class=" container-fluid">
+      <div class="container">
+ <div class=" container-fluid">
 {%for self in phrases:%}<form  action="/bot" class="chip" method="post">
-     <button class="card valign-wrapper center-align my-wrapper gradient-45deg-purple-deep-orange hoverable yellow-text truncate" type="submit"><big>{{self.body}}</big><span class="hide">{{form2.sub(class="hide", value=self.body)}}
-{{form2.kw(class="hide", value="["+self.title+"](https://www.reddit.com/"+self.uri+")")}}</span></button></form>{%endfor%}
+     <button class="card valign-wrapper center-align my-wrapper gradient-45deg-purple-deep-orange hoverable yellow-text flow-text truncate" type="submit"><big>{{form2.kw(value=self.body)}}</big></button></form>{%endfor%}
 
 
-</div>
+</div></div>
 
  <!-- Dropdown Trigger -->
-        {%include 'subs.html'%}
-{% include 'footer.html' %}
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script
-        src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
-   <!-- /btn white-text purple darken-2 -->
-
-  </body>
-</html>
