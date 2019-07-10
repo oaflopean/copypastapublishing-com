@@ -4,17 +4,17 @@
 
 <body class=" gradient-45deg-purple-deep-orange">{% include 'google.html' %}
 
-    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><div class="jumbotron blue lighten-2 z-depth-4"style="margin-bottom: 0px"> <h1>{{title}} </h1></div><div style="margin-top:0px" class="container-fluid blue lighten-4 z-depth-2">
+    {% include 'navbar.html' %}     <!-- Main jumbron for a primary marketing message or call to action --><div class="jumbotron blue darken-2 z-depth-4 "style="margin-bottom: 0px"> <h1>{{title}} </h1></div><div style="margin-top:0px" class="container-fluid z-depth-2 blue lighten-4 ">
 <form action="" method="post">
 		            {{form.csrf}}
 <div class="input white-text text">
                 {{ form.name.label }} {{form.name}}</div>
 <div class="input submit">
                 <input class="btn purple" type="submit" value="Submit"></div><br><br>
-</form></div></div><div class="purple container-fluid darken-4">
-{%for self in phrases:%}<form class="chip" action="/bot" method="post">
-	 <div class="hide  ">{{form2.kw(value="["+self.title+"](https://www.reddit.com/"+self.uri+")")}}</div><button type="submit" class="btn  scale-in hoverable btn-success "><div class="truncate">
-     {{self.body}}</div></button><div class="hide ">{{form2.sub(value=self.body)}}</div></form>{%endfor%}
+</form></div></div><div class=" container-fluid">
+{%for self in phrases:%}<form  action="/bot" class="chip" method="post">
+     <button class="well-sm gradient-45deg-purple-deep-orange hoverable yellow-text truncate" type="submit"><big>{{self.body}}</big></button><span class="hide">{{form2.sub(value=self.body)}}
+{{form2.kw(value="["+self.title+"](https://www.reddit.com/"+self.uri+")")}}</span></form>{%endfor%}
 
 
 </div>
