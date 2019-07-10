@@ -306,6 +306,58 @@ if __name__ == '__main__':
 
 @app.route('/', methods=["POST", "GET"])
 def home():
+    title="Create an Ebook"
+
+    
+    form2=Titles()
+
+    if form2.validate_on_submit():
+        book=Books()
+        book.title=form.title.data
+        book.author=form.author.data
+        book.description=form.description.data
+        try:
+          book.username=current_user.username
+        except AttributeError:
+          book.username="caesarnaples2"
+        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        passlen = 12
+        book.uri =  "".join(random.sample(s,passlen ))
+
+        kw=book.description
+        title=book.title
+        author=book.author
+        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        try:
+           client_id=this_bot.client_id
+        except AttributeError:
+           return redirect("register/app")
+        secret=this_bot.secret
+        password=this_bot.password
+        username=this_bot.username
+        reddit = praw.Reddit(client_id=client_id,
+                                client_secret=secret, password=password,
+                                user_agent='Copypasta', username="caesarnaples2")
+         
+         
+        try:
+           reddit_url=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).permalink   
+           
+
+           post=RedditPost(uri=book.uri,reddit_url=reddit_url,  title=book.title, body=book.description, username=book.username)
+           book.reddit_url=reddit_url
+           db.session.add(post)
+           db.session.commit()
+           db.session.add(book)
+           db.session.commit()
+          
+        except praw.exceptions.APIException:
+           return redirect("admin?="+book.uri) 
+        #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+        
+        return render_template('admin.html',username=username, content=Books.query.filter_by(uri=book.uri).all()
+)
+
     sub="writing"
     title="Copypasta Publishing: Social Media Marketing"
     form = ReusableForm(request.form)
@@ -345,7 +397,7 @@ def home():
     #phrases=r.get_ranked_phrases()
     title=title
     print(posts)
-    return render_template('index.html', subs=subs, phrases=posts, form=form, title=title)
+    return render_template('index.html', form2=form2, subs=subs, phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])

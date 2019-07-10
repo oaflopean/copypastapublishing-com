@@ -1,24 +1,24 @@
     <div class="yellow lighten-2 container" >
 
     <form action="/books" method="post"  >
-              {{ form.hidden_tag() }}
+              {{ form2.hidden_tag() }}
 
         <p>
-            {{ form.title.label }}<br>
-            {{ form.title(size=300) }}<br>
+            {{ form2.title.label }}<br>
+            {{ form2.title(size=300) }}<br>
             </p>
-                        {% for error in form.title.errors %}
+                        {% for error in form2.title.errors %}
             <span style="color: red;">[{{ error }}]</span>{%endfor%}
         <p>
-            {{ form.author.label }}<br>
-            {{ form.author(size=300) }}<br>
+            {{ form2.author.label }}<br>
+            {{ form2.author(size=300) }}<br>
            </p>
-                       {% for error in form.author.errors %}
+                       {% for error in form2.author.errors %}
             <span style="color: red;">[{{ error }}]</span>{%endfor%}
                 <p>
-            {{ form.description.label }}<br>
-            {{ form.description(class="materialize-textarea") }}<br>
+            {{ form2.description.label }}<br>
+            {{ form2.description(class="materialize-textarea") }}<br>
            </p>
-                <p>{{ form.submit(class="btn waves-effect waves-light", type="submit")}}</p>
+                <p>{{ form2.submit(class="btn waves-effect waves-light", type="submit")}}</p>
     </form>
       </div>
