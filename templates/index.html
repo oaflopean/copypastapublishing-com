@@ -2,20 +2,13 @@
 <html lang="en">
 {% include 'header.html' %}
 <body style="background-image:no-repeat;background-position:0% 0%" class=" gradient-45deg-purple-deep-orange">{% include 'google.html' %}
-<div>
+<div style="margin-bottom: 75px">
 
-{% include 'navbar.html' %}</div><div><h1 style="margin-top:50px" class="white-text pull-left">Be an influencer on Reddit</h1>
-</div><form class="purple darken-2 jumbotron" action="" method="post">
-		            {{form.csrf}}
-<div class="input text white-text">
-                {{ form.name.label }} {{form.name}}</div>
-<div class="input submit"><center>
-                <input class="btn-sm   circle purple" type="submit" value="Submit"><br><br></div></center>
-</h1></div></form><div></div>
+{% include 'navbar.html' %}</div>     <div class="container">
+        {%include 'subs.html'%}</div>   {%include 'books.html'%}
 
-<div class="container">
-        {%include 'subs.html'%}</div>
-        {%include 'books.html'%}
+
+
 <!--
 <div class="purple container-fluid lighten-4"><center><h3>Post titles from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
 <div class="nav nav-pills">{%for self in phrases:%}  <a href="{{self.uri}}"><div class=" zdepth-4 hoverable card-sm orange"><h4 class="truncate  " >

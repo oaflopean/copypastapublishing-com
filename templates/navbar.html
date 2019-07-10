@@ -1,27 +1,27 @@
 
 
-        <nav class="navbar white-text purple navbar-inverse navbar-fixed-top " >
+        <nav class="navbar white-text purple navbar-inverse  navbar-fixed-top " >
             <div class="navbar-header ">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <div type="div" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
 
                   <span class="icon-bar"></span>  <span class="icon-bar"></span>   <span class="icon-bar"></span> 
-              </button>
-              <a  href="/"><img class="resize_logo" src="/static/images/lowerlogo.png" class="card z-depth-4"/></a>
+              </div>
+              <a  href="/"><img class="resize_logo" src="/static/images/lowerlogo.png" class="card z-depth-1"/></a>
             </div>
-            <div id="navbar" class=" pull-right navbar-collapse collapse"><div class="pink accent-3 purple-text text-darken-3 card">
+            <div id="navbar" class=" pull-right navbar-collapse collapse">
               <ul class=" navbar-nav ">    {%if current_user.username:%}<li><h6 class="white-text">Hi, {{ current_user.username }}!</h6></li>{%endif%}
 
-                    <li ><a  class="white-text text-darken-3" href="/"><big>Introduction</big></a>
+                    <li ><a  class="white-text text-darken-3" href="/"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Introduction</big></div></a>
 </li>
-                    <li ><a class="white-text text-darken-3"  href="/ten-minute-pitch"><big>Submission Guidelines</big></a></li>
-                    <li ><a class="white-text text-darken-3"  href="/register"><big>Register{%if current_user.username:%} Bot{%endif%}</big></a></li>
+                    <li c><a class="white-text text-darken-3"  href="/ten-minute-pitch"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Submission Guidelines</big></div></a></li>
+                    <li ><a class="white-text text-darken-3"  href="/register"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Register{%if current_user.username:%} Bot{%endif%}</big></div></a></li>
 
         {% if current_user.is_anonymous %}
-        <li><a class="white-text text-darken-3" href="{{ url_for('login') }}"><big>Login</big></a></li>
+        <li><a class="white-text text-darken-3" href="{{ url_for('login') }}"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Login</big></div></a></li>
         {% else %}
-       <li><a  class="white-text text-darken-3" href="{{ url_for('logout') }}"><big>Logout</big></a></li>
+       <li><a  class="white-text text-darken-3" href="{{ url_for('logout') }}"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Logout</big></div></a></li>
         {% endif %}
 
               </ul></div></div></nav>
