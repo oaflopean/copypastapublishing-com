@@ -26,6 +26,7 @@ from flask_login import current_user, login_user
 from flask_login import logout_user
 from flask_login import login_required
 from werkzeug.urls import url_parse
+from psycopg2 import errors
 app = Flask(__name__)
 
 
@@ -40,7 +41,7 @@ app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
-from models import User, Post, Bots, Result, Books, Chapter, RedditPost
+from models import User, Post, Bots, Result, Books, Chapter, RedditPost, Subreddits
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
@@ -67,12 +68,18 @@ def register():
         return redirect(url_for('register_app'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data)
+        try:
+            user = User(username=form.username.data)
+        except NameError:
+            return(redirect(url_for('register')))
+
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+
         flash("Congratulations! You're registered.")
         return redirect(url_for('login'))
+    
     return render_template('register.html', title='Register', form=form)
 
 
@@ -131,6 +138,22 @@ def login():
          flash('Invalid username or password')
          return redirect(url_for('login'))
       else:
+          reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
+                              client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
+        
+          save=reddit.redditor(form.username.data).submissions.new()
+                
+          for ank in save:
+              new=Subreddits()
+              new.sub= str(ank.subreddit)
+              print(Subreddits.query.all())
+              if Subreddits.query.filter_by(sub=new.sub).first():
+                  continue
+              else:
+                  db.session.add(new)
+                  print(ank.subreddit)
+                  db.session.commit()
+  
           login_user(user, remember=form.remember_me.data)
           next_page = request.args.get('next')
           if not next_page or url_parse(next_page).netloc != '':
@@ -297,8 +320,12 @@ def home():
     if form.validate():
         # Save the comment here.
         flash('Keywords from r/' + name)
-    posts=[] 
-    subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+    posts=[]
+    subs1=Subreddits.query.all()
+    data3=[]
+    for sub2 in subs1:
+        data3.append(sub2.sub) 
+    subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
     url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=10'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
@@ -364,8 +391,11 @@ def rake2(sub):
        return render_template('keywords.html',sub=sub,form=form,  form2=form2, subs=subs, phrases=phrasey, title="Subreddit not found.")
    texts=sorted(texts, key=attrgetter('integer'), reverse=True)
    print(texts)
-   subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
-
+   subs1=Subreddits.query.all()
+   data3=[]
+   for sub2 in subs1:
+       data3.append(sub2.sub) 
+       subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
                 # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
                 # return render_template('entries.html', entries=json
    return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=texts, subs=subs, title=title)

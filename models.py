@@ -105,3 +105,12 @@ class RedditPost(db.Model):
         except TypeError:
             string='POST: {}'.format(self.id)
             return string
+
+class Subreddits(db.Model):
+    __tablename__='subreddits'
+    id  = db.Column(db.Integer(), primary_key=True)
+    sub= db.Column(db.String(), unique=True)
+    def __repr__(self):
+        string='Sub: {}'.format(self.sub)
+        return string
+    
