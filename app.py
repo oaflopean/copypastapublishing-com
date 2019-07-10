@@ -238,20 +238,22 @@ def books2():
          
          
         try:
-           reddit_url=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).url   
+           reddit_url=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).permalink   
            
 
            post=RedditPost(uri=book.uri,reddit_url=reddit_url,  title=book.title, body=book.description, username=book.username)
            book.reddit_url=reddit_url
-           db.session.add(book)
-           db.session.commit()
            db.session.add(post)
            db.session.commit()
+           db.session.add(book)
+           db.session.commit()
+          
         except praw.exceptions.APIException:
            return redirect("admin/books") 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
-        return render_template('admin.html',username=username, content=post)
+        return render_template('admin.html',username=username, content=Books.query.filter_by(uri=book.uri).all()
+)
 
     return render_template('books.html', form=form, title=title)
 
