@@ -217,8 +217,8 @@ def books2():
         book.author=form.author.data
         book.description=form.description.data
         book.username=current_user.username
-        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
-        passlen = 13
+        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()?"
+        passlen = 12
         book.uri =  "".join(random.sample(s,passlen ))
 
         kw=book.description
@@ -436,7 +436,7 @@ def botpost():
    except praw.exceptions.APIException:
        return redirect("keywords/r/"+sub) 
    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()?"
    passlen = 12
    p =  "".join(random.sample(s,passlen ))
 
