@@ -249,7 +249,7 @@ def books2():
           book.username=current_user.username
         except AttributeError:
           book.username="caesarnaples2"
-        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()"
+        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         passlen = 12
         book.uri =  "".join(random.sample(s,passlen ))
 
@@ -475,7 +475,7 @@ def botpost():
    except praw.exceptions.APIException:
        return redirect("keywords/r/"+sub) 
    #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$^&*()?"
+   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
    passlen = 12
    p =  "".join(random.sample(s,passlen ))
 
