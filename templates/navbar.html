@@ -1,6 +1,6 @@
 
 
-        <nav class="navbar white-text purple navbar-inverse  navbar-fixed-top " >
+        <nav class="navbar white-text purple  navbar-inverse  navbar-fixed-top " >
             <div class="navbar-header ">
               <div type="div" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -13,15 +13,15 @@
             <div id="navbar" class=" pull-right navbar-collapse collapse">
               <ul class=" navbar-nav ">    {%if current_user.username:%}<li><h6 class="white-text">Hi, {{ current_user.username }}!</h6></li>{%endif%}
 
-                    <li ><a  class="white-text text-darken-3" href="/"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Introduction</big></div></a>
+                    <li ><a  class="white-text text-darken-3" href="/"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Introduction</big></div></a>
 </li>
-                    <li c><a class="white-text text-darken-3"  href="/ten-minute-pitch"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Submission Guidelines</big></div></a></li>
-                    <li ><a class="white-text text-darken-3"  href="/register"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Register{%if current_user.username:%} Bot{%endif%}</big></div></a></li>
+                    <li c><a class="white-text text-darken-3"  href="/ten-minute-pitch"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Submission Guidelines</big></div></a></li>
+                    <li ><a class="white-text text-darken-3"  href="/register"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Register{%if current_user.username:%} Bot{%endif%}</big></div></a></li>
 
         {% if current_user.is_anonymous %}
-        <li><a class="white-text text-darken-3" href="{{ url_for('login') }}"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Login</big></div></a></li>
+        <li><a class="white-text text-darken-3" href="{{ url_for('login') }}"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Login</big></div></a></li>
         {% else %}
-       <li><a  class="white-text text-darken-3" href="{{ url_for('logout') }}"><div class="pink btn btn-sm accent-3 purple-text z-depth-3 text-darken-3 card"><big>Logout</big></div></a></li>
+       <li><a  class="white-text text-darken-3" href="{{ url_for('logout') }}"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Logout</big></div></a></li>
         {% endif %}
 
               </ul></div></div></nav>
