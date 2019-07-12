@@ -184,10 +184,10 @@ def blog():
 def admin1():
 
     if current_user.is_authenticated:
-        login=[True,current_user.username]
-    try:
         username=current_user.username
-    except AttributeError:
+        login=[True,current_user.username]
+    else:
+        login=[False,"CaesarNaples2"]
         username="CaesarNaples2"
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
@@ -211,9 +211,7 @@ def admin1():
 def admin2(sub):
     if current_user.is_authenticated:
         login=[True,current_user.username]
-    try:
-        username=current_user.username
-    except AttributeError:
+    else:
         username="CaesarNaples2"  
     post=RedditPost()
     form2=PostForm()
@@ -256,10 +254,10 @@ def admin2(sub):
 @app.route('/admin/<kind>', methods=['GET', 'POST'])
 def admin3(kind):
     if current_user.is_authenticated:
-        login=[True,current_user.username]
-    try:
         username=current_user.username
-    except AttributeError:
+        login=[True,current_user.username]
+    else:
+        login=[False, "CaesarNaples2"]
         username="CaesarNaples2"
     if kind=="books":
       
@@ -313,13 +311,12 @@ if __name__ == '__main__':
 @app.route('/', methods=["POST", "GET"])
 def home():
     title="Create an Ebook"
-    login=[True,current_user.username]
-
-    try:
+    if current_user.is_authenticated:
+        login=[True,current_user.username]
         username=current_user.username
-    except AttributeError:
+    else:
+        login=[False, 'CaesarNaples2']
         username="CaesarNaples2"
-    
     form2=Titles()
 
     if form2.validate_on_submit():
