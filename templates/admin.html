@@ -256,13 +256,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 <header >
-{%include 'navbar-admin.html'%}
+{%include 'navbar-admin.html'%} {%if kind=="subs" or kind=="books" or kind == "uri":%}
    <a href="https://sites.google.com/view/eyestars/home">
 
 <div style="margin-bottom:0px"id="jumbo" class="jumbotron purple lighten-4" ><img class="responsive-img " src="/static/images/bauhau13.png"></img></a>  <h2 class="white-text">Welcome Back.</h2>
         <p  class="white-text">Our website contains magenta.</p>
-</div>
-            <div class="fixed-action-btn  " style="bottom: 0px; right: 0px;">
+</div>{%endif%}
+            <div class="fixed-action-btn  " style="bottom: 15px; right: 15px;">
               <a class="btn-floating pink accent-3 btn-large">
                 <i class="material-icons">view_headline</i>
               </a>
@@ -304,7 +304,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="loader-section section-right"></div>
 
     </div></header>
-<div  style="margin-top: 45px;" >{%if sub:%}
+<div  style="margin-top: 45;" >{%if sub:%}
             {%include "keywords.html"%}
             {%elif kind=="subs":%}
             {%include "subs.html"%}

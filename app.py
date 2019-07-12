@@ -213,9 +213,12 @@ def admin1():
 @app.route('/admin/r/<sub>', methods=['GET', 'POST'])
 def admin2(sub):
     if current_user.is_authenticated:
-        login=[True,current_user.username]
+        username=current_user.username
+        login=[True,username]
     else:
         username="caesarnaples2"  
+
+        login=[False,username]
     post=RedditPost()
     form2=PostForm()
     if form2.validate_on_submit():
@@ -366,7 +369,7 @@ def home():
            return redirect("admin?="+book.uri) 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
-        return render_template('admin.html',login=login, username=username, content=Books.query.filter_by(uri=book.uri).all()
+        return render_template('admin.html',login=login, username=username, kind="books" ,content=Books.query.filter_by(uri=book.uri).all()
 )
 
     sub="writing"
@@ -408,7 +411,7 @@ def home():
     #phrases=r.get_ranked_phrases()
     title=title
     print(posts)
-    return render_template('index.html',login=login, username=username, form2=form2, subs=subs, phrases=posts, form=form, title=title)
+    return render_template('index.html',login=login, kind="books" ,username=username, form2=form2, subs=subs, phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
