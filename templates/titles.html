@@ -11,14 +11,14 @@
            
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
- <ul><li class="truncate "><h2>      <i class="material-icons">book</i>
-<a href="/admin?uri={{titles.uri}}">{{titles.title}}</a></h2></li><li class="truncate ">   
+ <ul><li class="truncate flow-text  ">  <i class="material-icons" style="font-size: 35px ">book</i><h2>    
+<a href="/admin?uri={{titles.uri}}">{{titles.title}}</a></h2></li><li class="truncate flow-text ">   
 <span style="font-style: italic">{{titles.author}}</li>
 <a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li><li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{{titles.body}}</li>
 {%if titles.reddit_url:%}
-<li class="truncate "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
+<li class="truncate flow-text "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
 </li>{%endif%}
-<li class="truncate "> <a href="/admin?uri={{titles.uri}}">{{titles.uri}}
+<li class="truncate flow-text "> <a href="/admin?uri={{titles.uri}}">{{titles.uri}}
 </li></a></span></li></ul></div> {%endfor%}
 
 {%elif kind=="users":%}
@@ -26,16 +26,16 @@
           
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
- <ul><li class="truncate ">   
+ <ul><li class="truncate flow-text ">   
 <a href="/admin?username={{titles.username}}"><h2>{{titles.username}}</h2></a></li></ul></div> {%endfor%}
 
-{%elif kind=="username" or kind=="uri" or kind=="all":%}
+{%elif kind=="uri" :%}
 
 {%for titles in content: %}         
           
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
- <ul><li class="truncate "><h4><a href="/admin?uri={{titles.uri}}">{{titles.title}}</a></h4></li><li class="truncate ">   
+ <ul><li class="truncate flow-text "><h4><a href="/admin?uri={{titles.uri}}">{{titles.title}}</a></h4></li><li class="truncate flow-text ">   
 <span style="font-style: italic">{{titles.author}}</li>
 
 <a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li>
@@ -45,12 +45,16 @@
 	{%endif%}</li>
 
 {%if titles.reddit_url:%}
-<li class="truncate "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
+<li class="truncate flow-text "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
 </li>{%endif%}
 
 </ul></div> </a>{%endfor%}
 
+{%elif kind=="all" or kind=="username":%}
 
+
+ {%for titles in content:%}<li class="truncate chip purple lighten-1">   <h7><a class="white-text text-darken-4" href="/admin?uri={{titles.uri}}"><big>{{titles.title}}</big>
+</h7></a></li>{%endfor%}</ul></div> 
 
 
 
