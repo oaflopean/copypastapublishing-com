@@ -1,0 +1,18 @@
+
+  <nav class='navbar white-text purple  navbar-inverse  navbar-fixed-top '>
+    <div class="nav-wrapper" id="breadcrumbs-wrapper">
+            <!-- Search for small screen -->
+         <div class="gradient-45deg-purple-deep-orange">
+            <div class="container  ">
+              <div class="row">
+                <div class="col s10 m6 l6">
+                  <h5 class="breadcrumbs-title">  {%if uri:%}URI Post - {%endif%}{%if kind:%}{{kind}} </h5>{%endif%}
+                  <ol class="breadcrumbs right">
+                    <li {%if kind=="all":%} class="active white-text  breadcrumbs"{%endif%}><a  href="/admin">All</a></li>
+                    <li {%if kind=="users":%} class="active white-text breadcrumbs"{%endif%}> <a href="/admin/users">Users</a></li>
+                    <li {%if kind=="books":%} class="active white-text  breadcrumbs"{%endif%}><a href="/admin/books">Books</a></li>
+                    <li  {%if kind=="subs":%} class="active white-text  breadcrumbs"{%endif%}><a href="/admin/subs">Subs</a></li>
+                 <li> 
+            </li></ol>
+                </div></div></div></div></div>                    {%include "settings.html"%}
+</nav>

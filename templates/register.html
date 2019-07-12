@@ -3,7 +3,8 @@
 {% include 'header.html' %} <script>
   fbq('track', 'CompleteRegistration');
 </script>{% include 'navbar.html' %}<div class="container" style="margin-top:40px">
-<h1>Register Here (use Reddit handle if you want to use your own bot) </h1>
+<div class="well"><h2>Register Here </h2>
+<p>Use your Reddit handle if you want to crosspost to Reddit.com </p>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -27,8 +28,8 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
-{{ form.submit(id='submitButton') }}<script type="text/javascript">
+        <p><center>
+{{ form.submit(class="btn btn-sm" , id='submitButton') }}</center><script type="text/javascript">
 document.getElementById('submitButton').addEventListener('click', function() {
   fbq('track', 'CompleteRegistration', {
     value: 0.00,
@@ -37,5 +38,5 @@ document.getElementById('submitButton').addEventListener('click', function() {
 
 }, false);
 </script></p>
-    </form></div>{% include 'footer.html' %}
+    </form></div></div>{% include 'footer.html' %}
 

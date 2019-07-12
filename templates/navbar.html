@@ -8,15 +8,16 @@
 
                   <span class="icon-bar"></span>  <span class="icon-bar"></span>   <span class="icon-bar"></span> 
               </div>
-              <a  href="/"><img class="resize_logo" src="/static/images/lowerlogo.png" class="card z-depth-1"/></a>
+            <div class="navbar-header ">
+              <a  href="/"><img class="resize_logo" src="/static/images/lowerlogo.png" class="card z-depth-1"/><h6 class="white-text"> {%if current_user.username:%}You are logged in as {{currentuser.username}}.{%else:%}You are logged in as CaesarNaples2.{%endif%}</h6></a>
             </div>
             <div id="navbar" class=" pull-right navbar-collapse collapse">
-              <ul class=" navbar-nav ">    {%if current_user.username:%}<li><h6 class="white-text">Hi, {{ current_user.username }}!</h6></li>{%endif%}
+              <ul class=" navbar-nav ">   
 
                     <li ><a  class="white-text text-darken-3" href="/"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Introduction</big></div></a>
 </li>
                     <li c><a class="white-text text-darken-3"  href="/ten-minute-pitch"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Submission Guidelines</big></div></a></li>
-                    <li ><a class="white-text text-darken-3"  href="/register"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Register{%if current_user.username:%} Bot{%endif%}</big></div></a></li>
+                    <li ><a class="white-text text-darken-3"  href="/admin"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Admin</big></div></a></li>
 
         {% if current_user.is_anonymous %}
         <li><a class="white-text text-darken-3" href="{{ url_for('login') }}"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Login</big></div></a></li>

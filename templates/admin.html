@@ -252,17 +252,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </div>
         </nav>  
 -->
-<body class="purple lighten-4">{% include 'google.html' %}
-    <div id="loader-wrapper">
-      <div id="loader"></div>
-      <div class="loader-section section-left"></div>
-      <div class="loader-section section-right"></div>
-    </div>
+<body class="grey lighten-2">{% include 'google.html' %}
 
 
 <header >
-
-{%include 'navbar.html'%}
+{%include 'navbar-admin.html'%}
+       
             <div class="fixed-action-btn  " style="bottom: 50px; right: 19px;">
               <a class="btn-floating pink accent-3 btn-large">
                 <i class="material-icons">add</i>
@@ -291,60 +286,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               </ul>
             </div>
             <!-- Floating Action Button -->
-          </div>
         <!-- HORIZONTL NAV START-->
   
     <!-- END HEADER -->
     <!-- //////////////////////////////////////////////////////////////////////////// -->
     <!-- START MAIN -->
-    <div id="main">
       <!-- START WRAPPER -->
-      <div style="margin-top:50px;" class="wrapper">
+
         <!-- START LEFT SIDEBAR NAV-->
     
         <!-- END LEFT SIDEBAR NAV-->
         <!-- //////////////////////////////////////////////////////////////////////////// -->
         <!-- START CONTENT -->
-        <section id="content">
-          <!--breadcrumbs start-->
-          <div class="yellow lighten-2" id="breadcrumbs-wrapper">
-            <!-- Search for small screen -->
-         
-            <div class="container">
-              <div class="row">
-                <div class="col s10 m6 l6">
-                  <h5 class="breadcrumbs-title">  {%if uri:%}URI Post - {%endif%}{%if kind:%}{{kind}} </h5>{%endif%}
-                  <ol class="breadcrumbs">
-                    <li {%if kind=="all":%} class="active breadcrumbs"{%endif%}><a  href="/admin">All</a></li>
-                    <li {%if kind=="users":%} class="active breadcrumbs"{%endif%}> <a href="/admin/users">Users</a></li>
-                    <li {%if kind=="books":%} class="active breadcrumbs"{%endif%}><a href="/admin/books">Books</a></li>
-                    <li  {%if kind=="subs":%} class="active breadcrumbs"{%endif%}><a href="/admin/subs">Subs</a></li>
-                  </ol>
-                </div>
-                <div class="col s2 m6 l6">
-                  <a class="btn-sm dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-activates="dropdown1">
-                    <i class="material-icons hide-on-med-and-up">settings</i>
-                    <span class="hide-on-small-onl">Settings</span>
-                    <i class="material-icons right">arrow_drop_down</i>
-                  </a>
-                  <ul id="dropdown1" class="dropdown-content">
-                    <li><a href="#!" class="grey-text text-darken-2">Access<span class="badge">1</span></a>
-                    </li>
-                    <li><a href="#!" class="grey-text text-darken-2">Profile<span class="new badge">2</span></a>
-                    </li>
-                    <li><a href="#!" class="grey-text text-darken-2">Notifications</a>
-                    </li>
-                  </ul>
-                </div>
+          <!--breadcrumbs start--><div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+
+    </div>
+
+
               </div>
             </div>
-          </div>          </li></li></ol></div></div></div></div>{%if sub:%}
+      </li></li></ol></div></div></div></div><div  style="margin-top: 200px;" >{%if sub:%}
             {%include "keywords.html"%}
             {%elif kind=="subs":%}
             {%include "subs.html"%}
-            {%else:%}
-            {%include "titles.html"%}
-            {%endif%}
+            {%else:%}       
+            {%include "titles.html"%}        {%endif%}
+</div>
           <!--breadcrumbs end-->
           <!--start container-->
               <!--

@@ -1,8 +1,9 @@
     <!DOCTYPE html>
 <html lang="en">
 {% include 'header.html' %} {% include 'navbar.html' %}<div class="container" style="margin-top:40px">
-<h1>Register Your Bot</h1>
-<p>Make your reddit app/bot <a href="https://www.reddit.com/prefs/apps/">here</a>. Make it a "personal script" app, then copy the information to this form.
+ <div class="well">
+<h2>Register Your Bot</h2>
+<p>Make your reddit app/bot <a href="https://www.reddit.com/prefs/apps/">here</a>. Make it a "personal script" app, then copy the information to this form.</p>
     <form action="" method="post">
         {{ form.hidden_tag() }}
 
@@ -43,4 +44,4 @@
             {% endfor %}
         </p>
         <p>{{ form.submit() }}</p>
-    </form></div>
+    </form></div></div>

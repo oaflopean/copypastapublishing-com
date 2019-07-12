@@ -1,13 +1,13 @@
 
       <div class="container">
  
-<ul class="collapsible flow-text">
+<ul class="collapsible  flow-text">
 
 {%if kind=="books":%}
 {%for titles in content: %}         
           
   <li>
-    <div class="collapsible-header"><div class="container">
+    <div class="collapsible-header  lighten-3"><div class="container">
       <i class="material-icons">book</i>
  <ul><li class="truncate "><h5>{{titles.title}}</h5></li><li class="truncate ">   
 <span style="font-style: italic">{{titles.author}}</li>
@@ -22,7 +22,7 @@
 {%for titles in content: %}         
           
   <li>
-    <div class="collapsible-header"><div class="container">
+    <div class="collapsible-header  lighten-3"><div class="container">
       <i class="material-icons">user</i>
  <ul><li class="truncate ">   
 <a href="/admin?username={{titles.username}}"><h5>{{titles.username}}</h5></a></li></ul></div> {%endfor%}
@@ -32,7 +32,7 @@
 {%for titles in content: %}         
           
   <li>
-    <div class="collapsible-header"><div class="container">
+    <div class="collapsible-header  lighten-3"><div class="container">
       <i class="material-icons">book</i>
  <ul><li class="truncate "><h5>{{titles.title}}</h5></li><li class="truncate ">   
 <span style="font-style: italic">{{titles.author}}</li>
