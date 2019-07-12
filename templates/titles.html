@@ -1,31 +1,33 @@
 
       <div class="container">
  
+
+
 <ul class="collapsible  flow-text">
+
 
 {%if kind=="books":%}
 {%for titles in content: %}         
-          
+           
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
-      <i class="material-icons">book</i>
- <ul><li class="truncate "><h5>{{titles.title}}</h5></li><li class="truncate ">   
+ <ul><li class="truncate "><h2>      <i class="material-icons">book</i>
+<a href="/admin?uri={{titles.uri}}">{{titles.title}}</a></h2></li><li class="truncate ">   
 <span style="font-style: italic">{{titles.author}}</li>
-<p><a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li><li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{{titles.body}}</p></li>
+<a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li><li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{{titles.body}}</li>
 {%if titles.reddit_url:%}
 <li class="truncate "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
 </li>{%endif%}
 <li class="truncate "> <a href="/admin?uri={{titles.uri}}">{{titles.uri}}
-</li></a></p></span></li></ul></div> {%endfor%}
+</li></a></span></li></ul></div> {%endfor%}
 
 {%elif kind=="users":%}
 {%for titles in content: %}         
           
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
-      <i class="material-icons">user</i>
  <ul><li class="truncate ">   
-<a href="/admin?username={{titles.username}}"><h5>{{titles.username}}</h5></a></li></ul></div> {%endfor%}
+<a href="/admin?username={{titles.username}}"><h2>{{titles.username}}</h2></a></li></ul></div> {%endfor%}
 
 {%elif kind=="username" or kind=="uri" or kind=="all":%}
 
@@ -33,24 +35,22 @@
           
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
-      <i class="material-icons">book</i>
- <ul><li class="truncate "><h5>{{titles.title}}</h5></li><li class="truncate ">   
+ <ul><li class="truncate "><h4><a href="/admin?uri={{titles.uri}}">{{titles.title}}</a></h4></li><li class="truncate ">   
 <span style="font-style: italic">{{titles.author}}</li>
 
-<p><a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li>
+<a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li>
 
 	<li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{%if titles.body:%}{{titles.body}}{%elif titles.description:%}{{titles.description}}
 
-	{%endif%}</p></li>
+	{%endif%}</li>
 
 {%if titles.reddit_url:%}
 <li class="truncate "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
 </li>{%endif%}
-<li class="truncate "> <a href="/admin?uri={{titles.uri}}">{{titles.uri}}
-</li></a></p></span></li></ul></div> {%endfor%}
+
+</ul></div> </a>{%endfor%}
 
 
-{%elif kind=="all":%}
 
 
 

@@ -505,7 +505,7 @@ def library():
 @app.route('/bot', methods=["POST"])
 def botpost():
    req=request.values
-   kw=req.get('kw').split('-')
+   kw=req.get('kw').split('|')
    this_bot = Bots.query.filter_by(username="caesarnaples2").first()
    try:
        client_id=this_bot.client_id

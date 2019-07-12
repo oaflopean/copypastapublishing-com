@@ -3,16 +3,13 @@
     <div class="nav-wrapper" id="breadcrumbs-wrapper">
             <!-- Search for small screen -->
          <div class="gradient-45deg-purple-deep-orange">
-            <div class="container  ">
               <div class="row">
-                <div class="col s10 m6 l6">
-                  <h5 class="breadcrumbs-title">  {%if uri:%}URI Post - {%endif%}{%if kind:%}{{kind}} </h5>{%endif%}<h6 class="white-text"> {%if username:%}You are logged in as {{username}}.{%else:%}You are logged in as CaesarNaples2.{%endif%}</h6>  {%include "settings.html"%}
+                <div class="col s12 m12 l10">
+                  <h5 class="breadcrumbs-title">  {%if uri:%}URI Post - {%endif%}{%if kind:%}{{kind}} </h5>{%endif%}<h6 class="white-text"> {%if username:%}You are logged in as {{username}}.{%else:%}You are logged in as CaesarNaples2.{%endif%}</h6> 
 
                   <ol class="breadcrumbs right">
-                    <li {%if kind=="all":%} class="active white-text  breadcrumbs"{%endif%}><a  href="/admin">All</a></li>
-                    <li {%if kind=="users":%} class="active white-text breadcrumbs"{%endif%}> <a href="/admin/users">Users</a></li>
-                    <li {%if kind=="books":%} class="active white-text  breadcrumbs"{%endif%}><a href="/admin/books">Books</a></li>
-                    <li  {%if kind=="subs":%} class="active white-text  breadcrumbs"{%endif%}><a href="/admin/subs">Subs</a></li>
-                 <li> 
-            </li></ol>
+                    <li {%if kind=="all":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a  href="/admin">All</a></li>
+                    <li {%if kind=="users":%} class="active white-text "{%else:%} class="disabled"{%endif%}> <a href="/admin/users">Users</a></li>
+                    <li {%if kind=="books":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a href="/admin/books">Books</a></li>
+                    <li  {%if kind=="subs":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a href="/admin/subs">Subs</a></li><li> {%include "settings.html"%}</li></ol>
                 </div></div></div></div></div>                  </nav>

@@ -21,8 +21,12 @@
 
         {% if current_user.is_anonymous %}
         <li><a class="white-text text-darken-3" href="{{ url_for('login') }}"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Login</big></div></a></li>
+        
+                    <li ><a  class="white-text text-darken-3" href="/register"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Register</big></div></a>
         {% else %}
        <li><a  class="white-text text-darken-3" href="{{ url_for('logout') }}"><div class="purple btn btn-sm accent-3 purple white-text z-depth-3 text-darken-3 card"><big>Logout</big></div></a></li>
         {% endif %}
+
+
 
               </ul></div></div></nav>
