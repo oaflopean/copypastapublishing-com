@@ -303,7 +303,10 @@ if __name__ == '__main__':
 @app.route('/', methods=["POST", "GET"])
 def home():
     title="Create an Ebook"
-
+    try:
+        username=current_user.username
+    except AttributeError:
+        username="caesarnaples2"
     
     form2=Titles()
 
@@ -393,7 +396,7 @@ def home():
     #phrases=r.get_ranked_phrases()
     title=title
     print(posts)
-    return render_template('index.html', form2=form2, subs=subs, phrases=posts, form=form, title=title)
+    return render_template('index.html',username=username, form2=form2, subs=subs, phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
