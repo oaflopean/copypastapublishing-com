@@ -182,16 +182,24 @@ def blog():
 @app.route('/admin/', methods=['GET', 'POST'])
 @app.route('/admin', methods=['GET', 'POST'])
 def admin1():
-    kind="all"
+
     try:
         username=current_user.username
     except AttributeError:
         username="caesarnaples2"
     if request.args.get("uri", default=None, type=str)!=None:
-        uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).all()
+        uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
+        kind="uri"
         return render_template('admin.html',uri=request.args.get("uri"),kind=kind, username=username, content=uri_type)
+
+    elif request.args.get("username", default=None, type=str)!=None:
+        uri_type=RedditPost.query.filter_by(username=request.args.get("username")).order_by(RedditPost.id.desc()).all()
+        kind="username"
+        return render_template('admin.html',kind=kind, username=username, content=uri_type)
+   
     else:
-        uri_type=RedditPost.query.all()
+        kind="all"
+        uri_type=RedditPost.query.order_by(RedditPost.id.desc()).all()
         return render_template('admin.html', username=username, kind=kind,content=uri_type)
 
 
@@ -245,23 +253,15 @@ def admin3(kind):
         username="caesarnaples2"
     if kind=="books":
       
-        book = Books.query.filter().all()
-        print(book)
+        book =RedditPost.query.join(Books).filter(RedditPost.uri==Books.uri).order_by(RedditPost.id.desc()).all()
+
+        
+
         return render_template('admin.html',username=username, kind=kind, content=book)
-    if kind=="chapters":
-      uris=[]
-
-      chapters = RedditPost.query.join(Chapter).filter(Chapter.uri == RedditPost.uri).all()
-      
-      print(chapters)
-
-      return render_template('admin.html',kind=kind, username=username, content=chapter)
+  
     if kind=="users":
-        content={"content":User.query.join(RedditPost).all()}
-       
-        for post in content["content"]:
-            content["posts"]= RedditPost.query.join(User).all()
-        return render_template('admin.html',kind=kind, username=username,content=content["content"], posts=content["posts"])
+        content=User.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
+        return render_template('admin.html',kind=kind, username=username,content=content)
 
     if kind=="subs":
         url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
@@ -281,59 +281,9 @@ def admin3(kind):
 
 @app.route('/books', methods=['GET', 'POST'])
 def books2():
-    title="Create an Ebook"
-
-    
-    form=Titles()
-
-    if form.validate_on_submit():
-        book=Books()
-        book.title=form.title.data
-        book.author=form.author.data
-        book.description=form.description.data
-        try:
-          book.username=current_user.username
-        except AttributeError:
-          book.username="caesarnaples2"
-        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        passlen = 12
-        book.uri =  "".join(random.sample(s,passlen ))
-
-        kw=book.description
-        title=book.title
-        author=book.author
-        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
-        try:
-           client_id=this_bot.client_id
-        except AttributeError:
-           return redirect("register/app")
-        secret=this_bot.secret
-        password=this_bot.password
-        username=this_bot.username
-        reddit = praw.Reddit(client_id=client_id,
-                                client_secret=secret, password=password,
-                                user_agent='Copypasta', username="caesarnaples2")
-         
-         
-        try:
-           reddit_url=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).permalink   
-           
-
-           post=RedditPost(uri=book.uri,reddit_url=reddit_url,  title=book.title, body=book.description, username=book.username)
-           book.reddit_url=reddit_url
-           db.session.add(post)
-           db.session.commit()
-           db.session.add(book)
-           db.session.commit()
-          
-        except praw.exceptions.APIException:
-           return redirect("admin?="+book.uri) 
+    return redirect("/admin/books") 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
-        return render_template('admin.html',username=username, content=Books.query.filter_by(uri=book.uri).all()
-)
-
-    return render_template('books.html', form=form, title=title)
 
 @app.route('/ten-minute-pitch')
 def pitch():
