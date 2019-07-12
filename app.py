@@ -517,7 +517,8 @@ def botpost():
      
      
    try:
-       url=reddit.subreddit('copypastapublishin').submit(kw[0], selftext="["+kw[1]+"]("+kw[2]+")").permalink 
+       body="["+kw[1]+"]("+kw[2]+")"
+       url=reddit.subreddit('copypastapublishin').submit(kw[0], selftext=body).permalink 
 
    except praw.exceptions.APIException:
        return redirect("admin/r/"+sub) 
@@ -527,7 +528,7 @@ def botpost():
    p =  "".join(random.sample(s,passlen ))
    if current_user.is_authenticated:
        username=current_user.username
-   post=RedditPost(reddit_url=url, uri=p, title=kw[0],username=username)
+   post=RedditPost(reddit_url=url, uri=p, title=kw[0],body=body, username=username)
    db.session.add(post)
    db.session.commit()
    

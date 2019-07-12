@@ -11,7 +11,7 @@
       <i class="material-icons">book</i>
  <ul><li class="truncate "><h5>{{titles.title}}</h5></li><li class="truncate ">   
 <span style="font-style: italic">{{titles.author}}</li>
-<p><a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li><li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{{titles.description}}</p></li>
+<p><a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li><li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{{titles.body}}</p></li>
 {%if titles.reddit_url:%}
 <li class="truncate "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
 </li>{%endif%}
@@ -36,6 +36,7 @@
       <i class="material-icons">book</i>
  <ul><li class="truncate "><h5>{{titles.title}}</h5></li><li class="truncate ">   
 <span style="font-style: italic">{{titles.author}}</li>
+
 <p><a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li>
 
 	<li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{%if titles.body:%}{{titles.body}}{%elif titles.description:%}{{titles.description}}
