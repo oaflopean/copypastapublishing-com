@@ -62,6 +62,9 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
+@app.route('/baby', methods=['GET', 'POST'])
+def jpg():
+   render_template('jpg.html')
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -157,7 +160,7 @@ def login():
           login_user(user, remember=form.remember_me.data)
           next_page = request.args.get('next')
           if not next_page or url_parse(next_page).netloc != '':
-              next_page = url_for('home')
+              next_page = url_for("jpg.html")
           return redirect(next_page)
    return render_template('login.html', title='If you\'re already registered, then login now', form=form)
 
@@ -187,8 +190,8 @@ def admin1():
         username=current_user.username
         login=[True,current_user.username]
     else:
-        login=[False,"CaesarNaples2"]
-        username="CaesarNaples2"
+        login=[False,"caesarnaples2"]
+        username="caesarnaples2"
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
         kind="uri"
@@ -212,7 +215,7 @@ def admin2(sub):
     if current_user.is_authenticated:
         login=[True,current_user.username]
     else:
-        username="CaesarNaples2"  
+        username="caesarnaples2"  
     post=RedditPost()
     form2=PostForm()
     if form2.validate_on_submit():
@@ -257,8 +260,8 @@ def admin3(kind):
         username=current_user.username
         login=[True,current_user.username]
     else:
-        login=[False, "CaesarNaples2"]
-        username="CaesarNaples2"
+        login=[False, "caesarnaples2"]
+        username="caesarnaples2"
     if kind=="books":
       
         book =RedditPost.query.join(Books).filter(RedditPost.uri==Books.uri).order_by(RedditPost.id.desc()).all()
@@ -315,8 +318,8 @@ def home():
         login=[True,current_user.username]
         username=current_user.username
     else:
-        login=[False, 'CaesarNaples2']
-        username="CaesarNaples2"
+        login=[False, 'caesarnaples2']
+        username="caesarnaples2"
     form2=Titles()
 
     if form2.validate_on_submit():

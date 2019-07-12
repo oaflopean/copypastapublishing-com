@@ -156,7 +156,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <li>
                 <a href="javascript:void(0);" class="waves-effect waves-block waves-light notification-button" data-activates="notifications-dropdown">
                   <i class="material-icons">notifications_none
-                    <small class="notification-badge orange accent-3">5</small>
+                    <big class="notification-badge orange accent-3">5</big>
                   </i>
                 </a>
               </li>
@@ -201,27 +201,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <li class="divider"></li>
               <li>
                 <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle cyan small">add_shopping_cart</span> A new order has been placed!</a>
+                  <span class="material-icons icon-bg-circle cyan big">add_shopping_cart</span> A new order has been placed!</a>
                 <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
               </li>
               <li>
                 <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle red small">stars</span> Completed the task</a>
+                  <span class="material-icons icon-bg-circle red big">stars</span> Completed the task</a>
                 <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
               </li>
               <li>
                 <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle teal small">settings</span> Settings updated</a>
+                  <span class="material-icons icon-bg-circle teal big">settings</span> Settings updated</a>
                 <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
               </li>
               <li>
                 <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle deep-orange small">today</span> Director meeting started</a>
+                  <span class="material-icons icon-bg-circle deep-orange big">today</span> Director meeting started</a>
                 <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
               </li>
               <li>
                 <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle amber small">trending_up</span> Generate monthly report</a>
+                  <span class="material-icons icon-bg-circle amber big">trending_up</span> Generate monthly report</a>
                 <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
               </li>
             </ul>
@@ -257,20 +257,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <header >
 {%include 'navbar-admin.html'%}
-       
-            <div class="fixed-action-btn  " style="bottom: 50px; right: 19px;">
+   <a href="https://sites.google.com/view/eyestars/home">
+
+<div style="margin-bottom:0px"id="jumbo" class="jumbotron purple lighten-4" ><img class="responsive-img " src="/static/images/bauhau13.png"></img></a>  <h2 class="white-text">Welcome Back.</h2>
+        <p  class="white-text">Our website contains magenta.</p>
+</div>
+            <div class="fixed-action-btn  " style="bottom: 75px; right: 150px;">
               <a class="btn-floating pink accent-3 btn-large">
                 <i class="material-icons">view_headline</i>
               </a>
               <ul>
-                
+                    <li><a href="/admin/books" class="grey-text text-darken-2"><big><i>Bot</i></big></a><big><i>Book</i><big></a>
+                    </li>
+        
      
                 <li>
+                    <a href="/" class="grey-text text-darken-2">Home</a>
+                    
                   <a href="/admin/books" class="btn-floating green">
                     <i class="material-icons">book</i>
                   </a>
                 </li>
-                <li>
+                <a href="/admin?username={{username}}" class="grey-text text-darken-2">{{username}}'s Profile</a>
                   <a href="/admin?username={{username}}" class="btn-floating red">
                     <i class="material-icons">verified_user</i>
                   </a>
@@ -321,7 +329,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <!-- END RIGHT SIDEBAR NAV-->
       </div>
       <!-- END WRAPPER -->
-    </div>{% include 'firebase.html'%}
+    </div>
 
     <!-- END MAIN -->
     <!-- //////////////////////////////////////////////////////////////////////////// -->
