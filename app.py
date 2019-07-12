@@ -183,6 +183,8 @@ def blog():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin1():
 
+    if current_user.is_authenticated:
+        login=[True,current_user.username]
     try:
         username=current_user.username
     except AttributeError:
@@ -190,23 +192,29 @@ def admin1():
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
         kind="uri"
-        return render_template('admin.html',uri=request.args.get("uri"),kind=kind, username=username, content=uri_type)
+        return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind, username=username, content=uri_type)
 
     elif request.args.get("username", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(username=request.args.get("username")).order_by(RedditPost.id.desc()).all()
         kind="username"
-        return render_template('admin.html',kind=kind, username=username, content=uri_type)
+        return render_template('admin.html',kind=kind, username=username,login=login, content=uri_type)
    
     else:
         kind="all"
         uri_type=RedditPost.query.order_by(RedditPost.id.desc()).all()
-        return render_template('admin.html', username=username, kind=kind,content=uri_type)
+        return render_template('admin.html',login=login, username=username, kind=kind,content=uri_type)
 
 
 
 
 @app.route('/admin/r/<sub>', methods=['GET', 'POST'])
-def admin2(sub):   
+def admin2(sub):
+    if current_user.is_authenticated:
+        login=[True,current_user.username]
+    try:
+        username=current_user.username
+    except AttributeError:
+        username="CaesarNaples2"  
     post=RedditPost()
     form2=PostForm()
     if form2.validate_on_submit():
@@ -241,12 +249,14 @@ def admin2(sub):
     texts=sorted(texts, key=attrgetter('integer'), reverse=True)
          # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
                 # return render_template('entries.html', entries=json
-    return render_template('admin.html',sub=sub,form=form, kind=sub, form2=form2, phrases=texts, title=title)
+    return render_template('admin.html',login=login, sub=sub,form=form, kind=sub, form2=form2, phrases=texts, title=title)
 
     
    
 @app.route('/admin/<kind>', methods=['GET', 'POST'])
 def admin3(kind):
+    if current_user.is_authenticated:
+        login=[True,current_user.username]
     try:
         username=current_user.username
     except AttributeError:
@@ -257,11 +267,11 @@ def admin3(kind):
 
         
 
-        return render_template('admin.html',username=username, kind=kind, content=book)
+        return render_template('admin.html',login=login, username=username, kind=kind, content=book)
   
     if kind=="users":
         content=User.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
-        return render_template('admin.html',kind=kind, username=username,content=content)
+        return render_template('admin.html',login=login, kind=kind, username=username,content=content)
 
     if kind=="subs":
         url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
@@ -272,7 +282,7 @@ def admin3(kind):
             data3.append(sub2.sub) 
         subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
     
-        return render_template('admin.html', kind=kind, subs=subs, username=username,content={}, posts={})
+        return render_template('admin.html',login=login, kind=kind, subs=subs, username=username,content={}, posts={})
 
 
 
@@ -303,6 +313,8 @@ if __name__ == '__main__':
 @app.route('/', methods=["POST", "GET"])
 def home():
     title="Create an Ebook"
+    login=[True,current_user.username]
+
     try:
         username=current_user.username
     except AttributeError:
@@ -343,7 +355,7 @@ def home():
            reddit_url=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).permalink   
            
 
-           post=RedditPost(uri=book.uri,reddit_url=reddit_url,  title=book.title, body=book.description, username=book.username)
+           post=RedditPost(uri=book.uri,reddit_url=reddit_url,  login=login, title=book.title, body=book.description, username=book.username)
            book.reddit_url=reddit_url
            db.session.add(post)
            db.session.commit()
@@ -354,7 +366,7 @@ def home():
            return redirect("admin?="+book.uri) 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
-        return render_template('admin.html',username=username, content=Books.query.filter_by(uri=book.uri).all()
+        return render_template('admin.html',login=login, username=username, content=Books.query.filter_by(uri=book.uri).all()
 )
 
     sub="writing"
@@ -396,7 +408,7 @@ def home():
     #phrases=r.get_ranked_phrases()
     title=title
     print(posts)
-    return render_template('index.html',username=username, form2=form2, subs=subs, phrases=posts, form=form, title=title)
+    return render_template('index.html',login=login, username=username, form2=form2, subs=subs, phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
