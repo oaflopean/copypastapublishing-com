@@ -186,7 +186,7 @@ def admin1():
     try:
         username=current_user.username
     except AttributeError:
-        username="caesarnaples2"
+        username="CaesarNaples2"
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
         kind="uri"
@@ -250,7 +250,7 @@ def admin3(kind):
     try:
         username=current_user.username
     except AttributeError:
-        username="caesarnaples2"
+        username="CaesarNaples2"
     if kind=="books":
       
         book =RedditPost.query.join(Books).filter(RedditPost.uri==Books.uri).order_by(RedditPost.id.desc()).all()
@@ -306,7 +306,7 @@ def home():
     try:
         username=current_user.username
     except AttributeError:
-        username="caesarnaples2"
+        username="CaesarNaples2"
     
     form2=Titles()
 
