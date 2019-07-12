@@ -281,7 +281,7 @@ def admin3(kind):
 
 @app.route('/books', methods=['GET', 'POST'])
 def books2():
-    return redirect("/admin/books") 
+    return render_template("jpg.html") 
         #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
         
 
