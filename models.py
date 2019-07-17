@@ -89,7 +89,6 @@ class RedditPost(db.Model):
     title=db.Column(db.String())
     body = db.Column(db.String())
     integer=db.Column(db.Integer())
-    parent_id = db.Column(db.Integer(), db.ForeignKey('books.id'))
 
     username=db.Column(db.String(64), db.ForeignKey("user.username"))
             
