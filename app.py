@@ -184,6 +184,7 @@ def blog():
 @app.route('/xxx')
 def xxx():
     title="XXX"
+    
     return render_template('xxx.html', title=title)
 
 @app.route('/admin/', methods=['GET', 'POST'])
