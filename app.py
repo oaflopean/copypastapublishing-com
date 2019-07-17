@@ -41,7 +41,7 @@ app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
-from models import User, Post, Bots, Result, Books, Chapter, RedditPost, Subreddits
+from models import User, Post, Bots, Result, Books,  RedditPost, Subreddits
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
@@ -145,7 +145,6 @@ def login():
                               client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
         
           save=reddit.redditor(form.username.data).submissions.new()
-                
           for ank in save:
               new=Subreddits()
               new.sub= str(ank.subreddit)
@@ -156,11 +155,11 @@ def login():
                   db.session.add(new)
                   print(ank.subreddit)
                   db.session.commit()
-  
+          
           login_user(user, remember=form.remember_me.data)
           next_page = request.args.get('next')
           if not next_page or url_parse(next_page).netloc != '':
-              next_page = url_for("jpg.html")
+              next_page = url_for("admin1")
           return redirect(next_page)
    return render_template('login.html', title='If you\'re already registered, then login now', form=form)
 
@@ -181,6 +180,11 @@ def blog():
     
     title="Editor Blog: Jordan Jones"
     return render_template('blog-index.html', title=title)
+
+@app.route('/xxx')
+def xxx():
+    title="XXX"
+    return render_template('xxx.html', title=title)
 
 @app.route('/admin/', methods=['GET', 'POST'])
 @app.route('/admin', methods=['GET', 'POST'])

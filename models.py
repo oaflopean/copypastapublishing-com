@@ -80,13 +80,6 @@ class Books(db.Model):
             string='Book: {}>'.format(self.title)
         return string
         
-class Chapter(db.Model):
-    __tablename__= 'chapter'
-    id = db.Column(db.Integer(), primary_key=True)
-    parent_id = db.Column(db.Integer(), db.ForeignKey('books.id'))
-    text = db.Column(db.String())
-    uri=db.Column(db.String(), db.ForeignKey('redditpost.uri'))
-    username=db.Column(db.String(64), db.ForeignKey("user.username"))
 
 class RedditPost(db.Model):
     __tablename__='redditpost' 
@@ -96,6 +89,8 @@ class RedditPost(db.Model):
     title=db.Column(db.String())
     body = db.Column(db.String())
     integer=db.Column(db.Integer())
+    parent_id = db.Column(db.Integer(), db.ForeignKey('books.id'))
+
     username=db.Column(db.String(64), db.ForeignKey("user.username"))
             
     def __repr__(self):
