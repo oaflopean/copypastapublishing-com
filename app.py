@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
-      
+from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
+
 import ebooklib
 from pymongo import MongoClient
 from mongoengine import *
@@ -27,6 +27,7 @@ from flask_login import logout_user
 from flask_login import login_required
 from werkzeug.urls import url_parse
 from psycopg2 import errors
+from caesarcipher import CaesarCipher
 app = Flask(__name__)
 
 
@@ -187,6 +188,67 @@ def xxx():
     
     return render_template('xxx.html', title=title)
 
+@app.route('/books', methods=['GET', 'POST'])
+@app.route('/book', methods=['GET', 'POST'])
+def books():
+    if request.args.get("uri", default=None, type=str)!=None:
+        form2 = Titles()
+    if current_user.is_authenticated:
+        username=current_user.username
+        login=[True,current_user.username]
+    else:
+        login=[False,"caesarnaples2"]
+        username="caesarnaples2"
+    form2 = Titles()
+
+    title="Copypasta Publishing - Write a Book"
+    if form2.validate_on_submit():
+        book = Books()
+        book.title = form2.title.data
+        book.author = form2.author.data
+        book.description = form2.description.data
+        try:
+            book.username = current_user.username
+        except AttributeError:
+            book.username = "caesarnaples2"
+        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        passlen = 12
+        book.uri = "".join(random.sample(s, passlen))
+
+        kw = book.description
+        title = book.title
+        author = book.author
+        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        try:
+            client_id = this_bot.client_id
+        except AttributeError:
+            return redirect("register/app")
+        secret = this_bot.secret
+        password = this_bot.password
+        username = this_bot.username
+        reddit = praw.Reddit(client_id=client_id,
+                             client_secret=secret, password=password,
+                             user_agent='Copypasta', username="caesarnaples2")
+
+        try:
+            reddit_url = reddit.subreddit('publishcopypasta').submit(title + " by " + author, selftext=kw).permalink
+
+            post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
+                              username=book.username)
+            book.reddit_url = reddit_url
+            db.session.add(post)
+            db.session.commit()
+            db.session.add(book)
+            db.session.commit()
+
+        except praw.exceptions.APIException:
+            return redirect("admin?=" + book.uri)
+            # reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+
+        return render_template('admin.html', login=login, username=username, kind="books",
+                               content=Books.query.filter_by(uri=book.uri).all()
+                               )
+    return render_template('books.html',form2=form2, title=title )
 @app.route('/admin/', methods=['GET', 'POST'])
 @app.route('/admin', methods=['GET', 'POST'])
 def admin1():
@@ -298,12 +360,6 @@ def admin3(kind):
 
 
 
-@app.route('/books', methods=['GET', 'POST'])
-def books2():
-    return render_template("jpg.html") 
-        #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-        
-
 @app.route('/ten-minute-pitch')
 def pitch():
     title="Ten Minute Pitch: Write a Query Letter"
@@ -316,243 +372,443 @@ def invite():
 
     return render_template('invite.html', title=title)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+@app.route('/<method>/<key>')
+def hello_world(method, key):
+    urls=[]
+    for url_list in app.url_map.iter_rules():
+        urls.append(url_list.rule)
+        for abc in range(26):
+            cipher = CaesarCipher(method,offset= abc).encoded
+            print(cipher + url_list.rule)
+            if cipher== url_list.rule.strip("/"):
+                print("yes")
+                method= cipher
+                key = CaesarCipher(key, offset=abc).encoded
+                print(key)
+                print(method)
+                return push(key)
+            else:
+                continue
+    return str([a for a in urls])
+
+def caesarcip(text):
+    ran=random.randint(1,26)
+    newvar=CaesarCipher(text, ran)
+    return newvar
+
+@app.route("/pod", methods=['GET', 'POST'])
+def pod():
+    form2 = Titles()
+
+    title = "Submit " + str(app)
+    username = "caesarnaples2"
+
+    if form2.validate_on_submit():
+        book = Books()
+        book.title = form2.title.data
+        book.author = form2.author.data
+        book.description = form2.description.data
+        try:
+            book.username = username
+        except AttributeError:
+            book.username = "caesarnaples2"
+        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        passlen = 6
+        book.uri = "".join(random.sample(s, passlen))
+        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        try:
+            client_id = this_bot.client_id
+        except AttributeError:
+            return redirect("/")
+        secret = this_bot.secret
+        password = this_bot.password
+        username = this_bot.username
+        reddit = praw.Reddit(client_id=client_id,
+                             client_secret=secret, password=password,
+                             user_agent='Copypasta', username="caesarnaples2")
+
+        try:
+            reddit_url = reddit.subreddit('publishcopypasta').submit(book.title + " by " + book.author,
+                                                                     selftext=book.description).permalink
+        except praw.exceptions.APIException:
+            reddit_url = "No url"
+        post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
+                          username=book.username)
+        book.reddit_url = reddit_url
+        db.session.add(post)
+        db.session.commit()
+        db.session.add(book)
+        db.session.commit()
+
+    content = Books.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
+    string_response = "{%include 'books.html'%}"
+
+    for box in content:
+        string_response = string_response + "<a href="+caesarcip("submit/"+box.uri).encoded+"<h1>" + box.title + "</h1></a>"
+        string_response = string_response + box.author + "<br>"
+        string_response = string_response + box.description.replace('\n', "<br>")
+    return render_template_string(string_response, form2=form2)
+
+
+@app.route('/friends?key=<key>')
+@app.route('/friends')
+def royce():
+
+    string_response = "{%include 'books.html'%}"
+    key = request.args.get("key")
+    content = User.query.filter_by().all()
+    for user in content:
+        string_response = string_response + user.username + "<br>"
+    return render_template_string('Your friends are {{ body }}', body=content)
+
+@app.route('/submit?key=<key>')
+@app.route('/submit')
+def push(key):
+    form2 = Titles()
+
+    if form2.validate_on_submit():
+        book = Books()
+        book.title = form2.title.data
+        book.author = form2.author.data
+        book.description = form2.description.data
+        try:
+            book.username = current_user.username
+        except AttributeError:
+            book.username = "caesarnaples2"
+        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        passlen = 12
+        book.uri = "".join(random.sample(s, passlen))
+
+        kw = book.description
+        title = book.title
+        author = book.author
+        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        try:
+            client_id = this_bot.client_id
+        except AttributeError:
+            return redirect("register/app")
+        secret = this_bot.secret
+        password = this_bot.password
+        username = this_bot.username
+        reddit = praw.Reddit(client_id=client_id,
+                             client_secret=secret, password=password,
+                             user_agent='Copypasta', username="caesarnaples2")
+
+        try:
+            reddit_url = reddit.subreddit('publishcopypasta').submit(title + " by " + author, selftext=kw).permalink
+
+            post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
+                              username=book.username)
+            book.reddit_url = reddit_url
+            db.session.add(post)
+            db.session.commit()
+            db.session.add(book)
+            db.session.commit()
+        except KeyError:
+            print("error on db commit")
+    if request.args.get("key"):
+        key=request.arg.get("key")
+        for key2 in range(26):
+            try:
+                content = Books.query.filter_by(uri=key).first()
+                print(content.uri)
+            except KeyError:
+                continue
+            string_response = "{%include 'books.html'%}"
+
+        for box in content:
+                string_response = string_response + "<a href=" + caesarcip(
+                    "submit/" + box.uri) + "<h1>" + box.title + "</h1></a>"
+                string_response = string_response + box.author + "<br>"
+                string_response = string_response + box.description.replace('\n', "<br>")
+        return render_template_string(string_response, form2=form2)
+    else:
+        return render_template_string('<form action=\"books\" method=\"post\"  >\r\n      {{ form2.hidden_tag() }}\r\n\r\n        <p>\r\n            {{ form2.title.label }}<br>\r\n            {{ form2.title(size=300) }}<br>\r\n            \r\n                        {% for error in form2.title.errors %}\r\n            <span style=\"color: red;\">[{{ error }}]<\/span>{%endfor%}\r\n        <p>\r\n            {{ form2.author.label }}<br>\r\n            {{ form2.author(size=300) }}<br>\r\n           \r\n                       {% for error in form2.author.errors %}\r\n            <span style=\"color: red;\">[{{ error }}]<\/span>{%endfor%}\r\n                <p>\r\n            {{ form2.description.label }}<br>\r\n            {{ form2.description(class=\"materialize-textarea\") }}<br>\r\n           \r\n               {{ form2.submit(class=\"btn waves-effect waves-light\", type=\"submit\")}}</form>', form2=form2)
+@app.route('/books?key=<key>')
+@app.route('/books', methods=['GET', 'POST'])
+def blow():
+    return render_template("blog.html", site=Books.query.join(RedditPost).order_by(RedditPost.id.desc()).all())
+
+@app.route('/profiles?key=<key>')
+@app.route('/profiles')
+def rain():
+    key = request.args.get("key")
+    return render_template_string('Your key is {{ body }}', body=key)
+
 
 @app.route('/', methods=["POST", "GET"])
 def home():
-    title="Create an Ebook"
+    title = "Create an Ebook"
     if current_user.is_authenticated:
-        login=[True,current_user.username]
-        username=current_user.username
+        login = [True, current_user.username]
+        username = current_user.username
     else:
-        login=[False, 'caesarnaples2']
-        username="caesarnaples2"
-    form2=Titles()
+        login = [False, 'caesarnaples2']
+        username = "caesarnaples2"
+    form2 = Titles()
 
     if form2.validate_on_submit():
-        book=Books()
-        book.title=form.title.data
-        book.author=form.author.data
-        book.description=form.description.data
+        book = Books()
+        book.title = form.title.data
+        book.author = form.author.data
+        book.description = form.description.data
         try:
-          book.username=current_user.username
+            book.username = current_user.username
         except AttributeError:
-          book.username="caesarnaples2"
-        s  = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            book.username = "caesarnaples2"
+        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         passlen = 12
-        book.uri =  "".join(random.sample(s,passlen ))
+        book.uri = "".join(random.sample(s, passlen))
 
-        kw=book.description
-        title=book.title
-        author=book.author
+        kw = book.description
+        title = book.title
+        author = book.author
         this_bot = Bots.query.filter_by(username="caesarnaples2").first()
         try:
-           client_id=this_bot.client_id
+            client_id = this_bot.client_id
         except AttributeError:
-           return redirect("register/app")
-        secret=this_bot.secret
-        password=this_bot.password
-        username=this_bot.username
+            return redirect("register/app")
+        secret = this_bot.secret
+        password = this_bot.password
+        username = this_bot.username
         reddit = praw.Reddit(client_id=client_id,
-                                client_secret=secret, password=password,
-                                user_agent='Copypasta', username="caesarnaples2")
-         
-         
+                             client_secret=secret, password=password,
+                             user_agent='Copypasta', username="caesarnaples2")
+
         try:
-           reddit_url=reddit.subreddit('publishcopypasta').submit(title+ " by "+author, selftext= kw).permalink   
-           
+            reddit_url = reddit.subreddit('publishcopypasta').submit(title + " by " + author, selftext=kw).permalink
 
-           post=RedditPost(uri=book.uri,reddit_url=reddit_url,  login=login, title=book.title, body=book.description, username=book.username)
-           book.reddit_url=reddit_url
-           db.session.add(post)
-           db.session.commit()
-           db.session.add(book)
-           db.session.commit()
-          
+            post = RedditPost(uri=book.uri, reddit_url=reddit_url, login=login, title=book.title, body=book.description,
+                              username=book.username)
+            book.reddit_url = reddit_url
+            db.session.add(post)
+            db.session.commit()
+            db.session.add(book)
+            db.session.commit()
+
         except praw.exceptions.APIException:
-           return redirect("admin?="+book.uri) 
-        #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-        
-        return render_template('admin.html',login=login, username=username, kind="books" ,content=Books.query.filter_by(uri=book.uri).all()
-)
+            return redirect("admin?=" + book.uri)
+            # reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
 
-    sub="writing"
-    title="Copypasta Publishing: Social Media Marketing"
+        return render_template('admin.html', form2=form2, login=login, username=username, kind="books",
+                               content=Books.query.filter_by(uri=book.uri).all()
+                               )
+
+    sub = "writing"
+    title = "Copypasta Publishing: Social Media Marketing"
     form = ReusableForm(request.form)
     url2 = 'https://www.reddit.com/api/trending_subreddits/.json?limit=100'
-    
-    data2= requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+
+    data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     print(data2)
     if request.method == 'POST':
-        name=request.form['name']
-        return redirect('/keywords/r/'+name)
+        name = request.form['name']
+        return redirect('/keywords/r/' + name)
 
     if form.validate():
         # Save the comment here.
         flash('Keywords from r/' + name)
-    posts=[]
-    subs1=Subreddits.query.all()
-    data3=[]
+    posts = []
+    subs1 = Subreddits.query.all()
+    data3 = []
     for sub2 in subs1:
-        data3.append(sub2.sub) 
-    subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
-    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=10'
+        data3.append(sub2.sub)
+    subs = data3 + data2["subreddit_names"] + ["AskReddit", "announcements", "funny", "pics", "todayilearned",
+                                               "science", "IAmA", "blog", "videos", "worldnews", "gaming", "movies",
+                                               "Music", "aww", "news", "gifs", "askscience", "explainlikeimfive",
+                                               "EarthPorn", "books", "television", "LifeProTips", "sports", "DIY",
+                                               "Showerthoughts", "space", "Jokes", "tifu", "food", "photoshopbattles",
+                                               "Art", "InternetIsBeautiful", "mildlyinteresting", "GetMotivated",
+                                               "history", "nottheonion", "gadgets", "dataisbeautiful", "Futurology",
+                                               "Documentaries", "listentothis", "personalfinance", "philosophy",
+                                               "nosleep", "creepy", "OldSchoolCool", "UpliftingNews", "WritingPrompts",
+                                               "TwoXChromosomes"]
+    url = 'https://www.reddit.com/r/' + sub + '/new/.json?limit=10'
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     for link in data['data']['children']:
-            
-        phrasey=RedditPost()
+        phrasey = RedditPost()
 
-        phrasey.uri="https://www.reddit.com/"+link['data']['permalink']
-        phrasey.body=link['data']['title']
+        phrasey.uri = "https://www.reddit.com/" + link['data']['permalink']
+        phrasey.body = link['data']['title']
         posts.append(phrasey)
         #  phrases_string="\n".join(phrasey["body"])
-   #print(phrases_string)
+    # print(phrases_string)
 
-    #r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+    # r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
 
-    #r.extract_keywords_from_text(phrases_string)
+    # r.extract_keywords_from_text(phrases_string)
 
-    #phrases=r.get_ranked_phrases()
-    title=title
+    # phrases=r.get_ranked_phrases()
+    title = title
     print(posts)
-    return render_template('index.html',login=login, kind="books" ,username=username, form2=form2, subs=subs, phrases=posts, form=form, title=title)
+    return render_template('index.html', login=login, kind="books", username=username, form2=form2, subs=subs,
+                           phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
 def rake2(sub):
-   post={}
-   form2=PostForm()
-   if form2.validate_on_submit():
-      post[kw]=form2.kw
-      post[sub]=form2.sub
-      res = requests.post(url_for('botpost'),headers='Content-Type: application/json',data=json.dumps(post))
+    post = {}
+    form2 = PostForm()
+    if form2.validate_on_submit():
+        post[kw] = form2.kw
+        post[sub] = form2.sub
+        res = requests.post(url_for('botpost'), headers='Content-Type: application/json', data=json.dumps(post))
 
-      return redirect(url_for('rake2', sub=sub))
-   title="Reddit Influencers on r/"+sub
-   url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
-   url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
-   form = ReusableForm(request.form)
-   if request.method == 'POST':
-       name=request.form['name']
-       return redirect('/keywords/r/'+name)
-   texts=[]
-   if form.validate():
+        return redirect(url_for('rake2', sub=sub))
+    title = "Reddit Influencers on r/" + sub
+    url = 'https://www.reddit.com/r/' + sub + '/new/.json?limit=300'
+    url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
+    form = ReusableForm(request.form)
+    if request.method == 'POST':
+        name = request.form['name']
+        return redirect('/keywords/r/' + name)
+    texts = []
+    if form.validate():
         # Save the comment here.
-       flash('Keywords from r/' + name)   
-   data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-   data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-   print(data2.keys())
-   print(data2["subreddit_names"])
-   if data:
-       for link in data['data']['children']:
-           uri=link['data']['permalink']
-           title2=link['data']['title']
-           p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
-           p.extract_keywords_from_text(link['data']['title'])
-           p.extract_keywords_from_text(link['data']['selftext'])
+        flash('Keywords from r/' + name)
+    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    print(data2.keys())
+    print(data2["subreddit_names"])
+    if data:
+        for link in data['data']['children']:
+            uri = link['data']['permalink']
+            title2 = link['data']['title']
+            p = Rake(min_length=2)  # Uses stopwords for english from NLTK, and all puntuation characters.
+            p.extract_keywords_from_text(link['data']['title'])
+            p.extract_keywords_from_text(link['data']['selftext'])
             # To get keyword phrases ranked highest to lowest
-           for post in p.get_ranked_phrases_with_scores():
-               print(post)
-               texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
-   
-   else:
-       subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+            for post in p.get_ranked_phrases_with_scores():
+                print(post)
+                texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
 
-       return render_template('keywords.html',sub=sub,form=form,  form2=form2, subs=subs, phrases=phrasey, title="Subreddit not found.")
-   texts=sorted(texts, key=attrgetter('integer'), reverse=True)
-   print(texts)
-   subs1=Subreddits.query.all()
-   data3=[]
-   for sub2 in subs1:
-       data3.append(sub2.sub) 
-       subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
-                # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
-                # return render_template('entries.html', entries=json
-   return render_template('keywords.html',sub=sub,form=form,  form2=form2, phrases=texts, subs=subs, title=title)
+    else:
+        subs = data2["subreddit_names"] + ["/r/AskReddit", "announcements", "funny", "pics", "todayilearned", "science",
+                                           "IAmA", "blog", "videos", "worldnews", "gaming", "movies", "Music", "aww",
+                                           "news", "gifs", "askscience", "explainlikeimfive", "EarthPorn", "books",
+                                           "television", "LifeProTips", "sports", "DIY", "Showerthoughts", "space",
+                                           "Jokes", "tifu", "food", "photoshopbattles", "Art", "InternetIsBeautiful",
+                                           "mildlyinteresting", "GetMotivated", "history", "nottheonion", "gadgets",
+                                           "dataisbeautiful", "Futurology", "Documentaries", "listentothis",
+                                           "personalfinance", "philosophy", "nosleep", "creepy", "OldSchoolCool",
+                                           "UpliftingNews", "WritingPrompts", "TwoXChromosomes"]
 
-    
-    
+        return render_template('keywords.html', sub=sub, form=form, form2=form2, subs=subs, phrases=phrasey,
+                               title="Subreddit not found.")
+    texts = sorted(texts, key=attrgetter('integer'), reverse=True)
+    print(texts)
+    subs1 = Subreddits.query.all()
+    data3 = []
+    for sub2 in subs1:
+        data3.append(sub2.sub)
+        subs = data3 + data2["subreddit_names"] + ["AskReddit", "announcements", "funny", "pics", "todayilearned",
+                                                   "science", "IAmA", "blog", "videos", "worldnews", "gaming", "movies",
+                                                   "Music", "aww", "news", "gifs", "askscience", "explainlikeimfive",
+                                                   "EarthPorn", "books", "television", "LifeProTips", "sports", "DIY",
+                                                   "Showerthoughts", "space", "Jokes", "tifu", "food",
+                                                   "photoshopbattles", "Art", "InternetIsBeautiful",
+                                                   "mildlyinteresting", "GetMotivated", "history", "nottheonion",
+                                                   "gadgets", "dataisbeautiful", "Futurology", "Documentaries",
+                                                   "listentothis", "personalfinance", "philosophy", "nosleep", "creepy",
+                                                   "OldSchoolCool", "UpliftingNews", "WritingPrompts",
+                                                   "TwoXChromosomes"]
+        # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
+        # return render_template('entries.html', entries=json
+    return render_template('keywords.html', sub=sub, form=form, form2=form2, phrases=texts, subs=subs, title=title)
+
+
 @app.route('/keywords', methods=["POST", "GET"])
-def kw():     
-   sub=None
-   url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
+def kw():
+    sub = None
+    url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
 
-   data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-   subs=data2["subreddit_names"]+["/r/AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+    data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+    subs = data2["subreddit_names"] + ["/r/AskReddit", "announcements", "funny", "pics", "todayilearned", "science",
+                                       "IAmA", "blog", "videos", "worldnews", "gaming", "movies", "Music", "aww",
+                                       "news", "gifs", "askscience", "explainlikeimfive", "EarthPorn", "books",
+                                       "television", "LifeProTips", "sports", "DIY", "Showerthoughts", "space", "Jokes",
+                                       "tifu", "food", "photoshopbattles", "Art", "InternetIsBeautiful",
+                                       "mildlyinteresting", "GetMotivated", "history", "nottheonion", "gadgets",
+                                       "dataisbeautiful", "Futurology", "Documentaries", "listentothis",
+                                       "personalfinance", "philosophy", "nosleep", "creepy", "OldSchoolCool",
+                                       "UpliftingNews", "WritingPrompts", "TwoXChromosomes"]
 
-   texts={}
-   title="Reddit Influencers on Multiple Subreddits"
+    texts = {}
+    title = "Reddit Influencers on Multiple Subreddits"
 
-   sort="new"
-   form = ReusableForm(request.form)
-   if request.method == 'POST':
-       name=request.form['name']
-       return redirect('/keywords/r/'+name)
+    sort = "new"
+    form = ReusableForm(request.form)
+    if request.method == 'POST':
+        name = request.form['name']
+        return redirect('/keywords/r/' + name)
 
-   if form.validate():
+    if form.validate():
         # Save the comment here.
-       flash('Keywords from r/' + name)      
-   return render_template('keywords.html',sub=sub,subs=subs, form=form, phrases=texts, sort=sort, title=title)
+        flash('Keywords from r/' + name)
+    return render_template('keywords.html', sub=sub, subs=subs, form=form, phrases=texts, sort=sort, title=title)
 
 
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html")
+
+
 @app.route('/websites')
 def library():
-
-    r=glob.glob("texts/*")
-    r=random.sample(r, len(r))
-    d={"text":[]}
+    r = glob.glob("texts/*")
+    r = random.sample(r, len(r))
+    d = {"text": []}
     for a in r:
-        b=open(a)
-        c=b.read()
-        f=c.split('\n\n')
+        b = open(a)
+        c = b.read()
+        f = c.split('\n\n')
         for g in f:
-                g=g.replace('\n',' ')
-                if g!=' ':
-                    d["text"].append(g)
+            g = g.replace('\n', ' ')
+            if g != ' ':
+                d["text"].append(g)
 
-    e= d['text']
+    e = d['text']
     reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
-                            client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
-                            user_agent='Ravenclaw', username='caesarnaples2')
-     
+                         client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$',
+                         user_agent='Ravenclaw', username='caesarnaples2')
 
-    return render_template("library.html", text=e,title="Copypasta Publishing: Blurbs from Websites")
+    return render_template("library.html", text=e, title="Copypasta Publishing: Blurbs from Websites")
+
 
 @app.route('/bot', methods=["POST"])
 def botpost():
-   req=request.values
-   kw=req.get('kw').split('|')
-   this_bot = Bots.query.filter_by(username="caesarnaples2").first()
-   try:
-       client_id=this_bot.client_id
-   except AttributeError:
-       return redirect("register/app")
-   secret=this_bot.secret
-   password=this_bot.password
-   username=this_bot.username
-   reddit = praw.Reddit(client_id=client_id,
-                            client_secret=secret, password=password,
-                            user_agent='Copypasta', username=username)
-     
-     
-   try:
-       body="["+kw[1]+"]("+kw[2]+")"
-       url=reddit.subreddit('copypastapublishin').submit(kw[0], selftext=body).permalink 
+    req = request.values
+    kw = req.get('kw').split('|')
+    this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+    try:
+        client_id = this_bot.client_id
+    except AttributeError:
+        return redirect("register/app")
+    secret = this_bot.secret
+    password = this_bot.password
+    username = this_bot.username
+    reddit = praw.Reddit(client_id=client_id,
+                         client_secret=secret, password=password,
+                         user_agent='Copypasta', username=username)
 
-   except praw.exceptions.APIException:
-       return redirect("admin/r/"+sub) 
-   #reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
-   s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-   passlen = 12
-   p =  "".join(random.sample(s,passlen ))
-   if current_user.is_authenticated:
-       username=current_user.username
-   post=RedditPost(reddit_url=url, uri=p, title=kw[0],body=body, username=username)
-   db.session.add(post)
-   db.session.commit()
-   
-   return redirect('/admin?uri='+p)
+    try:
+        body = "[" + kw[1] + "](" + kw[2] + ")"
+        url = reddit.subreddit('copypastapublishin').submit(kw[0], selftext=body).permalink
+
+    except praw.exceptions.APIException:
+        return redirect("admin/r/" + sub)
+    s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    passlen = 12
+    p = "".join(random.sample(s, passlen))
+    if current_user.is_authenticated:
+        username = current_user.username
+    post = RedditPost(reddit_url=url, uri=p, title=kw[0], body=body, username=username)
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect('/admin?uri=' + p)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
