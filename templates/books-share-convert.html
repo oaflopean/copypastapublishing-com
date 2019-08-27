@@ -4,7 +4,6 @@
 
 <body class="purple lighten-4">
 {% include 'google.html' %}
-   {%if current_user.username:%}<h4>Hi, {{ current_user.username }}! Begin here by adding the details of your book, and adding it to your book list.</h4>{%endif%}
     <div class="amber lighten-2 container" >
 <form>s
       <div class="row">
@@ -17,7 +16,7 @@
           <label for="author">{{book.author}}</label>
         </div>
       </div>
-     
+
             <div class="row">
         <div class="input-field col s6">
           <textarea id="copyright" class="materialize-textarea"></textarea>
@@ -29,11 +28,11 @@
         </div>      </div>
     </form>
   </div>
-        
+
 {% for chapter in book.chapters:%}
 <div class="amber lighten-2 container" >
 <form>
-     
+
             <div class="row">
         <div class="input-field col s12">
           <textarea id="copyright" class="materialize-textarea"></textarea>
