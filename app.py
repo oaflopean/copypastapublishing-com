@@ -211,7 +211,7 @@ def books():
             book.username = current_user.username
         except AttributeError:
             book.username = "caesarnaples2"
-        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
 
@@ -384,17 +384,17 @@ def hello_world(method, key):
             if cipher== url_list.rule.strip("/"):
                 print("yes")
                 method= cipher
-                key = CaesarCipher(key, offset=abc).encoded
+                key = CaesarCipher(key, offset=abc)
                 print(key)
                 print(method)
-                return push(key)
+                return redirect(method+"/"+key)
             else:
                 continue
     return str([a for a in urls])
 
 def caesarcip(text):
     ran=random.randint(1,26)
-    newvar=CaesarCipher(text, ran)
+    newvar=CaesarCipher(text, offset=ran)
     return newvar
 
 @app.route("/pod", methods=['GET', 'POST'])
@@ -413,7 +413,7 @@ def pod():
             book.username = username
         except AttributeError:
             book.username = "caesarnaples2"
-        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 6
         book.uri = "".join(random.sample(s, passlen))
         this_bot = Bots.query.filter_by(username="caesarnaples2").first()
@@ -442,11 +442,12 @@ def pod():
         db.session.commit()
 
     content = Books.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
-    string_response = "{%include 'books.html'%}"
-
+    string_response = "{%include 'books.html'%}<br>"
     for box in content:
-        string_response = string_response + "<a href="+caesarcip("submit/"+box.uri).encoded+"<h1>" + box.title + "</h1></a>"
-        string_response = string_response + box.author + "<br>"
+        cipher2 = caesarcip("submit/" + box.uri).encoded.split("/")
+
+        string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + box.title + "</h1></a>"
+        string_response = string_response +"<br>"+ box.author + "<br>"
         string_response = string_response + box.description.replace('\n', "<br>")
     return render_template_string(string_response, form2=form2)
 
@@ -464,7 +465,7 @@ def royce():
 
 @app.route('/submit?key=<key>')
 @app.route('/submit')
-def push(key):
+def push():
     form2 = Titles()
 
     if form2.validate_on_submit():
@@ -476,7 +477,7 @@ def push(key):
             book.username = current_user.username
         except AttributeError:
             book.username = "caesarnaples2"
-        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
 
@@ -508,20 +509,14 @@ def push(key):
         except KeyError:
             print("error on db commit")
     if request.args.get("key"):
-        key=request.arg.get("key")
-        for key2 in range(26):
-            try:
-                content = Books.query.filter_by(uri=key).first()
-                print(content.uri)
-            except KeyError:
-                continue
-            string_response = "{%include 'books.html'%}"
+        key=request.args.get("key")
+        content = Books.query.filter_by(uri=key).first()
+        string_response = "{%include 'books.html'%}"
 
-        for box in content:
-                string_response = string_response + "<a href=" + caesarcip(
-                    "submit/" + box.uri) + "<h1>" + box.title + "</h1></a>"
-                string_response = string_response + box.author + "<br>"
-                string_response = string_response + box.description.replace('\n', "<br>")
+        cipher2 = caesarcip("submit/" + content.uri).encoded.split("/")
+        string_response = string_response + "<a href=\"/"+cipher2[0]+"?key="+cipher2[1]+"\">h1>" + content.title + "</h1></a>"
+        string_response = string_response + content.author + "<br>"
+        string_response = string_response + content.description.replace('\n', "<br>")
         return render_template_string(string_response, form2=form2)
     else:
         return render_template_string('<form action=\"books\" method=\"post\"  >\r\n      {{ form2.hidden_tag() }}\r\n\r\n        <p>\r\n            {{ form2.title.label }}<br>\r\n            {{ form2.title(size=300) }}<br>\r\n            \r\n                        {% for error in form2.title.errors %}\r\n            <span style=\"color: red;\">[{{ error }}]<\/span>{%endfor%}\r\n        <p>\r\n            {{ form2.author.label }}<br>\r\n            {{ form2.author(size=300) }}<br>\r\n           \r\n                       {% for error in form2.author.errors %}\r\n            <span style=\"color: red;\">[{{ error }}]<\/span>{%endfor%}\r\n                <p>\r\n            {{ form2.description.label }}<br>\r\n            {{ form2.description(class=\"materialize-textarea\") }}<br>\r\n           \r\n               {{ form2.submit(class=\"btn waves-effect waves-light\", type=\"submit\")}}</form>', form2=form2)
