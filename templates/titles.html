@@ -6,8 +6,7 @@
 <ul class="collapsible  flow-text">
 
 
-{%if kind=="books":%}
-{%for titles in content: %}         
+{%for titles in content: %}
            
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
@@ -21,17 +20,14 @@
 <li class="truncate flow-text "> <a href="/admin?uri={{titles.uri}}">{{titles.uri}}
 </li></a></span></li></ul></div> {%endfor%}
 
-{%elif kind=="users":%}
-{%for titles in content: %}         
+{%for titles in content: %}
           
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
  <ul><li class="truncate flow-text ">   
 <a href="/admin?username={{titles.username}}"><h2>{{titles.username}}</h2></a></li></ul></div> {%endfor%}
 
-{%elif kind=="uri" :%}
-
-{%for titles in content: %}         
+{%for titles in content: %}
           
   <li>
     <div class="collapsible-header  lighten-3"><div class="container">
@@ -42,16 +38,12 @@
 
 	<li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{%if titles.body:%}{{titles.body}}{%elif titles.description:%}{{titles.description}}
 
-	{%endif%}</li>
+	</li>
 
-{%if titles.reddit_url:%}
-<li class="truncate flow-text "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
-</li>{%endif%}
+</li>
 
-</ul></div> </a>{%endfor%}
-
-{%elif kind=="all" or kind=="username":%}
-
+</ul></div> </a>{%else%}
+{%endfor%}
 
  {%for titles in content:%}<li class=" chip gradient-45deg-purple-deep-orange  purple lighten-1">   <h7 class="truncate"><a class="  white-text text-darken-4" href="/admin?uri={{titles.uri}}"><big>{{titles.title}}</big>
 </h7></a></li>{%endfor%}</ul></div> 
@@ -60,4 +52,4 @@
 
 
 
-{%endif%}</ul> </div></div>
+</ul> </div></div>{%else%}

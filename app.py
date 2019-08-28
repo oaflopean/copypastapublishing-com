@@ -447,9 +447,8 @@ def pod():
         cipher2 = caesarcip("submit/" + box.uri).decoded.split("/")
 
         string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + box.title + "</h1></a>"
-        string_response = string_response +"<br>"+ box.author + "<br>"
-        string_response = string_response + box.description.replace('\n', "<br>")
-        string_response = string_response + "{%include \"titles.html\"%}"
+        string_response = string_response +"<h4><br>"+ box.author + "</h4><br>"
+        string_response = string_response + box.description.replace('\n', "<br>").replace("{%endif%}","")
     return render_template_string(string_response, box=title, form2=form2)
 
 
@@ -509,17 +508,17 @@ def push():
             db.session.commit()
         except KeyError:
             print("error on db commit")
+        return redirect(url_for(pod()))
     if request.args.get("key"):
         key=request.args.get("key")
         content = Books.query.filter_by(uri=key).first()
-        string_response = "{%include 'books.html'%}"
+        string_response = ""
 
         cipher2 = caesarcip("submit/" + content.uri).encoded.split("/")
         string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + content.title + "</h1></a>"
-        string_response = string_response + content.author + "<br>"
-        string_response = string_response + content.description.replace('\n', "<br>")
-        string_response = string_response + "{%include \"titles.html\"%} "
-        return render_template_string(string_response, form2=form2, titles=content)
+        string_response = string_response +"<h4>"+ content.author + "</h4><br>"
+        string_response = string_response + content.description.replace('\n', "<br>").replace("{","")
+        return render_template_string(string_response+"{%include \'books.html\'%}", form2=form2, titles=content)
     else:
         content = Books.query.filter_by().all()
         string_response = "{%include 'books.html'%}"
@@ -528,14 +527,24 @@ def push():
             cipher2 = caesarcip("books/=" + content.uri).decoded.split("/")
             string_response = string_response + "<html><body><a href=\"/" + cipher2[0] + "/" + cipher2[
                 1] + "\"><h1>" + box.title + "</h1></a>"
-            string_response = string_response + box.author + "<br>"
+            string_response = string_response +"<h4>"+ box.author + "</h4><br>"
             string_response = string_response + box.description.replace('\n', "<br>")
             string_response = string_response + "{%include \"titles.html\"%} > "
             return render_template_string(string_response, titles=content, form2=form2)
 @app.route('/books?key=<key>')
 @app.route('/books', methods=['GET', 'POST'])
 def blow():
-    return render_template("blog.html", site=Books.query.join(RedditPost).order_by(RedditPost.id.desc()).all())
+
+    content = Books.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
+    string_response = "{%include 'books.html'%}<br>"
+    for box in content:
+        cipher2 = caesarcip("submit/" + box.uri).decoded.split("/")
+
+        string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + box.title + "</h1></a>"
+        string_response = string_response +"<h4><br>"+ box.author + "</h4><br>"
+        string_response = string_response + box.description.replace('\n', "<br>")
+        string_response = string_response + "{%include \"titles.html\"%}"
+    return render_template("books.html", book=content, box=title, form2=form2)
 
 @app.route('/profiles?key=<key>')
 @app.route('/profiles')
