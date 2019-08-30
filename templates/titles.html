@@ -42,8 +42,9 @@
 
 </li>
 
-</ul></div> </a>{%else%}
-{%endfor%}
+</ul></div> </a>{%endfor%}
+
+
 
  {%for titles in content:%}<li class=" chip gradient-45deg-purple-deep-orange  purple lighten-1">   <h7 class="truncate"><a class="  white-text text-darken-4" href="/admin?uri={{titles.uri}}"><big>{{titles.title}}</big>
 </h7></a></li>{%endfor%}</ul></div> 
@@ -52,4 +53,4 @@
 
 
 
-</ul> </div></div>{%else%}
+</ul> </div></div>{%endif%}
