@@ -1,11 +1,10 @@
 
   <nav class='navbar white-text purple  navbar-inverse  navbar-top '>
     <div class="nav-wrapper" id="breadcrumbs-wrapper">
-         <div class="gradient-45deg-purple-deep-orange"><div class="row">
-          <div class="col s12 m12 l12"><center>{%include "settings.html"%}</center></div></div>
-              <div class="row">
-                <div class="col s12 m12 l10">
-                  <h5 class="breadcrumbs-title">    <a  class="circle" href="/"><img style="margin-left: 20px;" class="card transparent  resize_logo" src="/static/images/lowerlogo.png"/></a>
+         <div class="gradient-45deg-purple-deep-orange">
+             <div><div> <div class="row">
+                <div class="col s12 m12 l10"><a href="/"><img style="margin-left: 20px;" class=" resize_logo" src="/static/images/lowerlogo.png"/></a>
+                  <h5 class="breadcrumbs-title">
  {%if uri:%}URI Post - {%endif%}{%if kind:%}{{kind}} </h5>{%endif%}<h6 class="white-text"> {%if login[0]==True:%}You are logged in as {{login[1]}}.{%else:%}You are logged in as CaesarNaples2.{%endif%}</h6>
 
                   <ol class="breadcrumbs right">
@@ -13,4 +12,4 @@
                     <li {%if kind=="users":%} class="active white-text "{%else:%} class="disabled"{%endif%}> <a href="/admin/users">Users</a></li>
                     <li {%if kind=="books":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a href="/pod">Pod</a></li>
                     <li  {%if kind=="subs":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a href="/admin/subs">Subs</a></li> </ol>
-                </div></div></div></div></div>                  </nav>
+                </div></div></div></div></div></div></nav>

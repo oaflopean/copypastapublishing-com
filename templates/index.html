@@ -4,16 +4,15 @@
 <body class="purple darken-2 z-depth-1">{% include 'google.html' %}
 <div style="margin-bottom: 100px">
 
-{%include 'navbar-admin.html'%} </div>
-{%if kind=="books" or kind=="users" or kind=="subs":%}
-{%include 'bauhau.html'%}{%endif%}
+    {%include 'navbar-admin.html'%} </div>{%include 'bauhau.html'%}
+
 <!--}
 <div class="purple container-fluid lighten-4"><center><h3>Post titles from <a href="https://www.reddit.com/r/writing">r/writing</a></h3></center>
 <div class="nav nav-pills">{%for self in phrases:%}  <a href="{{self.uri}}"><div class=" zdepth-4 hoverable card-sm orange"><h4 class="truncate  " >
 	 {{self.body}}</h4></div></a>{%endfor%}
 </div></div></div>
 -->
-
+{%include 'blog.html'%}
 
 
 <!-- Place <div> tag where you want the feed to appear -->
