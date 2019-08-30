@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
+﻿from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
 
 import ebooklib
 from pymongo import MongoClient
@@ -231,8 +231,7 @@ def books():
                              user_agent='Copypasta', username="caesarnaples2")
 
         try:
-            reddit_url = reddit.subreddit('publishcopypasta').submit(title + " by " + author, selftext=kw).permalink
-
+            reddit_url = reddit.subreddit('publishcopypasta').name
             post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
                               username=book.username)
             book.reddit_url = reddit_url
@@ -243,7 +242,7 @@ def books():
 
         except praw.exceptions.APIException:
             return redirect("admin?=" + book.uri)
-            # reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+            # reddit.subreddit('copypastapublishin').name
 
         return render_template('admin.html', login=login, username=username, kind="books",
                                content=Books.query.filter_by(uri=book.uri).all()
@@ -307,7 +306,7 @@ def admin2(sub):
 
     if data:
       for link in data['data']['children']:
-          uri=link['data']['permalink']
+          uri=link['data']['name']
           title2=link['data']['title']
           p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
           p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
@@ -429,8 +428,7 @@ def pod():
                              user_agent='Copypasta', username="caesarnaples2")
 
         try:
-            reddit_url = reddit.subreddit('publishcopypasta').submit(book.title + " by " + book.author,
-                                                                     selftext=book.description).permalink
+            reddit_url = reddit.subreddit('publishcopypasta').name
         except praw.exceptions.APIException:
             reddit_url = "No url"
         post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
@@ -497,7 +495,7 @@ def push():
                              user_agent='Copypasta', username="caesarnaples2")
 
         try:
-            reddit_url = reddit.subreddit('publishcopypasta').submit(title + " by " + author, selftext=kw).permalink
+            reddit_url = reddit.subreddit('publishcopypasta').name
 
             post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
                               username=book.username)
@@ -593,7 +591,7 @@ def home():
                              user_agent='Copypasta', username="caesarnaples2")
 
         try:
-            reddit_url = reddit.subreddit('publishcopypasta').submit(title + " by " + author, selftext=kw).permalink
+            reddit_url = reddit.subreddit('publishcopypasta').name
 
             post = RedditPost(uri=book.uri, reddit_url=reddit_url, login=login, title=book.title, body=book.description,
                               username=book.username)
@@ -605,7 +603,7 @@ def home():
 
         except praw.exceptions.APIException:
             return redirect("admin?=" + book.uri)
-            # reddit.subreddit('copypastapublishin').submit(f[0:300], url="https://www.reddit.com/search?q="+sub+" "+kw)
+            # reddit.subreddit('copypastapublishin').name
 
         return render_template('admin.html', form2=form2, login=login, username=username, kind="books",
                                content=Books.query.filter_by(uri=book.uri).all()
@@ -645,7 +643,7 @@ def home():
     for link in data['data']['children']:
         phrasey = RedditPost()
 
-        phrasey.uri = "https://www.reddit.com/" + link['data']['permalink']
+        phrasey.uri = "https://www.reddit.com/" + link['data']['name']
         phrasey.body = link['data']['title']
         posts.append(phrasey)
         #  phrases_string="\n".join(phrasey["body"])
@@ -689,7 +687,7 @@ def rake2(sub):
     print(data2["subreddit_names"])
     if data:
         for link in data['data']['children']:
-            uri = link['data']['permalink']
+            uri = link['data']['name']
             title2 = link['data']['title']
             p = Rake(min_length=2)  # Uses stopwords for english from NLTK, and all puntuation characters.
             p.extract_keywords_from_text(link['data']['title'])
@@ -810,7 +808,7 @@ def botpost():
 
     try:
         body = "[" + kw[1] + "](" + kw[2] + ")"
-        url = reddit.subreddit('copypastapublishin').submit(kw[0], selftext=body).permalink
+        url = reddit.subreddit('copypastapublishin').name
 
     except praw.exceptions.APIException:
         return redirect("admin/r/" + sub)
