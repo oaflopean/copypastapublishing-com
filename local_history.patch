@@ -1,0 +1,30 @@
+Index: templates/titles.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/titles.html	(date 1567148343974)
++++ templates/titles.html	(date 1567148343974)
+@@ -42,14 +42,16 @@
+ 
+ </li>
+ 
+-</ul></div> </a>{%else%}
+-{%endif%}
++</ul></div> </a>{%endfor%}
++
+ 
+- {%for titles in content:%}<li class=" chip gradient-45deg-purple-deep-orange  purple lighten-1">   <h7 class="truncate"><a class="  white-text text-darken-4" href="/admin?uri={{titles.uri}}"><big>{{titles.title}}</big>
++
++ {%for titles in content:%}<li class=" chip gradient-45deg-purple-deep-orange  purple lighten-1"> 
++    <h7 class="truncate"><a class="  white-text text-darken-4" href="/admin?uri={{titles.uri}}"><big>{{titles.title}}</big>
+ </h7></a></li>{%endfor%}</ul></div> 
+ 
+ 
+ 
+ 
+ 
+-</ul> </div></div>{%endif%}
+\ No newline at end of file
++</ul> </div></div>
+\ No newline at end of file
