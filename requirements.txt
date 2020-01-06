@@ -70,7 +70,7 @@ alembic == 1.1.0
 
 # app.py: 30
 # ayyy.py: 35
-#caesarcipher == 1.0
+caesarcipher == 1.0
 
 # bot.py: 2,6,7
 #discord == 1.0.1

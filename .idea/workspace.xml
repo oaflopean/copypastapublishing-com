@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/README" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/README" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/alembic.ini" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/alembic.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/env.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/script.py.mako" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/script.py.mako" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/4499a32bbdc0_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/versions/4499a32bbdc0_.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/605472fa3949_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/versions/605472fa3949_.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/9185fb8b519b_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/versions/9185fb8b519b_.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/c1daf9335a15_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/versions/c1daf9335a15_.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/e71472cd7cdc_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations-old/versions/e71472cd7cdc_.py" afterDir="false" />
-    </list>
+    <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
