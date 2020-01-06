@@ -21,4 +21,4 @@ RUN chown -R oaflopean:oaflopean ./
 USER oaflopean
 
 EXPOSE 5000
-ENTRYPOINT ["./boot.sh"]
+ENTRYPOINT ["/home/copypasta/./boot.sh"]

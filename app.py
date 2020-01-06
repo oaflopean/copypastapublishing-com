@@ -63,7 +63,7 @@ def before_request():
 
 @app.route('/baby', methods=['GET', 'POST'])
 def jpg():
-   render_template('jpg.html')
+   return render_template('jpg.html')
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -101,8 +101,19 @@ def register_app():
             bot_add.password=form.password.data
             #db.session.add(bot_add)
             db.session.commit()
-            reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
-                              client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
+            this_bot = Bots.query.filter_by(username=current_user.username).first()
+            try:
+                client_id = this_bot.client_id
+            except AttributeError:
+                return redirect("register/app")
+            secret = this_bot.secret
+            password = this_bot.password
+            username = this_bot.username
+            reddit = praw.Reddit(client_id=client_id,
+                                 client_secret=secret, password=password,
+                                 user_agent='Copypasta', username="caesarnaples2")
+
+
             try:
                 reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
             except praw.exceptions.APIException:
@@ -117,14 +128,23 @@ def register_app():
             bot_add.secret=form.secret.data
             db.session.add(bot_add)
             db.session.commit()
-            reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
-                              client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
+            this_bot = Bots.query.filter_by(username=current_user.username).first()
             try:
+                client_id = this_bot.client_id
+            except AttributeError:
+                return redirect("register/app")
+            secret = this_bot.secret
+            password = this_bot.password
+            username = this_bot.username
+            reddit = praw.Reddit(client_id=client_id,
+                                 client_secret=secret, password=password,
+                                 user_agent='Copypasta', username="caesarnaples2")
+        try:
                 reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
-            except praw.exceptions.APIException:
-                flash("Congratulations! Your app is registered.")
+        except praw.exceptions.APIException:
+            flash("Congratulations! Your app is registered.")
             return redirect(url_for('kw'))
-      return render_template('register_app.html', title='Register your app now', form=form)
+        return render_template('register_app.html', title='Register your app now', form=form)
    else:
        return redirect(url_for('login'))
 
@@ -140,9 +160,18 @@ def login():
          flash('Invalid username or password')
          return redirect(url_for('login'))
       else:
-          reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
-                              client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta', username="caesarnaples2")
-        
+          this_bot = Bots.query.filter_by(username=current_user.username).first()
+          try:
+              client_id = this_bot.client_id
+          except AttributeError:
+              return redirect("register/app")
+          secret = this_bot.secret
+          password = this_bot.password
+          username = this_bot.username
+          reddit = praw.Reddit(client_id=client_id,
+                               client_secret=secret, password=password,
+                               user_agent='Copypasta', username="caesarnaples2")
+
           save=reddit.redditor(form.username.data).submissions.new()
           for ank in save:
               new=Subreddits()
@@ -216,7 +245,7 @@ def books():
         kw = book.description
         title = book.title
         author = book.author
-        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        this_bot = Bots.query.filter_by(username=current_user.username).first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -254,8 +283,8 @@ def admin1():
         username=current_user.username
         login=[True,current_user.username]
     else:
-        login=[False,"caesarnaples2"]
-        username="caesarnaples2"
+        login=[False,"scientolog2"]
+        username="scientolog2"
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
         kind="uri"
