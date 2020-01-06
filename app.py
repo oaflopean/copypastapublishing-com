@@ -1,6 +1,5 @@
 ﻿from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
 
-import ebooklib
 from pymongo import MongoClient
 from mongoengine import *
 import json
@@ -16,7 +15,6 @@ from flask_script import Manager
 from flask_migrate import Migrate
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from rake_nltk import Rake
 from wtforms.validators import DataRequired
 from datetime import datetime
 from operator import itemgetter, attrgetter, methodcaller
