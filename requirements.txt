@@ -98,7 +98,7 @@ pymongo == 3.7.2
 # app.py: 19
 # ayyy.py: 24
 # forms.py: 9
-#rake_nltk == 1.0.4
+rake_nltk == 1.0.4
 
 # app.py: 8
 # ayyy.py: 13
