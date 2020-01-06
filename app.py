@@ -25,7 +25,6 @@ from flask_login import logout_user
 from flask_login import login_required
 from werkzeug.urls import url_parse
 from psycopg2 import errors
-from caesarcipher import CaesarCipher
 app = Flask(__name__)
 
 
@@ -111,7 +110,7 @@ def register_app():
             username = this_bot.username
             reddit = praw.Reddit(client_id=client_id,
                                  client_secret=secret, password=password,
-                                 user_agent='Copypasta', username="caesarnaples2")
+                                 user_agent='Copypasta', username=username)
 
 
             try:
@@ -138,7 +137,7 @@ def register_app():
             username = this_bot.username
             reddit = praw.Reddit(client_id=client_id,
                                  client_secret=secret, password=password,
-                                 user_agent='Copypasta', username="caesarnaples2")
+                                 user_agent='Copypasta', username=username)
         try:
                 reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
         except praw.exceptions.APIException:
@@ -170,7 +169,7 @@ def login():
           username = this_bot.username
           reddit = praw.Reddit(client_id=client_id,
                                client_secret=secret, password=password,
-                               user_agent='Copypasta', username="caesarnaples2")
+                               user_agent='Copypasta', username=username)
 
           save=reddit.redditor(form.username.data).submissions.new()
           for ank in save:
@@ -224,8 +223,8 @@ def books():
         username=current_user.username
         login=[True,current_user.username]
     else:
-        login=[False,"caesarnaples2"]
-        username="caesarnaples2"
+        login=[False,current_user.username]
+        username=current_user.username
     form2 = Titles()
 
     title="Copypasta Publishing - Write a Book"
@@ -237,7 +236,7 @@ def books():
         try:
             book.username = current_user.username
         except AttributeError:
-            book.username = "caesarnaples2"
+            book.username = current_user.username
         s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
@@ -255,7 +254,7 @@ def books():
         username = this_bot.username
         reddit = praw.Reddit(client_id=client_id,
                              client_secret=secret, password=password,
-                             user_agent='Copypasta', username="caesarnaples2")
+                             user_agent='Copypasta', username=username)
 
         try:
             reddit_url = reddit.subreddit('publishcopypasta').name
@@ -309,7 +308,7 @@ def admin2(sub):
         username=current_user.username
         login=[True,username]
     else:
-        username="caesarnaples2"  
+        username=current_user.username
 
         login=[False,username]
     post=RedditPost()
@@ -356,8 +355,8 @@ def admin3(kind):
         username=current_user.username
         login=[True,current_user.username]
     else:
-        login=[False, "caesarnaples2"]
-        username="caesarnaples2"
+        login=[False, current_user.username]
+        username=current_user.username
     if kind=="books":
       
         book =RedditPost.query.join(Books).filter(RedditPost.uri==Books.uri).order_by(RedditPost.id.desc()).all()
@@ -428,7 +427,7 @@ def pod():
     form2 = Titles()
 
     title = "Submit " + str(app)
-    username = "caesarnaples2"
+    username = current_user.username
 
     if form2.validate_on_submit():
         book = Books()
@@ -439,11 +438,11 @@ def pod():
         try:
             book.username = username
         except AttributeError:
-            book.username = "caesarnaples2"
+            book.username = current_user.username
         s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 6
         book.uri = "".join(random.sample(s, passlen))
-        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        this_bot = Bots.query.filter_by(username=current_user.username).first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -453,7 +452,7 @@ def pod():
         username = this_bot.username
         reddit = praw.Reddit(client_id=client_id,
                              client_secret=secret, password=password,
-                             user_agent='Copypasta', username="caesarnaples2")
+                             user_agent='Copypasta', username=username)
 
         try:
             reddit_url = reddit.subreddit('publishcopypasta').name
@@ -502,7 +501,7 @@ def push():
         try:
             book.username = current_user.username
         except AttributeError:
-            book.username = "caesarnaples2"
+            book.username = current_user.username
         s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
@@ -510,7 +509,7 @@ def push():
         kw = book.description
         title = book.title
         author = book.author
-        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        this_bot = Bots.query.filter_by(username=current_user.username).first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -520,7 +519,7 @@ def push():
         username = this_bot.username
         reddit = praw.Reddit(client_id=client_id,
                              client_secret=secret, password=password,
-                             user_agent='Copypasta', username="caesarnaples2")
+                             user_agent='Copypasta', username=username)
 
         try:
             reddit_url = reddit.subreddit('publishcopypasta').name
@@ -587,7 +586,7 @@ def home():
         username = current_user.username
     else:
         login = [False, 'caesarnaples2']
-        username = "caesarnaples2"
+        username = current_user.username
     form2 = Titles()
 
     if form2.validate_on_submit():
@@ -598,7 +597,7 @@ def home():
         try:
             book.username = current_user.username
         except AttributeError:
-            book.username = "caesarnaples2"
+            book.username = current_user.username
         s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
@@ -606,7 +605,7 @@ def home():
         kw = book.description
         title = book.title
         author = book.author
-        this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+        this_bot = Bots.query.filter_by(username=current_user.username).first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -616,7 +615,7 @@ def home():
         username = this_bot.username
         reddit = praw.Reddit(client_id=client_id,
                              client_secret=secret, password=password,
-                             user_agent='Copypasta', username="caesarnaples2")
+                             user_agent='Copypasta', username=username)
 
         try:
             reddit_url = reddit.subreddit('publishcopypasta').name
@@ -822,7 +821,7 @@ def library():
 def botpost():
     req = request.values
     kw = req.get('kw').split('|')
-    this_bot = Bots.query.filter_by(username="caesarnaples2").first()
+    this_bot = Bots.query.filter_by(username=current_user.username).first()
     try:
         client_id = this_bot.client_id
     except AttributeError:
