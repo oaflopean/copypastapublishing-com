@@ -35,7 +35,7 @@ app = Flask(__name__)
 
 login = LoginManager(app)
 login.login_view = 'login'
-app.config['SQLALCHEMY_DATABASE_URI']="postgresql://doadmin:t264wg0yfx9d6sf7@copy-com1234-do-user-4689509-0.db.ondigitalocean.com:25060/cp-admin?sslmode=require"
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql://"+os.environ['POSTGRES_USER']+":"+os.environ['POSTGRES_PASSWORD']+"@localhost/newdatabase"
 app.config['STATIC_FOLDER']='static/'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
@@ -406,6 +406,7 @@ def pod():
     if form2.validate_on_submit():
         book = Books()
         book.title = form2.title.data
+        book.title = form2.title.data
         book.author = form2.author.data
         book.description = form2.description.data
         try:
@@ -687,7 +688,7 @@ def rake2(sub):
     print(data2["subreddit_names"])
     if data:
         for link in data['data']['children']:
-            uri = link['data']['name']
+            uri = link['data']['body']
             title2 = link['data']['title']
             p = Rake(min_length=2)  # Uses stopwords for english from NLTK, and all puntuation characters.
             p.extract_keywords_from_text(link['data']['title'])
