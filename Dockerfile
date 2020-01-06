@@ -1,7 +1,6 @@
 FROM python:3.6-alpine
 
 RUN adduser -D oaflopean
-USER oaflopean
 WORKDIR /home/copypasta
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 
@@ -22,5 +21,6 @@ RUN chown -R oaflopean:oaflopean ./
 WORKDIR /home/copypasta
 RUN ./boot.sh
 EXPOSE 8000
+USER oaflopean
 ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app:app"]
 
