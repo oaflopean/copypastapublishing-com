@@ -15,9 +15,9 @@ COPY boot.sh boot.sh
 
 RUN chmod +x boot.sh
 RUN chown -R oaflopean:oaflopean ./
-RUN python -m venv venv
-RUN venv/bin/pip install -r requirements.txt
-RUN venv/bin/pip install gunicorn
+RUN python3 -m venv venv
+RUN venv/bin/pip3 install -r requirements.txt
+
 
 ENV FLASK_APP app.py
 

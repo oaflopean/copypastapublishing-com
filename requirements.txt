@@ -72,27 +72,6 @@ Werkzeug == 0.14.1
 # migrations/versions/9bfa9265a342_.py: 8
 alembic == 1.1.0
 
-# ayyy.py: 1
-# manage.py: 5
-# models.py: 5,6
-# models2.py: 5,6
-app == 0.0.1
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-asposebarcode == 1.0.0
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-asposestorage == 1.0.2
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-automium-web == 0.1.1
-
 # ayyy.py: 35
 caesarcipher == 1.0
 
@@ -101,16 +80,6 @@ discord == 1.0.1
 
 # app.py: 9
 gunicorn == 19.9.0
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-hematopy == 0.0.1.dev6
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-indras-net == 2.0.6
 
 # bot.py: 9
 markovify == 0.7.2
@@ -132,16 +101,6 @@ psycopg2_binary == 2.8.2
 # ayyy.py: 9
 pymongo == 3.7.2
 
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-pynotion == 0.0.1
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-pyskyscanner == 1.0.1
-
 # ayyy.py: 24
 # forms.py: 8
 rake_nltk == 1.0.4
@@ -150,28 +109,3 @@ rake_nltk == 1.0.4
 # ayyy.py: 13
 # bot.py: 4
 requests == 2.21.0
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-roomai == 0.1.16
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-solar-radiation-model == 0.0.20
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-swiftcodegen == 0.3
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-transferflow == 0.1.8
-
-# app.py: 43
-# ayyy.py: 2,5
-# forms.py: 10
-visvmtagger == 1.0a0
