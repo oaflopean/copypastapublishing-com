@@ -6,6 +6,7 @@ RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 
 COPY requirements.txt requirements.txt
 COPY static static
+COPY migrations migrations
 COPY templates templates
 COPY app.py ./
 COPY forms.py ./
