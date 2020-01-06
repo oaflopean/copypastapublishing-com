@@ -33,7 +33,7 @@ app = Flask(__name__)
 
 login = LoginManager(app)
 login.login_view = 'login'
-app.config['SQLALCHEMY_DATABASE_URI']="postgresql://"+os.environ['POSTGRES_USER']+":"+os.environ['POSTGRES_PASSWORD']+"@localhost/newdatabase"
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql://"+os.environ['POSTGRES_USER']+":"+os.environ['POSTGRES_PASSWORD']+"@104.154.59.220:5432/data001"
 app.config['STATIC_FOLDER']='static/'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
