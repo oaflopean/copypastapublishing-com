@@ -1,6 +1,7 @@
 FROM python:3.6-alpine
 
 RUN adduser -D oaflopean
+USER oaflopean
 WORKDIR /home/copypasta
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 
@@ -18,7 +19,8 @@ RUN chmod +x boot.sh
 ENV FLASK_APP app.py
 
 RUN chown -R oaflopean:oaflopean ./
-USER oaflopean
+WORKDIR /home/copypasta
+RUN ./boot.sh
+EXPOSE 8000
+ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app:app"]
 
-EXPOSE 5000
-ENTRYPOINT ["/home/copypasta/./boot.sh"]
