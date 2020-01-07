@@ -341,11 +341,8 @@ def admin1():
             #     reddit_url = "No url"
             reddit_url = "/u/" + current_user.username
 
-            post = RedditPost(uri=book.uri, reddit_url= request.args.get("uri", default=None, type=str), title=book.title, body=book.description,
-                              username=book.username)
+
             book.reddit_url = reddit_url
-            db.session.add(post)
-            db.session.commit()
             db.session.add(book)
             db.session.commit()
             flash("Entry Added")
@@ -354,12 +351,12 @@ def admin1():
     elif request.args.get("username", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(username=request.args.get("username")).order_by(RedditPost.id.desc()).all()
         kind="username"
-        return render_template('admin.html',kind=kind, username=username,login=login, content=uri_type)
+        return render_template('admin.html',kind=kind, username=username,login=login, content=uri_type,form2=Titles())
    
     else:
         kind="all"
         uri_type=RedditPost.query.order_by(RedditPost.id.desc()).all()
-        return render_template('admin.html',login=login, username=username, kind=kind,content=uri_type)
+        return render_template('admin.html',login=login, username=username, kind=kind,form2=Titles(), content=uri_type)
 
 
 
@@ -374,7 +371,7 @@ def admin2(sub):
 
         login=[False,username]
     book=Books()
-    # form2=PostForm()
+    form2=Titles()
     # if form2.validate_on_submit():
     #     post["title"]=form2.kw
     #     res = requests.post(url_for('botpost'),headers='Content-Type: application/json',data=json.dumps(post))
@@ -429,7 +426,7 @@ def admin2(sub):
                     db.session.commit()
                 num+=1
     texts=sorted(texts, key=attrgetter('integer'), reverse=False)
-    return render_template('admin.html',login=login, sub=sub, phrases=texts, title=title)
+    return render_template('admin.html',login=login, sub=sub, phrases=texts, form2=form2,title=title)
 
     
    
@@ -448,11 +445,11 @@ def admin3(kind):
 
         
 
-        return render_template('admin.html',login=login, username=username, kind=kind, content=book)
+        return render_template('admin.html',login=login, username=username, kind=kind, content=book, form2=Titles())
   
     if kind=="users":
         users=User.query.filter_by().all()
-        return render_template('admin.html',login=login, kind=kind, username=username,users=users)
+        return render_template('admin.html',login=login, kind=kind, username=username,users=users, form2=Titles())
 
     if kind=="subs":
         title = "Copypasta Publishing: Social Media Marketing"
@@ -607,7 +604,6 @@ def pod():
         db.session.add(book)
         db.session.commit()
         flash("Entry Added")
-        return redirect(url_for(pod()))
 
     string_response = "<br>"
     if current_user.is_authenticated:
@@ -619,12 +615,11 @@ def pod():
     content = RedditPost.query.filter_by(username=username).all()
 
     for box in content:
-        cipher2 = caesarcip("submit/" + box.uri).decoded.split("/")
         # db.session.delete(box)
         # db.session.commit()
         # print("deleted "+str(box))
-        string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + box.title + "</h1></a>"
-        string_response = string_response +"<h4><br>"+ box.author + "</h4><br>"
+        string_response = string_response + "<a href='/admin?uri="+box.uri+"'><h1>" + box.title + "</h1></a>"
+        string_response = string_response +"<h4><br>"+ box.username + "</h4><br>"
 
     return render_template("admin.html", login = login, content=string_response, box=title, form2=form2)
 
@@ -686,16 +681,14 @@ def push():
         except KeyError:
             print("error on db commit")
         return redirect(url_for(pod()))
-    if request.args.get("key"):
-        key=request.args.get("key")
-        content = Books.query.filter_by(uri=key).first()
-        string_response = ""
-
-        cipher2 = caesarcip("submit/" + content.uri).encoded.split("/")
-        string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + content.title + "</h1></a>"
-        string_response = string_response +"<h4>"+ content.author + "</h4><br>"
-        string_response = string_response + content.description.replace('\n', "<br>").replace("{","")
-        return render_template_string(string_response+"{%include \'books.html\'%}", form2=form2, titles=content)
+    # if request.args.get("key"):
+    #     key=request.args.get("key")
+    #     content = Books.query.filter_by(uri=key).first()
+    #     string_response = ""
+    #     string_response = string_response + "<a href='/admin?uri='"+content.uri+"><h1>" + content.title + "</h1></a>"
+    #     string_response = string_response +"<h4>"+ content.author + "</h4><br>"
+    #     string_response = string_response + content.description.replace('\n', "<br>").replace("{","")
+    #     return render_template_string(string_response+"{%include \'books.html\'%}", form2=form2, titles=content)
     else:
         content = Books.query.filter_by().all()
         string_response = "{%include 'books.html'%}"

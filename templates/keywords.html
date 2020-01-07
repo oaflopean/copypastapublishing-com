@@ -3,13 +3,13 @@
     <div class="col s6 m3">
       <div class="card purple lighten-1 orange-text">
         <div class="card-content"><center><h1 class="btn-floating halfway-fab waves-effect waves-light red">{{self.integer}}</h1></center>
-          <span class="purple-text card-title">{{self.title}}</span>
+            <span class="purple-text card-title"><a href="/admin?uri={{self.uri}}">{{self.title}}</a></span>
           <p>{{self.body}}</p>
 
         </div>
         <div class="card-action">
           <a class="white-text" href="{{self.uri}}">Post</a>
-          <a class="white-text" href="/admin?key={{self.username}}">User</a>
+          <a class="white-text" href="/admin?username={{self.username}}">User</a>
         </div>
       </div>
 
