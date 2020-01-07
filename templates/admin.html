@@ -267,7 +267,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 {% endwith %}
    <a href="https://sites.google.com/view/eyestars/home">
 
-<div style="margin-bottom:0px"id="jumbo" class="jumbotron purple lighten-4" ><img class="responsive-img " src="/static/images/bauhau13.png"></img></a>  <h2 class="white-text">Welcome Back.</h2>
+<div style="margin-bottom:0px"id="jumbo" class="jumbotron purple lighten-4" >{%if content:%}<img class="responsive-img " src="/static/images/bauhau13.png"></img></a>  {%endif%}<h2 class="white-text">Welcome Back.</h2>
         <p  class="white-text">Our website contains magenta.</p>
 </div>
             <div class="fixed-action-btn  " style="bottom: 15px; right: 15px;">
@@ -315,7 +315,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div  style="margin-top: 45;" >
             {%include "keywords.html"%}
             {%if subs:%}
-            {%include "subs.html"%}  {%elif content:%}
+            {%include "subs.html"%} {%elif users:%}   <div class="container">
+
+
+<ul class="  flow-text">
+ {%for sub in users:%}<li class="truncate chip yellow lighten-2">   <h7><a class="purple-text text-darken-2" href="/admin?key={{sub.username}}">u/{{sub.username}}
+</h7></li></a>{%endfor%}</ul> {%elif content:%}
     {{content|safe}}
     {%else:%}<div style="margin-top:200px">
         {%include 'titles.html'%}</div>

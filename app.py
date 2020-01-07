@@ -146,7 +146,7 @@ def register_app():
     if current_user.is_authenticated:
         flash("Register your reddit app through reddit's API!")
     else:
-        return redirect("/login"())
+        return redirect("/login")
     form = RegistrationAppForm()
 
     if form.validate_on_submit():
@@ -205,7 +205,13 @@ def register_app():
         #     flash("Congratulations! Your app is registered.")
         #     return redirect(url_for('kw'))
     else:
-        return render_template('register_app.html', title='Register your app now', form=form)
+        if current_user.is_authenticated:
+            username = current_user.username
+            login = [True, current_user.username]
+        else:
+            login = [False, "scientolog2"]
+            username = "scientolog2"
+        return render_template('register_app.html',login=login, title='Register your app now', form=form)
 
 
 @app.route('/logout')
@@ -385,8 +391,8 @@ def admin3(kind):
         return render_template('admin.html',login=login, username=username, kind=kind, content=book)
   
     if kind=="users":
-        content=User.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
-        return render_template('admin.html',login=login, kind=kind, username=username,content=content)
+        users=User.query.filter_by().all()
+        return render_template('admin.html',login=login, kind=kind, username=username,users=users)
 
     if kind=="subs":
         title = "Copypasta Publishing: Social Media Marketing"
