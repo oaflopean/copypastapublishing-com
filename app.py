@@ -549,18 +549,23 @@ def pod():
         flash("Entry Added")
         return redirect(url_for(pod()))
 
-    content = Books.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
     string_response = "<br>"
     if current_user.is_authenticated:
         login = [True, current_user.username]
+        username=current_user.username
     else:
         login = [False, 'scientolog2']
+        username=""
+    content = RedditPost.query.filter_by(username=username).all()
+
     for box in content:
         cipher2 = caesarcip("submit/" + box.uri).decoded.split("/")
-
+        # db.session.delete(box)
+        # db.session.commit()
+        # print("deleted "+str(box))
         string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + box.title + "</h1></a>"
         string_response = string_response +"<h4><br>"+ box.author + "</h4><br>"
-        string_response = string_response + box.description.replace('\n', "<br>").replace("{%endif%}","")[:1000]
+
     return render_template("admin.html", login = login, content=string_response, box=title, form2=form2)
 
 
