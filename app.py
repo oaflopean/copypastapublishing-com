@@ -8,6 +8,7 @@ import requests
 import os
 import gunicorn
 import glob
+from rake_nltk import Rake
 import random
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, TextField, validators
@@ -298,10 +299,9 @@ def books():
                                content=Books.query.filter_by(uri=book.uri).all()
                                )
     return render_template('books.html',form2=form2, title=title )
-@app.route('/admin/', methods=['GET', 'POST'])
 @app.route('/admin', methods=['GET', 'POST'])
 def admin1():
-
+    form2=Titles()
     if current_user.is_authenticated:
         username=current_user.username
         login=[True,current_user.username]
@@ -311,7 +311,45 @@ def admin1():
     if request.args.get("uri", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
         kind="uri"
-        return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind, username=username, content=uri_type)
+        comments=Books.query.filter_by(uri=request.args.get("uri")).all()
+        if form2.validate_on_submit():
+            book = Books()
+            book.title = form2.title.data
+            book.author = form2.author.data
+            book.description = form2.description.data
+            try:
+                book.username = username
+            except AttributeError:
+                return redirect("/login")
+
+            book.uri = request.args.get("uri")
+            # this_bot = Bots.query.filter_by(username="scientolog2").first()
+            # try:
+            #     client_id = this_bot.client_id
+            # except AttributeError:
+            #     return redirect("/")
+            # secret = this_bot.secret
+            # password = this_bot.password
+            # username = this_bot.username
+            # reddit = praw.Reddit(client_id=client_id,
+            #                      client_secret=secret, password=password,
+            #                      user_agent='Copypasta', username=username)
+            #
+            # try:
+            #     reddit_url = reddit.subreddit('publishcopypasta').name
+            # except praw.exceptions.APIException:
+            #     reddit_url = "No url"
+            reddit_url = "/u/" + current_user.username
+
+            post = RedditPost(uri=book.uri, reddit_url= request.args.get("uri", default=None, type=str), title=book.title, body=book.description,
+                              username=book.username)
+            book.reddit_url = reddit_url
+            db.session.add(post)
+            db.session.commit()
+            db.session.add(book)
+            db.session.commit()
+            flash("Entry Added")
+        return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind,form2=form2, username=username, comments=comments, content=uri_type)
 
     elif request.args.get("username", default=None, type=str)!=None:
         uri_type=RedditPost.query.filter_by(username=request.args.get("username")).order_by(RedditPost.id.desc()).all()
@@ -335,41 +373,63 @@ def admin2(sub):
         username=current_user.username
 
         login=[False,username]
-    post=RedditPost()
-    form2=PostForm()
-    if form2.validate_on_submit():
-        post["title"]=form2.kw
-        res = requests.post(url_for('botpost'),headers='Content-Type: application/json',data=json.dumps(post))
-
-        return redirect(url_for('rake2', sub=sub))
+    book=Books()
+    # form2=PostForm()
+    # if form2.validate_on_submit():
+    #     post["title"]=form2.kw
+    #     res = requests.post(url_for('botpost'),headers='Content-Type: application/json',data=json.dumps(post))
+    #
+    #     return redirect(url_for('rake2', sub=sub))
     title="Reddit Influencers on r/"+sub
-    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=300'
-    form = ReusableForm(request.form)
-    if request.method == 'POST':
-        name=request.form['name']
-        return redirect('/admin/r/'+name)
-    texts=[]
-    if form.validate():
-       # Save the comment here.
-       flash('Keywords from r/' + name)   
+    url = 'https://www.reddit.com/r/'+sub+'/new/.json?limit=99'
+    # form = ReusableForm(request.form)
+    # if request.method == 'POST':
+    #     name=request.form['name']
+    #     return redirect('/admin/r/'+name)
+    # texts=[]
+    # if form.validate():
+    #    # Save the comment here.
+    #    flash('Keywords from r/' + name)
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-
+    num=1
+    texts=[]
     if data:
-      for link in data['data']['children']:
-          uri=link['data']['name']
-          title2=link['data']['title']
-          p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
-          p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
-          # To get keyword phrases ranked highest to lowest
-          for post in p.get_ranked_phrases_with_scores():
-              print(post)
+        for link in data['data']['children']:
+            if link["data"]["selftext"]:
 
-              texts.append(RedditPost(uri=uri, body=post[1], title=title2, integer=int(post[0])))
 
-    texts=sorted(texts, key=attrgetter('integer'), reverse=True)
-         # json={"first":first, "last"=last, "title":title,"desc":desc,"pseudonym":pseudonym}
-                # return render_template('entries.html', entries=json
-    return render_template('admin.html',login=login, sub=sub,form=form, kind=sub, form2=form2, phrases=texts, title=title)
+
+                uri=link['data']['url']
+                title2=link['data']['title'][:299]
+                p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
+                p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
+                # To get keyword phrases ranked highest to lowest
+                listo= p.get_ranked_phrases_with_scores()
+                post2=RedditPost(uri=uri, body=link['data']['selftext'], title=title2, integer=num, username=link['data']['author'])
+                texts.append(post2)
+
+                if User.query.filter_by(username=link['data']['author']).first():
+                    print("User added already ("+link['data']['author']+")")
+                else:
+                    new_user = User()
+                    new_user.username = link['data']['author']
+                    new_user.set_password("password")
+                    db.session.add(new_user)
+                    db.session.commit()
+
+                if not RedditPost.query.filter_by(uri=post2.uri).first():
+                    db.session.add(post2)
+                    db.session.commit()
+                    book.username = username
+                    book.author = link['data']['author']
+                    book.description = str([x for x in listo]).replace("[", "").replace("]", "")
+                    book.title = title2
+                    book.uri = uri
+                    db.session.add(book)
+                    db.session.commit()
+                num+=1
+    texts=sorted(texts, key=attrgetter('integer'), reverse=False)
+    return render_template('admin.html',login=login, sub=sub, phrases=texts, title=title)
 
     
    
@@ -683,9 +743,9 @@ def home():
 
     if form2.validate_on_submit():
         book = Books()
-        book.title = form.title.data
-        book.author = form.author.data
-        book.description = form.description.data
+        book.title = form2.title.data
+        book.author = form2.author.data
+        book.description = form2.description.data
         try:
             book.username = current_user.username
         except AttributeError:

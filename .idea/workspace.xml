@@ -4,6 +4,12 @@
     <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ayyy.py" beforeDir="false" afterPath="$PROJECT_DIR$/ayyy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/books.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/books.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/keywords.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/keywords.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/titles.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/titles.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +61,7 @@
       <recent name="C:\GitHub\copypastapublishing-com\folder" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.bot">
+  <component name="RunManager" selected="Python.ayyy">
     <configuration name="ayyy" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="copypastapublishing-com" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -195,6 +201,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Jan 06" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="413" y="143" width="448" height="769" key="#ayyy" timestamp="1578378573036">
+      <screen x="0" y="25" width="1280" height="999" />
+    </state>
+    <state x="413" y="143" width="448" height="769" key="#ayyy/0.25.1280.999@0.25.1280.999" timestamp="1578378573036" />
     <state x="338" y="126" width="597" height="803" key="CommitChangelistDialog2" timestamp="1578331044099">
       <screen x="0" y="25" width="1280" height="999" />
     </state>

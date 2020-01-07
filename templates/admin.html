@@ -346,6 +346,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <!-- END WRAPPER -->
     </div>
 
+{%include 'books.html'%}{%if comments:%}{{comments|safe}}{%endif%}
+
     <!-- END MAIN -->
     <!-- //////////////////////////////////////////////////////////////////////////// -->
     <!-- START FOOTER -->

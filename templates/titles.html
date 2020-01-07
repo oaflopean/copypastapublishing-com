@@ -41,23 +41,23 @@
 <a href="/admin?username={{titles.username}}">{{titles.username}}</span></a></li>
 
 	<li><p style="overflow:hidden;text-overflow:ellipsis;" class="container ">{%if titles.body:%}{{titles.body}}{%elif titles.description:%}{{titles.description}}
-
-	{%endif%}</li>
+	{%endif%}
+</li>
 
 {%if titles.reddit_url:%}
 <li class="truncate flow-text "> <a href="https://www.reddit.com{{titles.reddit_url}}">{{titles.reddit_url}}
-</li>{%endif%}
+</li>
 
-</ul></div> </a>{%endfor%}
+</ul></div> </a> 	{%endif%}
 
 {%elif kind=="all" or kind=="username":%}
 
 
  {%for titles in content:%}<li class=" chip gradient-45deg-purple-deep-orange  purple lighten-1">   <h7 class="truncate"><a class="  white-text text-darken-4" href="/admin?uri={{titles.uri}}"><big>{{titles.title}}</big>
-</h7></a></li>{%endfor%}</ul></div> 
+</h7></a></li>{%endfor%}</ul></div>
 
 
 
 
 
-{%endif%}</ul> </div></div>
+{%endif%}</ul> </div></div>{%endif%}

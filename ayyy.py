@@ -1,8 +1,9 @@
 import app
 from models import Subreddits
 import praw
-import forms
-import models
+from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
+from models import User, Post, Bots, Result, Books,  RedditPost, Subreddits
+
 from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
 
 import ebooklib
@@ -40,48 +41,55 @@ app = Flask(__name__)
 
 login = LoginManager(app)
 login.login_view = 'login'
-app.config['SQLALCHEMY_DATABASE_URI']="postgresql://doadmin:t264wg0yfx9d6sf7@copy-com1234-do-user-4689509-0.db.ondigitalocean.com:25060/cp-admin?sslmode=require"
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql://oaflopean:99burning944@104.154.59.220:5432/data001"
 app.config['STATIC_FOLDER']='static/'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-reddit = praw.Reddit(client_id='FCBZa-yDqRLNag',
-                     client_secret="ggD5MpCO7cQxbScgXaNmNydxPkk", password='AptCmx4$', user_agent='Copypasta',
-                     username="caesarnaples2")
-a=open("subreddits.txt",mode="w")
-subs=Subreddits.query.all()
-counter=1
-for item in subs[2000:4000]:
-    a.write("r/"+item.sub+"\n\n")
-a.close()
+this_bot = Bots.query.filter_by(username="scientolog2").first()
+client_id = this_bot.client_id
 
-# for submission in reddit.subreddit('teenagers').hot(limit=500):
-#     counter=0
-#     for o in set(listo):
-#         print(o)
-#     print("Author: "+str(submission.author))
-#     save = reddit.redditor(str(submission.author)).submissions.new()
-#     for ank in save:
-#         counter+=1
-#         new = Subreddits()
-#         new.sub = str(ank.subreddit)
-#         print(counter)
-#         listo.append(ank.subreddit)
+secret = this_bot.secret
+password = this_bot.password
+username = this_bot.username
+reddit = praw.Reddit(client_id=client_id,
+                     client_secret=secret, password=password,
+                     user_agent='Copypasta', username=username)
 #
-#
-#         try:
-#             subs=Subreddits.query.filter_by(sub=new.sub).first()
-#             if subs:
-#                 continue
-#             else:
-#                 db.session.add(new)
-#                 print("new: "+str(ank.subreddit))
-#
-#                 db.session.commit()
-#
-#         except KeyError:
-#             continue
+# a=open("subreddits.txt",mode="w")
+# subs=Subreddits.query.all()
+# counter=1
+# for item in subs[2000:4000]:
+#     a.write("r/"+item.sub+"\n\n")
+# a.close()
+listo=[]
+for submission in reddit.subreddit('teenagers').hot(limit=500):
+    counter=0
+    for o in set(listo):
+        print(o)
+    print("Author: "+str(submission.author))
+    save = reddit.redditor(str(submission.author)).submissions.new()
+    for ank in save:
+        counter+=1
+        new = Subreddits()
+        new.sub = str(ank.subreddit)
+        print(counter)
+        listo.append(ank.subreddit)
+
+
+        try:
+            subs=Subreddits.query.filter_by(sub=new.sub).first()
+            if subs:
+                continue
+            else:
+                db.session.add(new)
+                print("new: "+str(ank.subreddit))
+
+                db.session.commit()
+
+        except KeyError:
+            continue
 # a=open("teenagers.txt", mode="w")
 # for o in set(listo):
 #     a.write("https://www.reddit.com/r/"+o+"\n")
