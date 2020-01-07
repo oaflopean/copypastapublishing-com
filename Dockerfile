@@ -9,9 +9,9 @@ COPY requirements.txt requirements.txt
 COPY static static
 COPY migrations migrations
 COPY templates templates
-COPY app.py ./
-COPY forms.py ./
-COPY models.py ./
+COPY app.py app.py
+COPY forms.py forms.py
+COPY models.py models.py
 
 RUN pip install -r requirements.txt
 RUN pip install flask gunicorn
@@ -20,5 +20,5 @@ ENV FLASK_APP app.py
 
 EXPOSE 8000
 
-ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app:app"]
+ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app:cp-web"]
 
