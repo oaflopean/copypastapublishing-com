@@ -1,16 +1,11 @@
-import app
-from app import db
-from app import login
+from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+db = SQLAlchemy()
 
 class Result(db.Model):
     __tablename__ = 'results'

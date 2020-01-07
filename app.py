@@ -42,8 +42,9 @@ app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-import forms
-import models
+from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
+from models import db, User, Post, Bots, Result, Books,  RedditPost, Subreddits
+
 
 
 
@@ -61,11 +62,7 @@ class Entry(Form):
 #move to forms.py
 
 
-@app.before_request
-def before_request():
-    if current_user.is_authenticated:
-        current_user.last_seen = datetime.utcnow()
-        db.session.commit()
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
