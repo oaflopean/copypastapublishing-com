@@ -1,5 +1,5 @@
 ﻿from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
-
+from caesarcipher import CaesarCipher
 from pymongo import MongoClient
 from mongoengine import *
 import json
@@ -61,6 +61,56 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        flash("You're already logged in")
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        else:
+            this_bot = Bots.query.filter_by(username=current_user.username).first()
+            try:
+                client_id = this_bot.client_id
+            except AttributeError:
+                return redirect("register/app")
+            secret = this_bot.secret
+            password = this_bot.password
+            username = this_bot.username
+            reddit = praw.Reddit(client_id=client_id,
+                                 client_secret=secret, password=password,
+                                 user_agent='Copypasta', username=username)
+
+            save = reddit.redditor(form.username.data).submissions.new()
+            for ank in save:
+                new = Subreddits()
+                new.sub = str(ank.subreddit)
+                print(Subreddits.query.all())
+                if Subreddits.query.filter_by(sub=new.sub).first():
+                    continue
+                else:
+                    db.session.add(new)
+                    print(ank.subreddit)
+                    db.session.commit()
+
+            login_user(user, remember=form.remember_me.data)
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for("admin1")
+            return redirect(next_page)
+    if current_user.is_authenticated:
+        username = current_user.username
+        login = [True, current_user.username]
+    else:
+        login = [False, "scientolog2"]
+        username = "scientolog2"
+    return render_template('login.html', login=login, title='If you\'re already registered, then login now', form=form)
+
+
 @app.route('/baby', methods=['GET', 'POST'])
 def jpg():
    return render_template('jpg.html')
@@ -87,9 +137,13 @@ def register():
 
 @app.route('/register/app', methods=['GET', 'POST'])
 def register_app():
-   if current_user.is_authenticated:
-      form = RegistrationAppForm()
-      if form.validate_on_submit():
+    if current_user.is_authenticated:
+        flash("Register your reddit app through reddit's API!")
+    else:
+        return redirect("/login"())
+    form = RegistrationAppForm()
+
+    if form.validate_on_submit():
 
         olduser= Bots.query.filter_by(username=current_user.username).first()
            
@@ -101,24 +155,24 @@ def register_app():
             bot_add.password=form.password.data
             #db.session.add(bot_add)
             db.session.commit()
-            this_bot = Bots.query.filter_by(username=current_user.username).first()
-            try:
-                client_id = this_bot.client_id
-            except AttributeError:
-                return redirect("register/app")
-            secret = this_bot.secret
-            password = this_bot.password
-            username = this_bot.username
-            reddit = praw.Reddit(client_id=client_id,
-                                 client_secret=secret, password=password,
-                                 user_agent='Copypasta', username=username)
-
-
-            try:
-                reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
-            except praw.exceptions.APIException:
-                flash("Congratulations! Your app is registered.")
-            return redirect(url_for('kw'))
+            # this_bot = Bots.query.filter_by(username=current_user.username).first()
+            # try:
+            #     client_id = this_bot.client_id
+            # except AttributeError:
+            #     return redirect("register/app")
+            # secret = this_bot.secret
+            # password = this_bot.password
+            # username = this_bot.username
+            # reddit = praw.Reddit(client_id=client_id,
+            #                      client_secret=secret, password=password,
+            #                      user_agent='Copypasta', username=username)
+            #
+            #
+            # try:
+            #     reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
+            # except praw.exceptions.APIException:
+            #     flash("Congratulations! Your app is registered.")
+            # return redirect(url_for(kw()))
 
         else:
             bot_add=Bots()
@@ -128,68 +182,25 @@ def register_app():
             bot_add.secret=form.secret.data
             db.session.add(bot_add)
             db.session.commit()
-            this_bot = Bots.query.filter_by(username=current_user.username).first()
-            try:
-                client_id = this_bot.client_id
-            except AttributeError:
-                return redirect("register/app")
-            secret = this_bot.secret
-            password = this_bot.password
-            username = this_bot.username
-            reddit = praw.Reddit(client_id=client_id,
-                                 client_secret=secret, password=password,
-                                 user_agent='Copypasta', username=username)
-        try:
-                reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
-        except praw.exceptions.APIException:
-            flash("Congratulations! Your app is registered.")
-            return redirect(url_for('kw'))
+        #     this_bot = Bots.query.filter_by(username=current_user.username).first()
+        #     try:
+        #         client_id = this_bot.client_id
+        #     except AttributeError:
+        #         flash("Error")
+        #     secret = this_bot.secret
+        #     password = this_bot.password
+        #     username = this_bot.username
+        #     reddit = praw.Reddit(client_id=client_id,
+        #                          client_secret=secret, password=password,
+        #                          user_agent='Copypasta', username=username)
+        # try:
+        #         reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
+        # except praw.exceptions.APIException:
+        #     flash("Congratulations! Your app is registered.")
+        #     return redirect(url_for('kw'))
+    else:
         return render_template('register_app.html', title='Register your app now', form=form)
-   else:
-       return redirect(url_for('login'))
 
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-   if current_user.is_authenticated:
-      return redirect(url_for('home'))
-   form = LoginForm()
-   if form.validate_on_submit():
-      user = User.query.filter_by(username=form.username.data).first()
-      if user is None or not user.check_password(form.password.data):
-         flash('Invalid username or password')
-         return redirect(url_for('login'))
-      else:
-          this_bot = Bots.query.filter_by(username=current_user.username).first()
-          try:
-              client_id = this_bot.client_id
-          except AttributeError:
-              return redirect("register/app")
-          secret = this_bot.secret
-          password = this_bot.password
-          username = this_bot.username
-          reddit = praw.Reddit(client_id=client_id,
-                               client_secret=secret, password=password,
-                               user_agent='Copypasta', username=username)
-
-          save=reddit.redditor(form.username.data).submissions.new()
-          for ank in save:
-              new=Subreddits()
-              new.sub= str(ank.subreddit)
-              print(Subreddits.query.all())
-              if Subreddits.query.filter_by(sub=new.sub).first():
-                  continue
-              else:
-                  db.session.add(new)
-                  print(ank.subreddit)
-                  db.session.commit()
-          
-          login_user(user, remember=form.remember_me.data)
-          next_page = request.args.get('next')
-          if not next_page or url_parse(next_page).netloc != '':
-              next_page = url_for("admin1")
-          return redirect(next_page)
-   return render_template('login.html', title='If you\'re already registered, then login now', form=form)
 
 @app.route('/logout')
 def logout():
@@ -356,8 +367,8 @@ def admin3(kind):
         username=current_user.username
         login=[True,current_user.username]
     else:
-        login=[False, current_user.username]
-        username=current_user.username
+        login=[False, "ScienTolog2"]
+        username="ScienTolog2"
     if kind=="books":
       
         book =RedditPost.query.join(Books).filter(RedditPost.uri==Books.uri).order_by(RedditPost.id.desc()).all()
@@ -423,12 +434,15 @@ def caesarcip(text):
     newvar=CaesarCipher(text, offset=ran)
     return newvar
 
-@app.route("/pod", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def pod():
     form2 = Titles()
 
     title = "Submit " + str(app)
-    username = current_user.username
+    if current_user.is_authenticated:
+        username = current_user.username
+    else:
+        return redirect("/login")
 
     if form2.validate_on_submit():
         book = Books()
@@ -439,43 +453,51 @@ def pod():
         try:
             book.username = username
         except AttributeError:
-            book.username = current_user.username
+            return redirect("/login")
         s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 6
         book.uri = "".join(random.sample(s, passlen))
-        this_bot = Bots.query.filter_by(username=current_user.username).first()
-        try:
-            client_id = this_bot.client_id
-        except AttributeError:
-            return redirect("/")
-        secret = this_bot.secret
-        password = this_bot.password
-        username = this_bot.username
-        reddit = praw.Reddit(client_id=client_id,
-                             client_secret=secret, password=password,
-                             user_agent='Copypasta', username=username)
+        # this_bot = Bots.query.filter_by(username="scientolog2").first()
+        # try:
+        #     client_id = this_bot.client_id
+        # except AttributeError:
+        #     return redirect("/")
+        # secret = this_bot.secret
+        # password = this_bot.password
+        # username = this_bot.username
+        # reddit = praw.Reddit(client_id=client_id,
+        #                      client_secret=secret, password=password,
+        #                      user_agent='Copypasta', username=username)
+        #
+        # try:
+        #     reddit_url = reddit.subreddit('publishcopypasta').name
+        # except praw.exceptions.APIException:
+        #     reddit_url = "No url"
+        reddit_url = "/u/"+current_user.username
 
-        try:
-            reddit_url = reddit.subreddit('publishcopypasta').name
-        except praw.exceptions.APIException:
-            reddit_url = "No url"
         post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
-                          username=book.username)
+                           username=book.username)
         book.reddit_url = reddit_url
         db.session.add(post)
         db.session.commit()
         db.session.add(book)
         db.session.commit()
+        flash("Entry Added")
+        return redirect(url_for(pod()))
 
     content = Books.query.join(RedditPost).order_by(RedditPost.id.desc()).all()
-    string_response = "{%include 'books.html'%}<br>"
+    string_response = "<br>"
+    if current_user.is_authenticated:
+        login = [True, current_user.username]
+    else:
+        login = [False, 'scientolog2']
     for box in content:
         cipher2 = caesarcip("submit/" + box.uri).decoded.split("/")
 
         string_response = string_response + "<a href=\"/"+cipher2[0]+"/"+cipher2[1]+"\"><h1>" + box.title + "</h1></a>"
         string_response = string_response +"<h4><br>"+ box.author + "</h4><br>"
-        string_response = string_response + box.description.replace('\n', "<br>").replace("{%endif%}","")
-    return render_template_string(string_response, box=title, form2=form2)
+        string_response = string_response + box.description.replace('\n', "<br>").replace("{%endif%}","")[:1000]
+    return render_template("admin.html", login = login, content=string_response, box=title, form2=form2)
 
 
 @app.route('/friends?key=<key>')
@@ -579,7 +601,7 @@ def rain():
     return render_template_string('Your key is {{ body }}', body=key)
 
 
-@app.route('/', methods=["POST", "GET"])
+@app.route('/pod', methods=["POST", "GET"])
 def home():
     title = "Create an Ebook"
     if current_user.is_authenticated:

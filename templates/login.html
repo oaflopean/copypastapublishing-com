@@ -2,7 +2,7 @@
 {% include 'header.html'%}
 <body class="grey lighten-4"> 
   {% include 'google.html' %}
-    {% include 'navbar.html' %}<div class="container">
+    {% include 'navbar-admin.html' %}<div class="container">
  <div class="well grey lighten-3">
 
 <h2 style="margin-top: 65px">Sign In</h2>
@@ -19,6 +19,6 @@
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <center>{{ form.submit(class="btn btn-sm") }}</center>
-    </form></div></div>{% include 'footer.html' %}{% include 'firebase.html'%}
+    </form></div></div>{% include 'firebase.html'%}
 
 </body></html>

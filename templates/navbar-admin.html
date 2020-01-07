@@ -8,8 +8,8 @@
  {%if uri:%}URI Post - {%endif%}{%if kind:%}{{kind}} </h5>{%endif%}<h6 class="white-text"> {%if login[0]==True:%}You are logged in as {{login[1]}}.{%else:%}You are logged in as CaesarNaples2.{%endif%}</h6>
 
                   <ol class="breadcrumbs right">
-                    <li {%if kind=="all":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a  href="/admin">All</a></li>
+                    <li {%if kind=="all":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a  href="/admin">Pod</a></li>
                     <li {%if kind=="users":%} class="active white-text "{%else:%} class="disabled"{%endif%}> <a href="/admin/users">Users</a></li>
-                    <li {%if kind=="books":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a href="/pod">Pod</a></li>
+                    <li {%if kind=="books":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a href="/login">Login</a></li>
                     <li  {%if kind=="subs":%} class="active white-text  "{%else:%} class="disabled"{%endif%}><a href="/admin/subs">Subs</a></li> </ol>
                 </div></div></div></div></div></div></nav>

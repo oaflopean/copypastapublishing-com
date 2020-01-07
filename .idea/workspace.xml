@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="" />
+    <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/navbar-admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar-admin.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -200,9 +206,9 @@
       <screen x="0" y="25" width="1280" height="999" />
     </state>
     <state x="235" y="261" width="804" height="532" key="Vcs.Push.Dialog.v2/0.25.1280.999@0.25.1280.999" timestamp="1578331045934" />
-    <state x="303" y="244" width="672" height="678" key="search.everywhere.popup" timestamp="1578333068827">
+    <state x="303" y="244" width="672" height="678" key="search.everywhere.popup" timestamp="1578360789047">
       <screen x="0" y="25" width="1280" height="999" />
     </state>
-    <state x="303" y="244" width="672" height="678" key="search.everywhere.popup/0.25.1280.999@0.25.1280.999" timestamp="1578333068827" />
+    <state x="303" y="244" width="672" height="678" key="search.everywhere.popup/0.25.1280.999@0.25.1280.999" timestamp="1578360789047" />
   </component>
 </project>
