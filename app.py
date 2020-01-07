@@ -1,35 +1,36 @@
 ﻿from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
-from caesarcipher import CaesarCipher
-from pymongo import MongoClient
-from mongoengine import *
-import json
-import praw
-import requests
-import os
-import gunicorn
-import glob
-from rake_nltk import Rake
-import random
-from flask_wtf import Form
-from wtforms import StringField, PasswordField, TextField, validators
-from wtforms.validators import DataRequired, Email
-from flask_script import Manager
-from flask_migrate import Migrate
-from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired
-from datetime import datetime
-from operator import itemgetter, attrgetter, methodcaller
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_login import current_user, login_user
-from flask_login import logout_user
 from flask_login import login_required
-from werkzeug.urls import url_parse
+from flask_login import logout_user
+from flask_sqlalchemy import SQLAlchemy
+
+import glob
+import gunicorn
+import json
+import os
+import praw
+import random
+import requests
+from caesarcipher import CaesarCipher
+from datetime import datetime
+
+from flask_migrate import Migrate
+from flask_script import Manager
+from flask_wtf import FlaskForm
+from flask_wtf import Form
+from mongoengine import *
+from operator import itemgetter, attrgetter, methodcaller
 from psycopg2 import errors
+from pymongo import MongoClient
+from rake_nltk import Rake
+from werkzeug.urls import url_parse
+from wtforms import StringField
+from wtforms import StringField, PasswordField, TextField, validators
+from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Email
+
 app = Flask(__name__)
-
-
 
 
 login = LoginManager(app)
@@ -40,8 +41,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-from forms import RegistrationForm, LoginForm, RegistrationAppForm, Titles
-from models import User, Bots, Books,  RedditPost, Subreddits
+
+import forms
+import models
+
+
+
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
