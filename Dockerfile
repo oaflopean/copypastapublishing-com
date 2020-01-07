@@ -12,7 +12,7 @@ WORKDIR /app
 
 RUN pip install flask 
 RUN pip install -r requirements.txt
-
+EXPOSE 5000
 ENTRYPOINT ["python"]
 CMD ["app.py"]
 

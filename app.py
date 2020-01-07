@@ -40,8 +40,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
-from models import User, Post, Bots, Result, Books,  RedditPost, Subreddits
+from forms import RegistrationForm, LoginForm, RegistrationAppForm, Titles
+from models import User, Bots, Books,  RedditPost, Subreddits
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
