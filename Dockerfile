@@ -20,5 +20,5 @@ ENV FLASK_APP app.py
 
 EXPOSE 8000
 
-ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app:cp-web"]
+ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app.py:app"]
 
