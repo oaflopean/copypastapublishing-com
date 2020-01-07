@@ -131,8 +131,13 @@ def register():
 
         flash("Congratulations! You're registered.")
         return redirect(url_for('login'))
-    
-    return render_template('register.html', title='Register', form=form)
+    if current_user.is_authenticated:
+        username = current_user.username
+        login = [True, current_user.username]
+    else:
+        login = [False, "scientolog2"]
+        username = "scientolog2"
+    return render_template('register.html', login=login,title='Register', form=form)
 
 
 @app.route('/register/app', methods=['GET', 'POST'])
