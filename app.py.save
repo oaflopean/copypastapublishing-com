@@ -1,36 +1,37 @@
 ﻿from flask import Flask, render_template, request, url_for, redirect, flash, render_template_string
+from caesarcipher import CaesarCipher
+from pymongo import MongoClient
+from mongoengine import *
+import json
+import praw
+import requests
+import os
+import gunicorn
+import glob
+from rake_nltk import Rake
+import random
+from flask_wtf import Form
+from wtforms import StringField, PasswordField, TextField, validators
+from wtforms.validators import DataRequired, Email
+from flask_script import Manager
+from flask_migrate import Migrate
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
+from datetime import datetime
+from operator import itemgetter, attrgetter, methodcaller
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_login import current_user, login_user
-from flask_login import login_required
 from flask_login import logout_user
-from flask_sqlalchemy import SQLAlchemy
-
-import glob
-import gunicorn
-import json
-import os
-import praw
-import random
-import requests
-from caesarcipher import CaesarCipher
-from datetime import datetime
-
-from flask_migrate import Migrate
-from flask_script import Manager
-from flask_wtf import FlaskForm
-from flask_wtf import Form
-from mongoengine import *
-from operator import itemgetter, attrgetter, methodcaller
-from psycopg2 import errors
-from pymongo import MongoClient
-from rake_nltk import Rake
+from flask_login import login_required
 from werkzeug.urls import url_parse
-from wtforms import StringField
-from wtforms import StringField, PasswordField, TextField, validators
-from wtforms.validators import DataRequired
-from wtforms.validators import DataRequired, Email
+from psycopg2 import errors
 
-app = Flask(__name__)
+if __name__=="__main__":
+    appFlask(__name__)
+
+
 
 
 login = LoginManager(app)
@@ -41,14 +42,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'fohx6kiu8kieSino'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
 from forms import SearchSub, RegistrationForm, LoginForm, RegistrationAppForm, PostForm, Titles, Chapters
-from models import db, User, Post, Bots, Result, Books,  RedditPost, Subreddits
-
-
-
-
-
+from models import User, Post, Bots, Result, Books,  RedditPost, Subreddits
 
 class ReusableForm(Form):
     name = TextField('subreddit:', validators=[validators.required()])
@@ -63,7 +58,11 @@ class Entry(Form):
 #move to forms.py
 
 
-
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -108,8 +107,8 @@ def login():
                 next_page = "/admin/subs"
             return redirect("/admin/subs")
     if current_user.is_authenticated:
-        username = User.query.filter_by(id=current_user.get_id()).first()
-        login = [True, User.query.filter_by(id=current_user.get_id()).first()]
+        username = current_user.username
+        login = [True, current_user.username]
     else:
         login = [False, "scientolog2"]
         username = "scientolog2"
@@ -137,8 +136,8 @@ def register():
         flash("Congratulations! You're registered.")
         return redirect(url_for('login'))
     if current_user.is_authenticated:
-        username = User.query.filter_by(id=current_user.get_id()).first()
-        login = [True, User.query.filter_by(id=current_user.get_id()).first()]
+        username = current_user.username
+        login = [True, current_user.username]
     else:
         login = [False, "scientolog2"]
         username = "scientolog2"
@@ -155,17 +154,17 @@ def register_app():
 
     if form.validate_on_submit():
 
-        olduser= Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+        olduser= Bots.query.filter_by(username=current_user.username).first()
            
         if olduser:
-            bot_add=Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+            bot_add=Bots.query.filter_by(username=current_user.username).first()
             bot_add.app_name=form.app_name.data
             bot_add.client_id=form.client_id.data
             bot_add.secret=form.secret.data
             bot_add.password=form.password.data
             #db.session.add(bot_add)
             db.session.commit()
-            # this_bot = Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+            # this_bot = Bots.query.filter_by(username=current_user.username).first()
             # try:
             #     client_id = this_bot.client_id
             # except AttributeError:
@@ -179,20 +178,20 @@ def register_app():
             #
             #
             # try:
-            #     reddit.subreddit("copypastapublishin").moderator.add(User.query.filter_by(id=current_user.get_id()).first())
+            #     reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
             # except praw.exceptions.APIException:
             #     flash("Congratulations! Your app is registered.")
             # return redirect(url_for(kw()))
 
         else:
             bot_add=Bots()
-            bot_add.username=User.query.filter_by(id=current_user.get_id()).first()
+            bot_add.username=current_user.username
             bot_add.app_name=form.app_name.data
             bot_add.client_id=form.client_id.data
             bot_add.secret=form.secret.data
             db.session.add(bot_add)
             db.session.commit()
-        #     this_bot = Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+        #     this_bot = Bots.query.filter_by(username=current_user.username).first()
         #     try:
         #         client_id = this_bot.client_id
         #     except AttributeError:
@@ -204,14 +203,14 @@ def register_app():
         #                          client_secret=secret, password=password,
         #                          user_agent='Copypasta', username=username)
         # try:
-        #         reddit.subreddit("copypastapublishin").moderator.add(User.query.filter_by(id=current_user.get_id()).first())
+        #         reddit.subreddit("copypastapublishin").moderator.add(current_user.username)
         # except praw.exceptions.APIException:
         #     flash("Congratulations! Your app is registered.")
         #     return redirect(url_for('kw'))
     else:
         if current_user.is_authenticated:
-            username = User.query.filter_by(id=current_user.get_id()).first()
-            login = [True, User.query.filter_by(id=current_user.get_id()).first()]
+            username = current_user.username
+            login = [True, current_user.username]
         else:
             login = [False, "scientolog2"]
             username = "scientolog2"
@@ -248,11 +247,11 @@ def books():
     if request.args.get("uri", default=None, type=str)!=None:
         form2 = Titles()
     if current_user.is_authenticated:
-        username=User.query.filter_by(id=current_user.get_id()).first()
-        login=[True,User.query.filter_by(id=current_user.get_id()).first()]
+        username=current_user.username
+        login=[True,current_user.username]
     else:
-        login=[False,User.query.filter_by(id=current_user.get_id()).first()]
-        username=User.query.filter_by(id=current_user.get_id()).first()
+        login=[False,current_user.username]
+        username=current_user.username
     form2 = Titles()
 
     title="Copypasta Publishing - Write a Book"
@@ -262,9 +261,9 @@ def books():
         book.author = form2.author.data
         book.description = form2.description.data
         try:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            book.username = current_user.username
         except AttributeError:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            book.username = current_user.username
         s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
@@ -272,7 +271,7 @@ def books():
         kw = book.description
         title = book.title
         author = book.author
-        this_bot = Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+        this_bot = Bots.query.filter_by(username=current_user.username).first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -306,8 +305,8 @@ def books():
 def admin1():
     form2=Titles()
     if current_user.is_authenticated:
-        username=User.query.filter_by(id=current_user.get_id()).first()
-        login=[True,User.query.filter_by(id=current_user.get_id()).first()]
+        username=current_user.username
+        login=[True,current_user.username]
     else:
         login=[False,"scientolog2"]
         username="scientolog2"
@@ -321,7 +320,7 @@ def admin1():
             book.author = form2.author.data
             book.description = form2.description.data
             try:
-                book.username = username.username
+                book.username = username
             except AttributeError:
                 return redirect("/login")
 
@@ -342,9 +341,8 @@ def admin1():
             #     reddit_url = reddit.subreddit('publishcopypasta').name
             # except praw.exceptions.APIException:
             #     reddit_url = "No url"
-            username2=User.query.filter_by(id=current_user.get_id()).first()
+            reddit_url = "/u/" + current_user.username
 
-            reddit_url = "/u/" + username2.username
 
             book.reddit_url = reddit_url
             db.session.add(book)
@@ -353,7 +351,7 @@ def admin1():
         return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind,form2=form2, username=username, comments=comments, content=uri_type)
 
     elif request.args.get("username", default=None, type=str)!=None:
-        uri_type=Books.query.filter_by(username=request.args.get("username")).order_by(Books.id.desc()).all()
+        uri_type=RedditPost.query.filter_by(username=request.args.get("username")).order_by(RedditPost.id.desc()).all()
         kind="username"
         return render_template('admin.html',kind=kind, username=username,login=login, content=uri_type,form2=Titles())
    
@@ -368,10 +366,10 @@ def admin1():
 @app.route('/admin/r/<sub>', methods=['GET', 'POST'])
 def admin2(sub):
     if current_user.is_authenticated:
-        username=User.query.filter_by(id=current_user.get_id()).first()
+        username=current_user.username
         login=[True,username]
     else:
-        username=User.query.filter_by(id=current_user.get_id()).first()
+        username=current_user.username
 
         login=[False,username]
     book=Books()
@@ -406,7 +404,7 @@ def admin2(sub):
                 p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
                 # To get keyword phrases ranked highest to lowest
                 listo= p.get_ranked_phrases_with_scores()
-                post2=RedditPost(uri=uri, body=str([x for x in listo]).replace("[", "").replace("]", ""), title=title2, integer=num, username=link['data']['author'])
+                post2=RedditPost(uri=uri, body=link['data']['selftext'], title=title2, integer=num, username=link['data']['author'])
                 texts.append(post2)
 
                 if User.query.filter_by(username=link['data']['author']).first():
@@ -423,7 +421,7 @@ def admin2(sub):
                     db.session.commit()
                     book.username = username
                     book.author = link['data']['author']
-                    book.description = link['data']['selftext']
+                    book.description = str([x for x in listo]).replace("[", "").replace("]", "")
                     book.title = title2
                     book.uri = uri
                     db.session.add(book)
@@ -438,8 +436,8 @@ def admin2(sub):
 def admin3(kind):
     form2 = Titles()
     if current_user.is_authenticated:
-        username=User.query.filter_by(id=current_user.get_id()).first()
-        login=[True,User.query.filter_by(id=current_user.get_id()).first()]
+        username=current_user.username
+        login=[True,current_user.username]
     else:
         login=[False, "ScienTolog2"]
         username="ScienTolog2"
@@ -565,7 +563,7 @@ def pod():
 
     title = "Submit " + str(app)
     if current_user.is_authenticated:
-        username = User.query.filter_by(id=current_user.get_id()).first()
+        username = current_user.username
     else:
         return redirect("/login")
 
@@ -598,7 +596,7 @@ def pod():
         #     reddit_url = reddit.subreddit('publishcopypasta').name
         # except praw.exceptions.APIException:
         #     reddit_url = "No url"
-        reddit_url = "/u/"+User.query.filter_by(id=current_user.get_id()).first()
+        reddit_url = "/u/"+current_user.username
 
         post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
                            username=book.username)
@@ -611,12 +609,12 @@ def pod():
 
     string_response = "<br>"
     if current_user.is_authenticated:
-        login = [True, User.query.filter_by(id=current_user.get_id()).first()]
-        username=User.query.filter_by(id=current_user.get_id()).first()
+        login = [True, current_user.username]
+        username=current_user.username
     else:
         login = [False, 'scientolog2']
         username=""
-    content = RedditPost.query.filter_by(uri=username.username)
+    content = RedditPost.query.filter_by(username=username).all()
 
     for box in content:
         # db.session.delete(box)
@@ -650,9 +648,9 @@ def push():
         book.author = form2.author.data
         book.description = form2.description.data
         try:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            book.username = current_user.username
         except AttributeError:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            book.username = current_user.username
         s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
@@ -660,7 +658,7 @@ def push():
         kw = book.description
         title = book.title
         author = book.author
-        this_bot = Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+        this_bot = Bots.query.filter_by(username=current_user.username).first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -731,8 +729,8 @@ def rain():
 def home():
     title = "Create an Ebook"
     if current_user.is_authenticated:
-        login = [True, User.query.filter_by(id=current_user.get_id()).first()]
-        username = User.query.filter_by(id=current_user.get_id()).first()
+        login = [True, current_user.username]
+        username = current_user.username
     else:
         login = [False, 'scientolog2']
         username = "ScienTolog2"
@@ -744,9 +742,9 @@ def home():
         book.author = form2.author.data
         book.description = form2.description.data
         try:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            book.username = current_user.username
         except AttributeError:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            book.username = current_user.username
         s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
@@ -754,7 +752,7 @@ def home():
         kw = book.description
         title = book.title
         author = book.author
-        this_bot = Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+        this_bot = Bots.query.filter_by(username=current_user.username).first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -920,7 +918,7 @@ def library():
 def botpost():
     req = request.values
     kw = req.get('kw').split('|')
-    this_bot = Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+    this_bot = Bots.query.filter_by(username=current_user.username).first()
     try:
         client_id = this_bot.client_id
     except AttributeError:
@@ -942,7 +940,7 @@ def botpost():
     passlen = 12
     p = "".join(random.sample(s, passlen))
     if current_user.is_authenticated:
-        username = User.query.filter_by(id=current_user.get_id()).first()
+        username = current_user.username
     post = RedditPost(reddit_url=url, uri=p, title=kw[0], body=body, username=username)
     db.session.add(post)
     db.session.commit()
@@ -951,4 +949,4 @@ def botpost():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

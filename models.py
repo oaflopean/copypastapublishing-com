@@ -1,11 +1,14 @@
-from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import login
+from app import db
 
-db = SQLAlchemy()
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 class Result(db.Model):
     __tablename__ = 'results'
@@ -72,7 +75,7 @@ class Books(db.Model):
 
     def __repr__(self):
         try:
-            string='Book: {}>'.format(self.title+" by "+self.author+"\n"+self.description)
+            string='{}'.format(" <a href=\"admin?uri="+self.uri+"\">"+self.title+"</a><small>"+self.description+"</small>" )
         except TypeError:
             string='Book: {}>'.format(self.title)
         return string

@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/g-config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.Dockerfile.swp" beforeDir="false" afterPath="$PROJECT_DIR$/.Dockerfile.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.Dockerfile.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.app.py.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.boot.sh.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.forms.py.swp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/g-config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,10 +219,14 @@
       <screen x="0" y="25" width="1280" height="999" />
     </state>
     <state x="235" y="261" width="804" height="532" key="Vcs.Push.Dialog.v2/0.25.1280.999@0.25.1280.999" timestamp="1578331045934" />
-    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578415187913">
+    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1578429270855">
       <screen x="0" y="25" width="1280" height="999" />
     </state>
-    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.25.1280.999@0.25.1280.999" timestamp="1578415187913" />
+    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.25.1280.999@0.25.1280.999" timestamp="1578429270855" />
+    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578429410623">
+      <screen x="0" y="25" width="1280" height="999" />
+    </state>
+    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.25.1280.999@0.25.1280.999" timestamp="1578429410623" />
     <state x="303" y="244" width="672" height="678" key="search.everywhere.popup" timestamp="1578388968581">
       <screen x="0" y="25" width="1280" height="999" />
     </state>

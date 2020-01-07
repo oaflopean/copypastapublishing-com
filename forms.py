@@ -1,4 +1,3 @@
-
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo
@@ -8,6 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from rake_nltk import Rake
 from wtforms.validators import DataRequired
+from models import User
 
 class SearchSub(Form):
     text = StringField('subreddit', validators=[DataRequired()])
