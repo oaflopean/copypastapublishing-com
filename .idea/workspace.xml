@@ -4,7 +4,7 @@
     <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,6 +200,10 @@
       <screen x="0" y="25" width="1280" height="999" />
     </state>
     <state x="338" y="126" width="597" height="803" key="CommitChangelistDialog2/0.25.1280.999@0.25.1280.999" timestamp="1578331044099" />
+    <state x="423" y="283" width="428" height="488" key="FileChooserDialogImpl" timestamp="1578364855056">
+      <screen x="0" y="25" width="1280" height="999" />
+    </state>
+    <state x="423" y="283" width="428" height="488" key="FileChooserDialogImpl/0.25.1280.999@0.25.1280.999" timestamp="1578364855056" />
     <state x="235" y="261" width="804" height="532" key="Vcs.Push.Dialog.v2" timestamp="1578331045934">
       <screen x="0" y="25" width="1280" height="999" />
     </state>

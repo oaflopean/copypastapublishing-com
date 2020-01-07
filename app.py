@@ -73,7 +73,7 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         else:
-            this_bot = Bots.query.filter_by(username=current_user.username).first()
+            this_bot = Bots.query.filter_by(username="scientolog2").first()
             try:
                 client_id = this_bot.client_id
             except AttributeError:
@@ -86,22 +86,23 @@ def login():
                                  user_agent='Copypasta', username=username)
 
             save = reddit.redditor(form.username.data).submissions.new()
-            for ank in save:
-                new = Subreddits()
-                new.sub = str(ank.subreddit)
-                print(Subreddits.query.all())
-                if Subreddits.query.filter_by(sub=new.sub).first():
-                    continue
-                else:
-                    db.session.add(new)
-                    print(ank.subreddit)
-                    db.session.commit()
-
+            try:
+                for ank in save:
+                    new = Subreddits()
+                    new.sub = str(ank.subreddit)
+                    if Subreddits.query.filter_by(sub=new.sub).first():
+                        continue
+                    else:
+                        db.session.add(new)
+                        print(ank.subreddit)
+                        db.session.commit()
+            except praw.exceptions.NotFound:
+                flash("Not a reddit user")
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':
-                next_page = url_for("admin1")
-            return redirect(next_page)
+                next_page = "/admin/subs"
+            return redirect("/admin/subs")
     if current_user.is_authenticated:
         username = current_user.username
         login = [True, current_user.username]
@@ -368,6 +369,7 @@ def admin2(sub):
    
 @app.route('/admin/<kind>', methods=['GET', 'POST'])
 def admin3(kind):
+    form2 = Titles()
     if current_user.is_authenticated:
         username=current_user.username
         login=[True,current_user.username]
@@ -387,15 +389,66 @@ def admin3(kind):
         return render_template('admin.html',login=login, kind=kind, username=username,content=content)
 
     if kind=="subs":
-        url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
+        title = "Copypasta Publishing: Social Media Marketing"
+        form = ReusableForm(request.form)
+        url2 = 'https://www.reddit.com/api/trending_subreddits/.json?limit=100'
+        #
         data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-        subs1=Subreddits.query.all()
-        data3=[]
+        # print(data2)
+        # if request.method == 'POST':
+        #     name = request.form['name']
+        #     return redirect('/keywords/r/' + name)
+        #
+        # if form.validate():
+        #     # Save the comment here.
+        #     flash('Keywords from r/' + name)
+        posts = []
+        subs1 = Subreddits.query.all()
+        data3 = []
         for sub2 in subs1:
-            data3.append(sub2.sub) 
-        subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
-    
-        return render_template('admin.html',login=login, kind=kind, subs=subs, username=username,content={}, posts={})
+            data3.append(sub2.sub)
+        subs = data3 + data2["subreddit_names"] + ["AskReddit", "announcements", "funny", "pics", "todayilearned",
+                                                   "science", "IAmA", "blog", "videos", "worldnews", "gaming", "movies",
+                                                   "Music", "aww", "news", "gifs", "askscience", "explainlikeimfive",
+                                                   "EarthPorn", "books", "television", "LifeProTips", "sports", "DIY",
+                                                   "Showerthoughts", "space", "Jokes", "tifu", "food",
+                                                   "photoshopbattles",
+                                                   "Art", "InternetIsBeautiful", "mildlyinteresting", "GetMotivated",
+                                                   "history", "nottheonion", "gadgets", "dataisbeautiful", "Futurology",
+                                                   "Documentaries", "listentothis", "personalfinance", "philosophy",
+                                                   "nosleep", "creepy", "OldSchoolCool", "UpliftingNews",
+                                                   "WritingPrompts",
+                                                   "TwoXChromosomes"]
+        # url = 'https://www.reddit.com/r/' + sub + '/new/.json?limit=10'
+        # data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+        # for link in data['data']['children']:
+        #     phrasey = RedditPost()
+        #
+        #     phrasey.uri = "https://www.reddit.com/" + link['data']['name']
+        #     phrasey.body = link['data']['title']
+        #     posts.append(phrasey)
+        #     #  phrases_string="\n".join(phrasey["body"])
+        # # print(phrases_string)
+        #
+        # # r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
+        #
+        # # r.extract_keywords_from_text(phrases_string)
+        #
+        # # phrases=r.get_ranked_phrases()
+        # title = title
+        # print(posts)
+        return render_template('admin.html', login=login, kind="books", username=username, form2=form2, subs=subs,
+                               phrases=posts, form=form, title=title)
+
+        # url2 = 'https://www.reddit.com/api/trending_subreddits/.json'
+        # data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+        # subs1=Subreddits.query.all()
+        # data3=[]
+        # for sub2 in subs1:
+        #     data3.append(sub2.sub)
+        # subs=data3+data2["subreddit_names"]+["AskReddit","announcements","funny","pics","todayilearned","science","IAmA","blog","videos","worldnews","gaming","movies","Music","aww","news","gifs","askscience","explainlikeimfive","EarthPorn","books","television","LifeProTips","sports","DIY","Showerthoughts","space","Jokes","tifu","food","photoshopbattles","Art","InternetIsBeautiful","mildlyinteresting","GetMotivated","history","nottheonion","gadgets","dataisbeautiful","Futurology","Documentaries","listentothis","personalfinance","philosophy","nosleep","creepy","OldSchoolCool","UpliftingNews","WritingPrompts","TwoXChromosomes"]
+        #
+        # return render_template('admin.html',login=login, kind=kind, subs=subs, username=username,content={}, posts={})
 
 
 
@@ -657,62 +710,12 @@ def home():
             db.session.commit()
 
         except praw.exceptions.APIException:
-            return redirect("admin?=" + book.uri)
+            return redirect("/admin?=" + book.uri)
             # reddit.subreddit('copypastapublishin').name
 
-        return render_template('admin.html', form2=form2, login=login, username=username, kind="books",
-                               content=Books.query.filter_by(uri=book.uri).all()
-                               )
+    return render_template('admin.html', form2=form2, login=login, username=username, kind="books",
+                               content=Books.query.filter_by(username=username).all())
 
-    sub = "writing"
-    title = "Copypasta Publishing: Social Media Marketing"
-    form = ReusableForm(request.form)
-    url2 = 'https://www.reddit.com/api/trending_subreddits/.json?limit=100'
-
-    data2 = requests.get(url2, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-    print(data2)
-    if request.method == 'POST':
-        name = request.form['name']
-        return redirect('/keywords/r/' + name)
-
-    if form.validate():
-        # Save the comment here.
-        flash('Keywords from r/' + name)
-    posts = []
-    subs1 = Subreddits.query.all()
-    data3 = []
-    for sub2 in subs1:
-        data3.append(sub2.sub)
-    subs = data3 + data2["subreddit_names"] + ["AskReddit", "announcements", "funny", "pics", "todayilearned",
-                                               "science", "IAmA", "blog", "videos", "worldnews", "gaming", "movies",
-                                               "Music", "aww", "news", "gifs", "askscience", "explainlikeimfive",
-                                               "EarthPorn", "books", "television", "LifeProTips", "sports", "DIY",
-                                               "Showerthoughts", "space", "Jokes", "tifu", "food", "photoshopbattles",
-                                               "Art", "InternetIsBeautiful", "mildlyinteresting", "GetMotivated",
-                                               "history", "nottheonion", "gadgets", "dataisbeautiful", "Futurology",
-                                               "Documentaries", "listentothis", "personalfinance", "philosophy",
-                                               "nosleep", "creepy", "OldSchoolCool", "UpliftingNews", "WritingPrompts",
-                                               "TwoXChromosomes"]
-    url = 'https://www.reddit.com/r/' + sub + '/new/.json?limit=10'
-    data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
-    for link in data['data']['children']:
-        phrasey = RedditPost()
-
-        phrasey.uri = "https://www.reddit.com/" + link['data']['name']
-        phrasey.body = link['data']['title']
-        posts.append(phrasey)
-        #  phrases_string="\n".join(phrasey["body"])
-    # print(phrases_string)
-
-    # r = Rake() # Uses stopwords for english from NLTK, and all puntuation characters.
-
-    # r.extract_keywords_from_text(phrases_string)
-
-    # phrases=r.get_ranked_phrases()
-    title = title
-    print(posts)
-    return render_template('index.html', login=login, kind="books", username=username, form2=form2, subs=subs,
-                           phrases=posts, form=form, title=title)
 
 
 @app.route('/keywords/r/<sub>', methods=["POST", "GET"])
