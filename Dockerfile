@@ -1,8 +1,9 @@
 FROM python:3.6-alpine
 
 RUN adduser -D oaflopean
-WORKDIR /home/copypasta
+
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+USER oaflopean
 
 COPY requirements.txt requirements.txt
 COPY static static
@@ -23,6 +24,5 @@ ENV FLASK_APP app.py
 
 EXPOSE 8000
 RUN ./boot.sh
-USER oaflopean
 ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app:app"]
 
