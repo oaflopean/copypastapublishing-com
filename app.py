@@ -586,8 +586,8 @@ def home():
         login = [True, current_user.username]
         username = current_user.username
     else:
-        login = [False, 'caesarnaples2']
-        username = current_user.username
+        login = [False, 'scientolog2']
+        username = "ScienTolog2"
     form2 = Titles()
 
     if form2.validate_on_submit():
