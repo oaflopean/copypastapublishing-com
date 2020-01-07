@@ -12,17 +12,16 @@ COPY templates templates
 COPY app.py ./
 COPY forms.py ./
 COPY models.py ./
-COPY boot.sh boot.sh
 
-RUN chmod +x boot.sh
+
+
 RUN chown -R oaflopean:oaflopean ./
-RUN python3 -m venv venv
-RUN venv/bin/pip3 install -r requirements.txt
-
+RUN pip install -r requirements.txt
+RUN pip install flask gunicorn
 
 ENV FLASK_APP app.py
 
 EXPOSE 8000
-RUN ./boot.sh
-ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app:app"]
+
+ENTRYPOINT ["gunicorn"  , "-b", "0.0.0.0:8000", "app"]
 
