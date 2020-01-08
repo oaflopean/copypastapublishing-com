@@ -75,7 +75,7 @@ class Books(db.Model):
 
     def __repr__(self):
         try:
-            string='{}'.format(" <a href=\"admin?uri="+self.uri+"\">"+self.title+"</a><small>"+self.description+"</small>" )
+            string='{}'.format(" <a href=\"/"+self.uri+"\">"+self.title+"</a><small>"+self.description+"</small>" )
         except TypeError:
             string='Book: {}>'.format(self.title)
         return string

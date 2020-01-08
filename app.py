@@ -305,14 +305,15 @@ def books():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin1():
     form2=Titles()
-    if current_user.is_authenticated:
-        username=User.query.filter_by(id=current_user.get_id()).first()
-        login=[True,User.query.filter_by(id=current_user.get_id()).first()]
-    else:
-        login=[False,"scientolog2"]
-        username="scientolog2"
-    if request.args.get("uri", default=None, type=str)!=None:
-        uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
+
+    if request.args.get("uri"):
+        if current_user.is_authenticated:
+            username = User.query.filter_by(id=current_user.get_id()).first()
+            login = [True, User.query.filter_by(id=current_user.get_id()).first()]
+        else:
+            login = [False, "scientolog2"]
+            username = "scientolog2"
+        uri_type=Books.query.filter_by(uri=request.args.get("uri")).order_by(Books.id.desc()).all()
         kind="uri"
         comments=Books.query.filter_by(uri=request.args.get("uri")).all()
         if form2.validate_on_submit():
@@ -320,10 +321,9 @@ def admin1():
             book.title = form2.title.data
             book.author = form2.author.data
             book.description = form2.description.data
-            try:
-                book.username = username.username
-            except AttributeError:
-                return redirect("/login")
+            book.username = username.username
+
+
 
             book.uri = request.args.get("uri")
             # this_bot = Bots.query.filter_by(username="scientolog2").first()
@@ -346,20 +346,31 @@ def admin1():
 
             reddit_url = "/u/" + username2.username
 
-            book.reddit_url = reddit_url
             db.session.add(book)
             db.session.commit()
             flash("Entry Added")
-        return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind,form2=form2, username=username, comments=comments, content=uri_type)
+            return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind,form2=form2, username=username, comments=comments, content=uri_type)
 
     elif request.args.get("username", default=None, type=str)!=None:
         uri_type=Books.query.filter_by(username=request.args.get("username")).order_by(Books.id.desc()).all()
         kind="username"
+        if current_user.is_authenticated:
+            username = User.query.filter_by(id=current_user.get_id()).first()
+            login = [True, User.query.filter_by(id=current_user.get_id()).first()]
+        else:
+            login = [False, "scientolog2"]
+            username = "scientolog2"
         return render_template('admin.html',kind=kind, username=username,login=login, content=uri_type,form2=Titles())
    
     else:
         kind="all"
-        uri_type=RedditPost.query.order_by(RedditPost.id.desc()).all()
+        if current_user.is_authenticated:
+            username = User.query.filter_by(id=current_user.get_id()).first()
+            login = [True, User.query.filter_by(id=current_user.get_id()).first()]
+        else:
+            login = [False, "scientolog2"]
+            username = "scientolog2"
+        uri_type=Books.query.order_by(Books.id.desc()).all()
         return render_template('admin.html',login=login, username=username, kind=kind,form2=Titles(), content=uri_type)
 
 
@@ -369,9 +380,10 @@ def admin1():
 def admin2(sub):
     if current_user.is_authenticated:
         username=User.query.filter_by(id=current_user.get_id()).first()
+        username=username.username
         login=[True,username]
     else:
-        username=User.query.filter_by(id=current_user.get_id()).first()
+        username="scientolog2"
 
         login=[False,username]
     book=Books()
@@ -394,43 +406,47 @@ def admin2(sub):
     data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
     num=1
     texts=[]
-    if data:
-        for link in data['data']['children']:
-            if link["data"]["selftext"]:
+    texts2=[]
+    for link in data['data']['children']:
+        if link["data"]["selftext"]:
 
 
 
-                uri=link['data']['url']
-                title2=link['data']['title'][:299]
-                p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
-                p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
-                # To get keyword phrases ranked highest to lowest
-                listo= p.get_ranked_phrases_with_scores()
-                post2=RedditPost(uri=uri, body=str([x for x in listo]).replace("[", "").replace("]", ""), title=title2, integer=num, username=link['data']['author'])
-                texts.append(post2)
+            uri=link['data']['url']
+            title2=link['data']['title'][:299]
+            p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
+            p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
+            # To get keyword phrases ranked highest to lowest
+            listo= p.get_ranked_phrases_with_scores()
+            post2=RedditPost(uri=uri, body=link['data']['selftext'], title=title2, integer=num, username=link['data']['author'])
+            texts.append(post2)
 
-                if User.query.filter_by(username=link['data']['author']).first():
-                    print("User added already ("+link['data']['author']+")")
-                else:
-                    new_user = User()
-                    new_user.username = link['data']['author']
-                    new_user.set_password("password")
-                    db.session.add(new_user)
-                    db.session.commit()
+            if User.query.filter_by(username=link['data']['author']).first():
+                print("User added already ("+link['data']['author']+")")
+            else:
+                new_user = User()
+                new_user.username = link['data']['author']
+                new_user.set_password("password")
+                db.session.add(new_user)
+                db.session.commit()
 
-                if not RedditPost.query.filter_by(uri=post2.uri).first():
-                    db.session.add(post2)
-                    db.session.commit()
-                    book.username = username
-                    book.author = link['data']['author']
-                    book.description = link['data']['selftext']
-                    book.title = title2
-                    book.uri = uri
-                    db.session.add(book)
-                    db.session.commit()
-                num+=1
-    texts=sorted(texts, key=attrgetter('integer'), reverse=False)
-    return render_template('admin.html',login=login, sub=sub, phrases=texts, form2=form2,title=title)
+            if not RedditPost.query.filter_by(uri=post2.uri).first():
+                db.session.add(post2)
+                db.session.commit()
+                #book.username = username.username
+                book.username = username
+                book.description = link['data']['selftext']
+                book.title = title2
+                book.uri = uri
+                db.session.add(book)
+                db.session.commit()
+            num+=1
+    if len(texts)>len(texts2):
+
+        return render_template('admin.html', login=login, sub=sub, phrases=texts, form2=form2, title=title)
+
+
+
 
     
    
@@ -650,17 +666,17 @@ def push():
         book.author = form2.author.data
         book.description = form2.description.data
         try:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            username= User.query.filter_by(id=current_user.get_id()).first()
         except AttributeError:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            username = User.query.filter_by(id=current_user.get_id()).first()
         s = "abcdefghijklmnopqrstuvwxyz"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
-
+        book.username=username.username
         kw = book.description
         title = book.title
         author = book.author
-        this_bot = Bots.query.filter_by(username=User.query.filter_by(id=current_user.get_id()).first()).first()
+        this_bot = Bots.query.filter_by(username=book.username).first().first()
         try:
             client_id = this_bot.client_id
         except AttributeError:
@@ -677,7 +693,7 @@ def push():
 
             post = RedditPost(uri=book.uri, reddit_url=reddit_url, title=book.title, body=book.description,
                               username=book.username)
-            book.reddit_url = reddit_url
+
             db.session.add(post)
             db.session.commit()
             db.session.add(book)
@@ -744,13 +760,13 @@ def home():
         book.author = form2.author.data
         book.description = form2.description.data
         try:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            username = User.query.filter_by(id=current_user.get_id()).first()
         except AttributeError:
-            book.username = User.query.filter_by(id=current_user.get_id()).first()
+            username = User.query.filter_by(id=current_user.get_id()).first()
         s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         passlen = 12
         book.uri = "".join(random.sample(s, passlen))
-
+        book.username=username.username
         kw = book.description
         title = book.title
         author = book.author
