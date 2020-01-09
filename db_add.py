@@ -6,7 +6,7 @@ import json
 a = open("babelli-copypasta.json", mode="r")
 babelli = json.load(a)
 
-url = urlparse.urlparse(os.environ['DATABASE_URL'])
+url = urlparse.urlparse(postgresql://oaflopean:99burning944@104.154.59.220:5432/data001)
 dbname = url.path[1:]
 user = url.username
 password = url.password
@@ -22,8 +22,8 @@ conn = psycopg2.connect(
 )
 con = conn.cursor()
 conn.autocommit=True
-con.execute("CREATE TABLE fiction (id SERIAL PRIMARY KEY, book_id INTEGER UNIQUE, title TEXT, author TEXT, subjects TEXT);")
 
+con.execute('CREATE DATABASE {};'.format(dbname))
 book_id_keys = list(babelli.keys())
 for id in book_id_keys:
     a = babelli[id]["id"]

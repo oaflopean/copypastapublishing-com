@@ -94,7 +94,7 @@ class RedditPost(db.Model):
             
     def __repr__(self):
         try:
-            string='{}'.format(" <a href=\"admin?uri="+self.uri+"\">"+self.title+"</a><small>"+self.body+"</small>" )
+            string='{}'.format(" <a href=\"/"+self.uri+"\">"+self.title+"</a><small>"+self.body+"</small>" )
             return string
         except TypeError:
             string='POST: {}'.format(self.id)

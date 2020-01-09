@@ -73,6 +73,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
+
+
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
@@ -100,8 +102,8 @@ def login():
                         db.session.add(new)
                         print(ank.subreddit)
                         db.session.commit()
-            except praw.exceptions.NotFound:
-                flash("Not a reddit user")
+            except Exception:
+                print("")
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':
@@ -138,7 +140,8 @@ def register():
         return redirect(url_for('login'))
     if current_user.is_authenticated:
         username = User.query.filter_by(id=current_user.get_id()).first()
-        login = [True, User.query.filter_by(id=current_user.get_id()).first()]
+        username=username.username
+        login = [True, username]
     else:
         login = [False, "scientolog2"]
         username = "scientolog2"
