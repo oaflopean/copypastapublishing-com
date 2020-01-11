@@ -4,6 +4,10 @@ from flask_login import current_user, login_user
 from flask_login import login_required
 from flask_login import logout_user
 from flask_sqlalchemy import SQLAlchemy
+from multiprocessing import Process
+import gevent
+from gevent import Greenlet
+from gevent import monkey; monkey.patch_all()
 
 import glob
 import gunicorn
@@ -378,7 +382,6 @@ def admin1():
 
 
 
-
 @app.route('/admin/r/<sub>', methods=['GET', 'POST'])
 def admin2(sub):
     if current_user.is_authenticated:
@@ -418,34 +421,37 @@ def admin2(sub):
             post2=RedditPost(uri=uri, body=link['data']['selftext'], title=title2, integer=num, username=link['data']['author'])
             texts.append(post2)
             num += 1
-            if num<10:
-                if not User.query.filter_by(username=link['data']['author']).first():
 
+    def add_posts(url):
+        data = requests.get(url, headers={'user-agent': 'scraper by /u/ciwi'}).json()
+
+        for link in data['data']['children']:
+            if link["data"]["selftext"]:
+                uri = link['data']['url']
+                title2 = link['data']['title'][:299]
+
+                post2 = RedditPost(uri=uri, body=link['data']['selftext'], title=title2,
+                                   username=link['data']['author'])
+
+                if not User.query.filter_by(username=link['data']['author']).first():
                     new_user = User()
                     new_user.username = link['data']['author']
                     new_user.set_password("password")
                     db.session.add(new_user)
                     db.session.commit()
+
+                if not RedditPost.query.filter_by(uri=link['data']['url']).first():
                     db.session.add(post2)
                     db.session.commit()
-                    # book.username = username.username
-                    book.username = username
+                    book = Books()
+                    book.username = link['data']['author']
                     book.description = link['data']['selftext']
                     book.title = title2
                     book.uri = uri
                     db.session.add(book)
                     db.session.commit()
 
-                elif not RedditPost.query.filter_by(uri=post2.uri).first():
-                    db.session.add(post2)
-                    db.session.commit()
-                    # book.username = username.username
-                    book.username = username
-                    book.description = link['data']['selftext']
-                    book.title = title2
-                    book.uri = uri
-                    db.session.add(book)
-                    db.session.commit()
+    Greenlet.spawn(add_posts(url))
     return render_template('admin.html', login=login, sub=sub, phrases=texts, form2=form2, title=title)
 
 
