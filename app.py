@@ -354,7 +354,7 @@ def admin1():
         return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind,form2=form2, username=username, comments=comments, content=uri_type)
 
     elif request.args.get("username", default=None, type=str)!=None:
-        uri_type=RedditPost.query.filter_by(username=request.args.get("username")).order_by(RedditPost.id.desc()).all()
+        uri_type=Books.query.filter_by(username=request.args.get("username")).order_by(Books.id.desc()).all()
         kind="username"
         if current_user.is_authenticated:
             username = User.query.filter_by(id=current_user.get_id()).first()
