@@ -423,26 +423,26 @@ def admin2(sub):
             listo= p.get_ranked_phrases_with_scores()
             post2=RedditPost(uri=uri, body=link['data']['selftext'], title=title2, integer=num, username=link['data']['author'])
             texts.append(post2)
+            if num<10:
+                if User.query.filter_by(username=link['data']['author']).first():
+                    print("User added already ("+link['data']['author']+")")
+                else:
+                    new_user = User()
+                    new_user.username = link['data']['author']
+                    new_user.set_password("password")
+                    db.session.add(new_user)
+                    db.session.commit()
 
-            if User.query.filter_by(username=link['data']['author']).first():
-                print("User added already ("+link['data']['author']+")")
-            else:
-                new_user = User()
-                new_user.username = link['data']['author']
-                new_user.set_password("password")
-                db.session.add(new_user)
-                db.session.commit()
-
-            if not RedditPost.query.filter_by(uri=post2.uri).first():
-                db.session.add(post2)
-                db.session.commit()
-                #book.username = username.username
-                book.username = username
-                book.description = link['data']['selftext']
-                book.title = title2
-                book.uri = uri
-                db.session.add(book)
-                db.session.commit()
+                if not RedditPost.query.filter_by(uri=post2.uri).first():
+                    db.session.add(post2)
+                    db.session.commit()
+                    #book.username = username.username
+                    book.username = username
+                    book.description = link['data']['selftext']
+                    book.title = title2
+                    book.uri = uri
+                    db.session.add(book)
+                    db.session.commit()
             num+=1
     if len(texts)>len(texts2):
 
