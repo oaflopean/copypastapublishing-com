@@ -433,16 +433,16 @@ def admin2(sub):
                     db.session.add(new_user)
                     db.session.commit()
 
-                if not RedditPost.query.filter_by(uri=post2.uri).first():
-                    db.session.add(post2)
-                    db.session.commit()
-                    #book.username = username.username
-                    book.username = username
-                    book.description = link['data']['selftext']
-                    book.title = title2
-                    book.uri = uri
-                    db.session.add(book)
-                    db.session.commit()
+            if not RedditPost.query.filter_by(uri=post2.uri).first():
+                db.session.add(post2)
+                db.session.commit()
+                #book.username = username.username
+                book.username = username
+                book.description = link['data']['selftext']
+                book.title = title2
+                book.uri = uri
+                db.session.add(book)
+                db.session.commit()
             num+=1
     if len(texts)>len(texts2):
 
