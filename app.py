@@ -412,46 +412,40 @@ def admin2(sub):
     texts2=[]
     for link in data['data']['children']:
         if link["data"]["selftext"]:
-
-
-
             uri=link['data']['url']
             title2=link['data']['title'][:299]
-            p = Rake(min_length=2) # Uses stopwords for english from NLTK, and all puntuation characters.
-            p.extract_keywords_from_text(link['data']['title']+link['data']['selftext'])
-            # To get keyword phrases ranked highest to lowest
-            listo= p.get_ranked_phrases_with_scores()
+
             post2=RedditPost(uri=uri, body=link['data']['selftext'], title=title2, integer=num, username=link['data']['author'])
             texts.append(post2)
             num += 1
+            if num<10:
+                if not User.query.filter_by(username=link['data']['author']).first():
 
-            if not User.query.filter_by(username=link['data']['author']).first():
+                    new_user = User()
+                    new_user.username = link['data']['author']
+                    new_user.set_password("password")
+                    db.session.add(new_user)
+                    db.session.commit()
+                    db.session.add(post2)
+                    db.session.commit()
+                    # book.username = username.username
+                    book.username = username
+                    book.description = link['data']['selftext']
+                    book.title = title2
+                    book.uri = uri
+                    db.session.add(book)
+                    db.session.commit()
 
-                new_user = User()
-                new_user.username = link['data']['author']
-                new_user.set_password("password")
-                db.session.add(new_user)
-                db.session.commit()
-                db.session.add(post2)
-                db.session.commit()
-                # book.username = username.username
-                book.username = username
-                book.description = link['data']['selftext']
-                book.title = title2
-                book.uri = uri
-                db.session.add(book)
-                db.session.commit()
-
-            elif not RedditPost.query.filter_by(uri=post2.uri).first():
-                db.session.add(post2)
-                db.session.commit()
-                # book.username = username.username
-                book.username = username
-                book.description = link['data']['selftext']
-                book.title = title2
-                book.uri = uri
-                db.session.add(book)
-                db.session.commit()
+                elif not RedditPost.query.filter_by(uri=post2.uri).first():
+                    db.session.add(post2)
+                    db.session.commit()
+                    # book.username = username.username
+                    book.username = username
+                    book.description = link['data']['selftext']
+                    book.title = title2
+                    book.uri = uri
+                    db.session.add(book)
+                    db.session.commit()
     return render_template('admin.html', login=login, sub=sub, phrases=texts, form2=form2, title=title)
 
 
