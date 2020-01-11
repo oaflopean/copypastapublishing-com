@@ -108,7 +108,7 @@ def login():
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':
                 next_page = "/admin/subs"
-            return redirect("/admin/subs")
+            return redirect("/admin")
     if current_user.is_authenticated:
         username = User.query.filter_by(id=current_user.get_id()).first()
         login = [True, User.query.filter_by(id=current_user.get_id()).first()]
@@ -316,7 +316,7 @@ def admin1():
         else:
             login = [False, "scientolog2"]
             username = "scientolog2"
-        uri_type=Books.query.filter_by(uri=request.args.get("uri")).order_by(Books.id.desc()).all()
+        uri_type=RedditPost.query.filter_by(uri=request.args.get("uri")).order_by(RedditPost.id.desc()).all()
         kind="uri"
         comments=Books.query.filter_by(uri=request.args.get("uri")).all()
         if form2.validate_on_submit():
@@ -345,17 +345,16 @@ def admin1():
             #     reddit_url = reddit.subreddit('publishcopypasta').name
             # except praw.exceptions.APIException:
             #     reddit_url = "No url"
-            username2=User.query.filter_by(id=current_user.get_id()).first()
 
             reddit_url = "/u/" + username2.username
 
             db.session.add(book)
             db.session.commit()
             flash("Entry Added")
-            return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind,form2=form2, username=username, comments=comments, content=uri_type)
+        return render_template('admin.html',uri=request.args.get("uri"),login=login,kind=kind,form2=form2, username=username, comments=comments, content=uri_type)
 
     elif request.args.get("username", default=None, type=str)!=None:
-        uri_type=Books.query.filter_by(username=request.args.get("username")).order_by(Books.id.desc()).all()
+        uri_type=RedditPost.query.filter_by(username=request.args.get("username")).order_by(RedditPost.id.desc()).all()
         kind="username"
         if current_user.is_authenticated:
             username = User.query.filter_by(id=current_user.get_id()).first()
@@ -369,11 +368,12 @@ def admin1():
         kind="all"
         if current_user.is_authenticated:
             username = User.query.filter_by(id=current_user.get_id()).first()
+            username=username.username
             login = [True, User.query.filter_by(id=current_user.get_id()).first()]
         else:
             login = [False, "scientolog2"]
             username = "scientolog2"
-        uri_type=Books.query.order_by(Books.id.desc()).all()
+        uri_type=Books.query.order_by(Books.id.desc()).limit(200).all()
         return render_template('admin.html',login=login, username=username, kind=kind,form2=Titles(), content=uri_type)
 
 

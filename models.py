@@ -1,5 +1,6 @@
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
+from flask import url_for
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login
@@ -75,7 +76,7 @@ class Books(db.Model):
 
     def __repr__(self):
         try:
-            string='{}'.format(" <a href=\"/"+self.uri+"\">"+self.title+"</a><small>"+self.description+"</small>" )
+            string='{}'.format(" <a href=\""+url_for('admin1', uri=self.uri)+"\">"+self.title+"</a><small>"+self.description+"</small>" )
         except TypeError:
             string='Book: {}>'.format(self.title)
         return string
@@ -94,7 +95,7 @@ class RedditPost(db.Model):
             
     def __repr__(self):
         try:
-            string='{}'.format(" <a href=\"/"+self.uri+"\">"+self.title+"</a><small>"+self.body+"</small>" )
+            string='{}'.format(" <a href=\""+url_for('admin1', uri=self.uri)+"\">"+self.title+"</a><small>"+self.body+"</small>" )
             return string
         except TypeError:
             string='POST: {}'.format(self.id)
