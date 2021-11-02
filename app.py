@@ -8,14 +8,14 @@ def fun():
     return render_template("index.html")
 
 
-@app.route('/ten-minute-pitch')
+@app.route('/relationship')
 def pitch():
     title = "Ten Minute Pitch: Write a Query Letter"
 
     return render_template('pitch.html', title=title)
 
 
-@app.route('/invitation')
+@app.route('/cupcake')
 def invite():
     title = "Huge Impossible Word Search"
 
@@ -23,5 +23,5 @@ def invite():
 
 
 
-if __name__ == '__main__':
-    app.run(debug=False)
+#if __name__ == '__main__':
+#    app.run(debug=False)
