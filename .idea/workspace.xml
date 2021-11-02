@@ -1,12 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:npm_and_yarn" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2a74d5c8-4699-4a99-bf28-af86174b94aa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gunicorn.conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.app.pt.swp" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.app.pt.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.app.py-old.swp" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.app.py-old.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.app.py.swp" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.app.py.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.config.py.swp" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.config.py.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.firebaserc" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.firebaserc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.jshintrc" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.jshintrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.manage.py.swp" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.manage.py.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.page.py.swp" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.page.py.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.tern-project" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.tern-project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.test.py.swp" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/.test.py.swp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/Dockerfile.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/He was a lonely devil. His feathers were orange on.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/He was a lonely devil. His feathers were orange on.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/app.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py-old" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/app.py-old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/app.py.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py.save.1" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/app.py.save.1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/app.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/as.html" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/as.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ayyy.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/ayyy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boot.sh" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/boot.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boot.sh.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/boot.sh.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.rules.json" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/database.rules.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_add.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/db_add.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epu.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/epu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firebase.html" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/firebase.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firebase.json" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/firebase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firestore.indexes.json" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/firestore.indexes.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firestore.rules" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/firestore.rules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.py.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/forms.py.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.pyg.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/forms.pyg.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gunicorn.conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/gunicorn.conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/index.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpg.html" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/jpg.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local_history.patch" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/local_history.patch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/models.py.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models2.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/models2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeodels.py.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/modeodels.py.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nltk.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/nltk.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page.html" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirement.txt.save" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/requirement.txt.save" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/runtime.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage.rules" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/storage.rules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subreddits.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/subreddits.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teenagers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/teenagers.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.co" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/test.co" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/y" beforeDir="false" afterPath="$PROJECT_DIR$/cp-old/y" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,19 +127,22 @@
   <component name="ProjectId" id="1OoeQOZbolD3h3yRNYhe7W2cUby" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\copypastapublishing-com\cp-old" />
       <recent name="C:\GitHub\copypastapublishing-com\templates" />
       <recent name="C:\GitHub\copypastapublishing-com" />
       <recent name="C:\GitHub\copypastapublishing-com\folder" />
@@ -71,7 +161,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ayyy.py" />
+      <option name="SCRIPT_NAME" value="C:\copypastapublishing-com\cp-old\ayyy.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -92,7 +182,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bot.py" />
+      <option name="SCRIPT_NAME" value="C:\copypastapublishing-com\cp-old\bot.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -123,19 +213,6 @@
         <item itemvalue="Python.ayyy" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-    <option name="showServicesTree" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -184,13 +261,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="app.config['STATIC_FOLDER'] = 'static/'" />
@@ -198,33 +274,13 @@
     <option name="LAST_COMMIT_MESSAGE" value="Jan 06" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="413" y="143" width="448" height="769" key="#ayyy" timestamp="1578378573036">
-      <screen x="0" y="25" width="1280" height="999" />
+    <state x="414" y="254" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635811421394">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="413" y="143" width="448" height="769" key="#ayyy/0.25.1280.999@0.25.1280.999" timestamp="1578378573036" />
-    <state x="338" y="126" width="597" height="803" key="CommitChangelistDialog2" timestamp="1578331044099">
-      <screen x="0" y="25" width="1280" height="999" />
+    <state x="414" y="254" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1635811421394" />
+    <state x="461" y="244" key="SettingsEditor" timestamp="1635810847883">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="338" y="126" width="597" height="803" key="CommitChangelistDialog2/0.25.1280.999@0.25.1280.999" timestamp="1578331044099" />
-    <state x="423" y="283" width="428" height="488" key="FileChooserDialogImpl" timestamp="1578364855056">
-      <screen x="0" y="25" width="1280" height="999" />
-    </state>
-    <state x="423" y="283" width="428" height="488" key="FileChooserDialogImpl/0.25.1280.999@0.25.1280.999" timestamp="1578364855056" />
-    <state x="235" y="261" width="804" height="532" key="Vcs.Push.Dialog.v2" timestamp="1578331045934">
-      <screen x="0" y="25" width="1280" height="999" />
-    </state>
-    <state x="235" y="261" width="804" height="532" key="Vcs.Push.Dialog.v2/0.25.1280.999@0.25.1280.999" timestamp="1578331045934" />
-    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1578429270855">
-      <screen x="0" y="25" width="1280" height="999" />
-    </state>
-    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.25.1280.999@0.25.1280.999" timestamp="1578429270855" />
-    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578758114644">
-      <screen x="0" y="25" width="1280" height="999" />
-    </state>
-    <state x="98" y="125" width="1084" height="801" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.25.1280.999@0.25.1280.999" timestamp="1578758114644" />
-    <state x="303" y="244" width="672" height="678" key="search.everywhere.popup" timestamp="1578754350574">
-      <screen x="0" y="25" width="1280" height="999" />
-    </state>
-    <state x="303" y="244" width="672" height="678" key="search.everywhere.popup/0.25.1280.999@0.25.1280.999" timestamp="1578754350574" />
+    <state x="461" y="244" key="SettingsEditor/0.0.1920.1200@0.0.1920.1200" timestamp="1635810847883" />
   </component>
 </project>
